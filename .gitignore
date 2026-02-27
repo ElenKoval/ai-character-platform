@@ -3,3 +3,5 @@
 node_modules/
 .env
 .DS_Store
+CHAT.md
+IMAGES.md

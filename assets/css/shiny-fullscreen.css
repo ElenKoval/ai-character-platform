@@ -1,0 +1,212 @@
+/* ===============================
+   Shiny - картинка слева 85%, чат справа 15% (вертикальная панель)
+   =============================== */
+
+.page-shiny-fullscreen {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  gap: 0;
+}
+
+/* Левая колонка ~85% - картинка прижата к левому краю */
+.shiny-left {
+  width: 85%;
+  flex-shrink: 0;
+  position: relative;
+  min-height: 0;
+}
+.shiny-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #1a1a1e;
+}
+.shiny-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  display: block;
+}
+
+/* Верхняя полоска - навигация над левой частью */
+.shiny-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+}
+.shiny-topbar__back,
+.shiny-topbar__link {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 700;
+  font-family: var(--font-fantasy, "Cinzel", serif);
+  letter-spacing: 0.05em;
+}
+.shiny-topbar__back:hover,
+.shiny-topbar__link:hover {
+  color: #fff;
+}
+.shiny-topbar__dot {
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 8px;
+}
+
+/* Правая панель ~15% - чат на всю высоту */
+.shiny-portal {
+  width: 15%;
+  min-width: 200px;
+  height: 100%;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.6);
+  border-left: 3px solid rgba(255, 255, 255, 0.35);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+}
+.shiny-portal__frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 16px 14px 20px;
+}
+.shiny-portal__title {
+  margin: 0 0 4px;
+  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.95);
+  flex-shrink: 0;
+}
+.shiny-portal__nav {
+  margin: 0 0 12px;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+.shiny-portal__nav a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-family: var(--font-fantasy, "Cinzel", serif);
+  letter-spacing: 0.05em;
+}
+.shiny-portal__nav a:hover {
+  color: #fff;
+}
+.shiny-portal__dot {
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 8px;
+}
+.shiny-portal__tag {
+  margin: 0 0 14px;
+  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.65);
+}
+/* Чат занимает оставшуюся высоту */
+.shiny-portal__frame .chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.shiny-portal__frame .chat__log {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Чат внутри правой панели - тёмный фон, лог растягивается */
+.shiny-portal .chat {
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.shiny-portal .chat__header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+.shiny-portal .chat__header-title {
+  font-weight: 200;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+}
+.shiny-portal .chat__log {
+  padding: 12px 14px;
+  overflow-y: auto;
+}
+.shiny-portal .chat__provider,
+.shiny-portal .chat__provider-btn,
+.shiny-portal .chat__send {
+  display: none;
+}
+.shiny-portal .chat__form {
+  flex-shrink: 0;
+  padding: 8px 14px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+}
+.shiny-portal .chat__input {
+  width: 100%;
+  height: 36px;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  outline: none;
+}
+.shiny-portal .chat__input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+.shiny-portal .chat__hint {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .page-shiny-fullscreen {
+    flex-direction: column;
+  }
+  .shiny-left {
+    width: 100%;
+    height: 50%;
+  }
+  .shiny-portal {
+    width: 100%;
+    min-width: 0;
+    height: 50%;
+  }
+  .shiny-portal__frame {
+    padding: 12px 14px 16px;
+  }
+}

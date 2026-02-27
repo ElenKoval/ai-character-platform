@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <path d="M0 180 L90 200 L70 320 L120 400 L100 520 L140 700 L100 800" fill="none" stroke="rgba(55,55,60,0.4)" stroke-width="1.2"/>
+  <path d="M120 0 L110 140 L150 260 L130 400 L160 540 L120 800" fill="none" stroke="rgba(50,50,55,0.35)" stroke-width="1"/>
+  <path d="M380 0 L360 180 L400 320 L370 500 L410 650 L380 800" fill="none" stroke="rgba(58,58,62,0.32)" stroke-width="1.5"/>
+  <path d="M420 200 L410 350 L440 480 L400 600" fill="none" stroke="rgba(52,52,56,0.28)" stroke-width="0.9"/>
+  <path d="M600 0 L620 160 L590 300 L630 450 L600 620 L640 800" fill="none" stroke="rgba(54,54,58,0.35)" stroke-width="1.1"/>
+  <path d="M780 0 L760 200 L800 380 L770 550 L810 720 L780 800" fill="none" stroke="rgba(50,50,55,0.33)" stroke-width="1.2"/>
+  <path d="M950 0 L970 220 L940 400 L980 580 L950 800" fill="none" stroke="rgba(52,52,56,0.3)" stroke-width="1"/>
+  <path d="M0 480 L80 460 L60 580 L100 700 L70 800" fill="none" stroke="rgba(48,48,52,0.3)" stroke-width="1"/>
+  <path d="M280 400 L300 480 L270 600" fill="none" stroke="rgba(50,50,55,0.25)" stroke-width="0.8"/>
+  <path d="M720 250 L710 380 L740 520" fill="none" stroke="rgba(48,48,52,0.22)" stroke-width="0.8"/>
+</svg>

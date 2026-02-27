@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talking Mushroom - SunnyChimera</title>
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/weaver.css" />
+    <link rel="stylesheet" href="../assets/css/character.css" />
+</head>
+<body class="world world--weaver character-page character-page--vertical">
+<header class="topbar">
+    <a class="topbar__back" href="weaver-world.html">← Weaver world</a>
+    <div class="topbar__right">
+        <a class="topbar__link" href="dream-world.html">Dream</a>
+        <span class="topbar__dot">·</span>
+        <a class="topbar__link" href="weaver-world.html">Weaver</a>
+    </div>
+</header>
+
+<main class="character-layout character-layout--with-lore character-layout--visual-left">
+    <figure class="character-figure">
+        <figcaption class="character-caption character-caption--top">
+            <h1 class="character-caption__name">Talking Mushroom</h1>
+            <p class="character-caption__tag">The Wild Pulse</p>
+            <nav class="character-caption__actions" aria-label="Navigation">
+                <a href="dream-world.html">Dream world</a>
+                <a href="weaver-world.html">Weaver world</a>
+                <a href="../index.html">The Gate</a>
+            </nav>
+        </figcaption>
+        <div class="character-figure__img-wrap">
+            <img src="../assets/img/talk_Mushroom.jpeg" alt="Talking Mushroom" />
+        </div>
+    </figure>
+    <div class="character-content">
+        <aside class="character-lore">
+            <h2 class="character-lore__title">Traces of Presence</h2>
+            <div class="character-lore__text">
+                <p>Character of the Weaver world. Write the character's story and role here.</p>
+            </div>
+        </aside>
+        <aside class="character-chat">
+            <div class="chat" data-character="talk_mushroom">
+                <header class="chat__header">
+                    <span class="chat__header-title"></span>
+                    <div class="chat__source-switcher">
+                        <button type="button" class="chat__source-btn chat__source-btn--roots is-active" title="Ollama" aria-label="Roots (Ollama)">
+                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 4c0 2 2 4 4 6 2-2 4-4 4-6M8 20c0-2 2-4 4-6 2 2 4 4 4 6M4 8c2 0 4 2 6 4-2 2-4 4-6 4M20 8c-2 0-4 2-6 4 2 2 4 4 6 4M6 6l2 2 2-2M14 14l2 2 2-2M6 18l2-2 2 2M14 10l2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                        </button>
+                        <span class="chat__source-divider" aria-hidden="true"></span>
+                        <button type="button" class="chat__source-btn chat__source-btn--aether" title="Gemini" aria-label="Aether (Gemini)">
+                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M12 9l.8 2.4 2.4.8-2.4.8L12 15l-.8-2.4L8.8 12l2.4-.8L12 9z" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+                        </button>
+                    </div>
+                    <button type="button" class="chat__eye-toggle" aria-label="Уменьшить или увеличить чат" title="Развернуть / свернуть чат">
+                        <svg class="chat__eye-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path class="chat__eye-lid" d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+                            <circle class="chat__eye-pupil" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1"/>
+                        </svg>
+                    </button>
+                </header>
+                <button type="button" class="chat__reset" aria-label="Свернуть чат" title="Свернуть чат">−</button>
+                <div class="chat__provider" aria-label="Choose model">
+                <span class="chat__provider-label">Model</span>
+                <button type="button" class="chat__provider-btn" data-provider="gemini">Gemini</button>
+                <button type="button" class="chat__provider-btn is-active" data-provider="ollama">Ollama</button>
+            </div>
+                <div class="chat__log">
+                    <div class="chat__msg chat__msg--npc">
+                        <div class="chat__bubble">What if the voice in your head isn't yours?</div>
+                    </div>
+                </div>
+            <form class="chat__form">
+                <input class="chat__input" type="text" placeholder="Seek the truth..." autocomplete="off">
+                <button class="chat__send" type="submit">Send</button>
+            </form>
+            <p class="chat__hint">Response goes through the selected model (Gemini or Ollama).</p>
+        </div>
+    </aside>
+    </div>
+</main>
+<script src="../assets/js/character-chat.js"></script>
+</body>
+</html>

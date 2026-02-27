@@ -1,0 +1,367 @@
+/* ===============================
+   WORLD PAGES (Dream/Weaver)
+   =============================== */
+
+.world{
+  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 14px 18px;
+
+  background: rgba(0,0,0,0.35);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+}
+
+.topbar__back,
+.topbar__link {
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  font-family: var(--font-fantasy, "Cinzel", serif);
+}
+
+/* По цели ссылки: Dream / Weaver / The Gate */
+.topbar__back[href*="dream-world"],
+.topbar__link[href*="dream-world"],
+.topbar__link[href*="dream.html"] {
+  font-family: var(--font-dream, "Cinzel Decorative", serif);
+}
+.topbar__back[href*="weaver-world"],
+.topbar__link[href*="weaver-world"],
+.topbar__link[href*="weaver.html"] {
+  font-family: var(--font-scary, "Nosifer", sans-serif);
+}
+.topbar__back[href*="index.html"],
+.topbar__link[href*="index.html"] {
+  font-family: var(--font-root, "Playfair Display", serif);
+}
+
+.topbar__link.is-active{ color: rgba(255,255,255,0.95); }
+
+.topbar__dot{ color: rgba(255,255,255,0.3); }
+
+.weaver{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 26px 18px 60px;
+}
+
+.weaver__hero{
+  display: grid;
+  grid-template-columns: minmax(320px, 560px) 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Тройка: слева и справа Dr. Pak и Liora - почти как Dream (≈85% размера) */
+.weaver__hero--trio{
+  grid-template-columns: 0.85fr 1fr 0.85fr;
+  grid-template-rows: 1fr;
+  gap: 24px;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.weaver__hero--trio .weaver__side--left{
+  grid-column: 1;
+  grid-row: 1;
+}
+.weaver__hero--trio .weaver__center{
+  grid-column: 2;
+  grid-row: 1;
+}
+.weaver__hero--trio .weaver__side--right{
+  grid-column: 3;
+  grid-row: 1;
+}
+.weaver__hero--trio .weaver__center{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  text-align: center;
+}
+.weaver__hero--trio .weaver__frame{
+  width: 100%;
+  max-width: 480px;
+}
+.weaver__side{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 18px 38px 14px 44px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 28px 70px rgba(0,0,0,0.6);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.weaver__side:hover{
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.65);
+}
+.weaver__side img{
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+.weaver__side--left{ transform: rotate(-1.5deg); }
+.weaver__side--right{ transform: rotate(1.5deg); }
+.weaver__side:hover{ transform: rotate(0deg) scale(1.02); }
+.weaver__side--left:hover{ transform: rotate(0deg) scale(1.02); }
+.weaver__side--right:hover{ transform: rotate(0deg) scale(1.02); }
+.weaver__side-name{
+  padding: 12px 16px;
+  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.9);
+}
+
+.weaver__frame{
+  border-radius: 18px 38px 14px 44px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 30px 90px rgba(0,0,0,0.7);
+
+  transform: rotate(1.2deg);
+}
+
+.weaver__art{
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.02);
+  /* Чуть лучше при масштабировании; зернистость убирают только исходники повыше разрешения */
+  image-rendering: -webkit-optimize-contrast;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Горизонтальная картинка на странице персонажа */
+.weaver__frame--horizontal{
+  max-width: 720px;
+  aspect-ratio: 2/1;
+}
+.weaver__frame--horizontal .weaver__art{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.weaver__intro{
+  padding: 18px 18px 22px;
+  border-radius: 26px 14px 34px 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+
+  transform: rotate(-0.8deg);
+}
+
+.weaver__name{
+  margin: 10px 0 6px;
+  font-size: 44px;
+  letter-spacing: 2.2px;
+  font-family: var(--font-scary, "Nosifer", sans-serif);
+}
+
+.weaver__tag{
+  margin: 0 0 16px;
+  color: rgba(255,255,255,0.66);
+  font-family: var(--font-fantasy, "Cinzel", serif);
+}
+
+.weaver__lore p{
+  margin: 0 0 10px;
+  color: rgba(255,255,255,0.74);
+  line-height: 1.55;
+}
+
+.weaver__actions{
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  text-decoration: none;
+  color: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.06);
+}
+
+.btn--ghost{
+  background: transparent;
+}
+
+.section__title{
+  margin: 32px 0 12px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.75);
+  font-family: var(--font-fantasy, "Cinzel", serif);
+}
+
+/* “сигил” Weaver - просто абстрактная метка */
+.sigil{
+  width: 56px;
+  height: 56px;
+  border-radius: 16px 22px 14px 26px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 55%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.12), transparent 58%),
+    rgba(255,255,255,0.03);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+  transform: rotate(6deg);
+}
+
+.weaver__talk{
+  margin-top: 26px;
+}
+
+/* Chat - фиксированная высота, лог прокручивается */
+.chat{
+  border-radius: 22px 14px 26px 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.30);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+}
+
+.chat__log{
+  padding: 18px;
+  min-height: 120px;
+  max-height: 55vh;
+  overflow-y: auto;
+  flex-shrink: 1;
+}
+
+.chat__msg{
+  max-width: 70ch;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.82);
+}
+
+.chat__msg--npc{
+  border-radius: 16px 18px 14px 20px;
+}
+
+.chat__msg-wrap{
+  margin-bottom: 8px;
+}
+
+.chat__msg-wrap--user{ margin-bottom: 8px; }
+
+.chat__msg-provider{
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.chat__provider,
+.chat__provider-label,
+.chat__provider-btn {
+  display: none;
+}
+
+.chat__form {
+  flex-shrink: 0;
+  padding: 8px 14px 10px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+}
+
+.chat__input {
+  width: 100%;
+  height: 36px;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.95);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  outline: none;
+}
+
+.chat__send {
+  display: none;
+}
+
+.chat__hint {
+  display: none;
+}
+
+/* Mobile */
+@media (max-width: 980px){
+  .weaver__hero{
+    grid-template-columns: 1fr;
+  }
+  .weaver__name{
+    font-size: 36px;
+  }
+}
+
+/* Тройка в колонку только на узких экранах - тогда Liora внизу */
+@media (max-width: 768px){
+  .weaver__hero--trio{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .weaver__hero--trio .weaver__side--left{
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .weaver__hero--trio .weaver__center{
+    grid-column: 1;
+    grid-row: 2;
+    order: 0;
+  }
+  .weaver__hero--trio .weaver__side--right{
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .weaver__side--left,
+  .weaver__side--right{
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
