@@ -14,11 +14,7 @@ const envPath = path.join(__dirname, ".env");
 dotenv.config({ path: envPath });
 
 const app = express();
-const cors = require('cors');
-app.use(cors());
-app.use(express.json());
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { console.log('Server is breathing on port ' + PORT); });
 
 const apiKey = (process.env.GEMINI_API_KEY || "").trim();
 const genAI = apiKey ? new GoogleGenAI({ apiKey }) : null;
