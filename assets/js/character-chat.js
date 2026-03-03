@@ -60,10 +60,10 @@
     btn.addEventListener("click", function () { setAiSource("aether"); });
   });
 
+  /** API на Render; с Vercel/других хостов — всегда ходим на Render, иначе 404 */
   const apiOrigin = "https://ai-character-platform.onrender.com";
-  const isLocalDev = (window.location.port === "63342" || window.location.port === "63343");
-  const isVercel = /\.vercel\.app$/i.test(window.location.hostname);
-  const apiBase = (isLocalDev || isVercel) ? apiOrigin : window.location.origin;
+  const isOnRender = window.location.origin === apiOrigin;
+  const apiBase = isOnRender ? window.location.origin : apiOrigin;
 
   function appendMessage(text, isUser, providerLabel) {
     const wrap = document.createElement("div");
