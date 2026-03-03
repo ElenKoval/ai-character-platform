@@ -60,9 +60,10 @@
     btn.addEventListener("click", function () { setAiSource("aether"); });
   });
 
-  const apiBase = (window.location.port === "63342" || window.location.port === "63343")
-    ? "https://ai-character-platform.onrender.com"
-    : window.location.origin;
+  const apiOrigin = "https://ai-character-platform.onrender.com";
+  const isLocalDev = (window.location.port === "63342" || window.location.port === "63343");
+  const isVercel = /\.vercel\.app$/i.test(window.location.hostname);
+  const apiBase = (isLocalDev || isVercel) ? apiOrigin : window.location.origin;
 
   function appendMessage(text, isUser, providerLabel) {
     const wrap = document.createElement("div");
