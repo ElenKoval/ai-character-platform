@@ -20,7 +20,7 @@
 <main class="world-history">
     <aside class="world-history__side world-history__side--left">
         <div class="world-history__frame">
-            <img src="../assets/img/world_neutral.jpeg" alt="Dryad" />
+            <img src="../assets/img/dryad.jpeg" alt="Dryad" class="world-history__img--portrait" />
             <p class="world-history__placeholder">Dryad</p>
         </div>
         <div class="world-history__chat world-history__chat--nature character-chat">
@@ -28,13 +28,13 @@
                 <header class="chat__header">
                     <span class="chat__header-title"></span>
                     <div class="chat__source-switcher">
-                        <button type="button" class="chat__source-btn chat__source-btn--roots is-active" title="Ollama · keeper" aria-label="Roots (Ollama)">
+                        <button type="button" class="chat__source-btn chat__source-btn--roots" title="Groq" aria-label="Roots (Groq)">
                             <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M8 4c0 2 2 4 4 6 2-2 4-4 4-6M8 20c0-2 2-4 4-6 2 2 4 4 4 6M4 8c2 0 4 2 6 4-2 2-4 4-6 4M20 8c-2 0-4 2-6 4 2 2 4 4 6 4M6 6l2 2 2-2M14 14l2 2 2-2M6 18l2-2 2 2M14 10l2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                             </svg>
                         </button>
                         <span class="chat__source-divider" aria-hidden="true"></span>
-                        <button type="button" class="chat__source-btn chat__source-btn--aether" title="Gemini" aria-label="Aether (Gemini)">
+                        <button type="button" class="chat__source-btn chat__source-btn--aether is-active" title="Gemini" aria-label="Aether (Gemini)">
                             <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="none" stroke="currentColor" stroke-width="1.2"/>
                                 <path d="M12 9l.8 2.4 2.4.8-2.4.8L12 15l-.8-2.4L8.8 12l2.4-.8L12 9z" fill="none" stroke="currentColor" stroke-width="1"/>
@@ -49,8 +49,8 @@
                     </button>
                 </header>
                 <div class="chat__provider" aria-label="Choose model">
-                    <button type="button" class="chat__provider-btn" data-provider="gemini">Gemini</button>
-                    <button type="button" class="chat__provider-btn is-active" data-provider="ollama">Ollama</button>
+                    <button type="button" class="chat__provider-btn is-active" data-provider="gemini">Gemini</button>
+                    <button type="button" class="chat__provider-btn" data-provider="groq">Groq</button>
                 </div>
                 <div class="chat__log">
                     <div class="chat__msg chat__msg--npc">
@@ -104,13 +104,13 @@
                 <header class="chat__header">
                     <span class="chat__header-title"></span>
                     <div class="chat__source-switcher">
-                        <button type="button" class="chat__source-btn chat__source-btn--roots is-active" title="Ollama · keeper" aria-label="Roots (Ollama)">
+                        <button type="button" class="chat__source-btn chat__source-btn--roots" title="Groq" aria-label="Roots (Groq)">
                             <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M8 4c0 2 2 4 4 6 2-2 4-4 4-6M8 20c0-2 2-4 4-6 2 2 4 4 4 6M4 8c2 0 4 2 6 4-2 2-4 4-6 4M20 8c-2 0-4 2-6 4 2 2 4 4 6 4M6 6l2 2 2-2M14 14l2 2 2-2M6 18l2-2 2 2M14 10l2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                             </svg>
                         </button>
                         <span class="chat__source-divider" aria-hidden="true"></span>
-                        <button type="button" class="chat__source-btn chat__source-btn--aether" title="Gemini" aria-label="Aether (Gemini)">
+                        <button type="button" class="chat__source-btn chat__source-btn--aether is-active" title="Gemini" aria-label="Aether (Gemini)">
                             <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="none" stroke="currentColor" stroke-width="1.2"/>
                                 <path d="M12 9l.8 2.4 2.4.8-2.4.8L12 15l-.8-2.4L8.8 12l2.4-.8L12 9z" fill="none" stroke="currentColor" stroke-width="1"/>
@@ -125,8 +125,8 @@
                     </button>
                 </header>
                 <div class="chat__provider" aria-label="Choose model">
-                    <button type="button" class="chat__provider-btn" data-provider="gemini">Gemini</button>
-                    <button type="button" class="chat__provider-btn is-active" data-provider="ollama">Ollama</button>
+                    <button type="button" class="chat__provider-btn is-active" data-provider="gemini">Gemini</button>
+                    <button type="button" class="chat__provider-btn" data-provider="groq">Groq</button>
                 </div>
                 <div class="chat__log">
                     <div class="chat__msg chat__msg--npc">

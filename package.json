@@ -1,0 +1,11 @@
+{
+  "name": "sunnychimera",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fix-dryad": "node scripts/fix-dryad-orientation.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

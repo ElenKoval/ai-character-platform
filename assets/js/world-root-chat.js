@@ -33,15 +33,15 @@
   let keeperHistory = [];
   let loading = false;
   /** roots → Groq, aether → Gemini */
-  let aiSource = "roots";
+  let aiSource = "aether";
 
   const apiBase = (window.location.port === "63342" || window.location.port === "63343")
     ? "http://localhost:3000"
     : window.location.origin;
 
-  /** Инициализация: по умолчанию Roots, класс на панелях */
+  /** Инициализация: по умолчанию Gemini (aether), класс на панелях */
   document.querySelectorAll(".world-history__chat").forEach(function (p) {
-    p.classList.add("ai-source-roots");
+    p.classList.add("ai-source-aether");
   });
 
   /** Подсказки с названием модели при наведении */

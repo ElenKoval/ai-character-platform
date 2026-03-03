@@ -1,0 +1,144 @@
+/* ===============================
+   The Sound of the World — под яйцом, почти в футере
+   Пульсирующая полоса + архив по персонажам
+   =============================== */
+
+/* На главной: только полоса + кнопка */
+.sound-of-the-world {
+  position: relative;
+  z-index: 3;
+  margin-top: 80px;
+  padding: 0 20px 50px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Тонкая полоса с «дышащими» краями, в духе яйца */
+.sound-strip {
+  height: 6px;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 32px;
+  background: rgba(20, 22, 26, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 30px rgba(0, 0, 0, 0.3);
+  border-radius: 50% 50% 48% 52% / 100% 100% 100% 100%;
+  animation: soundStripMorph 12s ease-in-out infinite;
+}
+
+@keyframes soundStripMorph {
+  0%, 100% { border-radius: 50% 50% 48% 52% / 100% 100% 100% 100%; opacity: 0.9; }
+  25%      { border-radius: 48% 52% 50% 50% / 100% 100% 100% 100%; opacity: 1; }
+  50%      { border-radius: 52% 48% 52% 48% / 100% 100% 100% 100%; opacity: 0.95; }
+  75%      { border-radius: 50% 50% 52% 48% / 100% 100% 100% 100%; opacity: 1; }
+}
+
+/* Кнопка перехода к архиву на главной */
+.sound-entry {
+  display: block;
+  font-family: var(--font-root, "Playfair Display", serif);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 auto;
+  padding: 14px 28px;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+.sound-entry:hover {
+  color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.sound-archive {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.sound-character {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  list-style: none;
+}
+
+.sound-character__name {
+  font-family: var(--font-fantasy);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin: 0 0 10px;
+  color: rgba(255, 255, 255, 0.9);
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sound-character__tracks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sound-character__tracks li {
+  margin: 0 0 6px;
+}
+
+.sound-character__tracks li:last-child {
+  margin-bottom: 0;
+}
+
+.sound-character__tracks a {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+}
+
+.sound-character__tracks a:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Страница архива: полная ширина контента */
+.sound-page {
+  position: relative;
+  z-index: 3;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+.sound-page .sound-strip {
+  margin-bottom: 28px;
+}
+.sound-page__title {
+  font-family: var(--font-root, "Playfair Display", serif);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.9);
+}
+.sound-page__lead {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  margin: 0 0 32px;
+}
+

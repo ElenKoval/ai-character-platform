@@ -21,13 +21,18 @@
 <main class="character-layout character-layout--with-lore character-layout--visual-left">
     <figure class="character-figure">
         <figcaption class="character-caption character-caption--top">
-            <h1 class="character-caption__name">Dr. Pak</h1>
-            <p class="character-caption__tag">Order Circle</p>
-            <nav class="character-caption__actions" aria-label="Navigation">
-                <a href="dream-world.html">Dream world</a>
-                <a href="weaver-world.html">Weaver world</a>
-                <a href="../index.html">The Gate</a>
-            </nav>
+            <div class="character-caption__row">
+                <div class="character-caption__left">
+                    <h1 class="character-caption__name">Dr. Pak</h1>
+                    <p class="character-caption__tag">Order Circle</p>
+                    <nav class="character-caption__actions" aria-label="Navigation">
+                        <a href="dream-world.html">Dream world</a>
+                        <a href="weaver-world.html">Weaver world</a>
+                        <a href="../index.html">The Gate</a>
+                    </nav>
+                </div>
+                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-drpak">Inner Sound · Dr. Pak</a>
+            </div>
         </figcaption>
         <div class="character-figure__img-wrap">
             <img src="../assets/img/dr.pak.jpeg" alt="Dr. Pak" />
@@ -36,27 +41,12 @@
     <div class="character-content">
         <aside class="character-lore">
             <h2 class="character-lore__title">Traces of Presence</h2>
-            <div class="character-lore__text">
-                <p>In the Garden of Threads, an anomaly appeared.</p>
-                <p>A little girl's Thread began to twist. She was meant to become a doctor.</p>
-                <p>She chose paint instead.</p>
-                <p>Pak noticed immediately.</p>
-                <p>To him, it was grease on a blueprint.</p>
-                <p>He raised the scalpel. One precise cut, and the ambition would align again.</p>
-                <p>Liara entered the garden without a word. She handed him an apple.</p>
-                <p>It was bruised.</p>
+            <div class="character-lore__text" data-lore-src="../content/drpak-lore.html" aria-busy="true">
+                <!-- Lore content loaded from content/drpak-lore.html -->
                 <p>“Is it spoiled?” she asked.</p>
                 <p>“It is defective,” Pak replied. “Inefficient. It risks contamination.”</p>
-                <p>Liara bit into the bruised side.</p>
                 <p>“It's sweet,” she said. “It had to fight to grow.”</p>
-                <p>Pak stood very still.</p>
-                <p>His jaw tightened.</p>
-                <p>Order demanded correction.</p>
-                <p>Liara simply looked at him.</p>
-                <p>He lowered the scalpel.</p>
-                <p>He took the apple, wiped it carefully, and slipped it into his pocket.</p>
                 <p>“The Thread remains,” he said coldly. “As a deviant case. For observation.”</p>
-                <p>He never called it mercy.</p>
             </div>
         </aside>
         <aside class="character-chat">
@@ -100,5 +90,19 @@
     </div>
 </main>
 <script src="../assets/js/character-chat.js"></script>
+<script>
+(function () {
+  var el = document.querySelector('.character-lore__text[data-lore-src]');
+  if (!el) return;
+  var src = el.getAttribute('data-lore-src');
+  fetch(src)
+    .then(function (r) { return r.text(); })
+    .then(function (html) {
+      el.innerHTML = html.trim();
+      el.removeAttribute('aria-busy');
+    })
+    .catch(function () { el.removeAttribute('aria-busy'); });
+})();
+</script>
 </body>
 </html>

@@ -86,6 +86,29 @@
   overflow: hidden;
 }
 
+/* Слева (Dryad): картинка сверху, чат снизу — без наложения, низ картинки виден */
+.world-history__side--left {
+  display: flex;
+  flex-direction: column;
+}
+.world-history__side--left .world-history__frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  width: 100%;
+  height: auto;
+}
+.world-history__side--left .world-history__chat {
+  position: relative;
+  flex-shrink: 0;
+  max-height: 220px;
+  min-height: 100px;
+}
+
 /* Рисунок на всё окно боковины */
 .world-history__frame {
   position: absolute;
@@ -389,6 +412,21 @@
   display: block;
   object-fit: cover;
   object-position: center center;
+}
+
+/* Dryad: картинка целиком, низ виден — контейнер с прокруткой */
+.world-history__side--left .world-history__frame {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.world-history__frame img.world-history__img--portrait {
+  object-fit: contain;
+  object-position: center center;
+  flex: none;
+  width: 100%;
+  height: auto;
+  display: block;
+  vertical-align: bottom;
 }
 
 .world-history__placeholder,

@@ -21,8 +21,8 @@
 <main class="character-layout character-layout--with-lore">
     <aside class="character-lore">
         <h2 class="character-lore__title">Traces of Presence</h2>
-        <div class="character-lore__text">
-            <p>Character of the Weaver world. Write the character's story and role here.</p>
+        <div class="character-lore__text" data-lore-src="../content/shiny-lore.html" aria-busy="true">
+            <!-- Lore content loaded from content/shiny-lore.html -->
         </div>
     </aside>
     <figure class="character-figure">
@@ -30,12 +30,17 @@
             <img src="../assets/img/shiny.jpeg" alt="Shiny" />
         </div>
         <figcaption class="character-caption">
-            <h1 class="character-caption__name">Shiny</h1>
-            <p class="character-caption__tag">The Wild Pulse</p>
-            <div class="character-caption__actions">
-                <a href="dream-world.html">Dream world</a>
-                <a href="weaver-world.html">Weaver world</a>
-                <a href="../index.html">The Gate</a>
+            <div class="character-caption__row">
+                <div class="character-caption__left">
+                    <h1 class="character-caption__name">Shiny</h1>
+                    <p class="character-caption__tag">The Wild Pulse</p>
+                    <div class="character-caption__actions">
+                        <a href="dream-world.html">Dream world</a>
+                        <a href="weaver-world.html">Weaver world</a>
+                        <a href="../index.html">The Gate</a>
+                    </div>
+                </div>
+                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-shiny">Inner Sound · Shiny</a>
             </div>
         </figcaption>
         <aside class="character-chat">
@@ -78,5 +83,19 @@
     </figure>
 </main>
 <script src="../assets/js/character-chat.js"></script>
+<script>
+(function () {
+  var el = document.querySelector('.character-lore__text[data-lore-src]');
+  if (!el) return;
+  var src = el.getAttribute('data-lore-src');
+  fetch(src)
+    .then(function (r) { return r.text(); })
+    .then(function (html) {
+      el.innerHTML = html.trim();
+      el.removeAttribute('aria-busy');
+    })
+    .catch(function () { el.removeAttribute('aria-busy'); });
+})();
+</script>
 </body>
 </html>

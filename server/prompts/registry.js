@@ -11,7 +11,7 @@ import { getSystemPrompt as getShiny } from "./shiny.js";
 import { getSystemPrompt as getShinyBro } from "./shiny_bro.js";
 import { getSystemPrompt as getAngryForest } from "./angry_forest.js";
 import { getSystemPrompt as getTalkMushroom } from "./talk_mushroom.js";
-import { getSystemPrompt as getNature } from "./nature.js";
+import { getSystemPrompt as getDryad } from "./dryad.js";
 import { getSystemPrompt as getKeeper } from "./keeper.js";
 
 const prompts = {
@@ -24,7 +24,8 @@ const prompts = {
   shiny_bro: getShinyBro,
   angry_forest: getAngryForest,
   talk_mushroom: getTalkMushroom,
-  nature: getNature,
+  nature: getDryad,
+  dryad: getDryad,
   keeper: getKeeper,
 };
 

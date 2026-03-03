@@ -6,6 +6,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
 import { getSystemPrompt } from "./prompts/registry.js";
+import { getRateLimitMessage } from "./rate-limit-messages.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const envPath = path.join(__dirname, ".env");
@@ -185,8 +186,52 @@ const result = await genAI.models.generateContent({
 const text = result?.text ?? (typeof result?.text === "function" ? result.text() : "") ?? "";
 return res.json({ text: (text || "").trim() || "…", provider: "gemini" });
 } catch (err) {
-console.error("Gemini error:", err);
-return res.status(500).json({ error: err.message });
+  console.warn("[Gemini] error", err.message, "→ fallback to Groq");
+  /* При любой ошибке Gemini (429, таймаут и т.д.) — пробуем Groq */
+  if (GROQ_API_KEY) {
+    try {
+      const messages = [{ role: "system", content: fullPrompt }];
+      for (const turn of history) {
+        messages.push({
+          role: turn.role === "user" ? "user" : "assistant",
+          content: turn.text || ""
+        });
+      }
+      messages.push({ role: "user", content: trimmed });
+
+      const groqRes = await fetch(`${GROQ_BASE}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: GROQ_MODEL,
+          messages,
+          stream: false,
+          temperature: 1.0,
+          top_p: 0.9,
+          max_tokens: 1024
+        })
+      });
+
+      if (groqRes.ok) {
+        const data = await groqRes.json();
+        const text = data?.choices?.[0]?.message?.content ?? "";
+        return res.json({ text: text.trim() || "…", provider: "groq" });
+      }
+      const errText = await groqRes.text();
+      console.warn("[Groq] fallback failed", groqRes.status, errText.slice(0, 200));
+    } catch (groqErr) {
+      console.warn("[Groq] fallback error", groqErr.message);
+    }
+  }
+  /* Сообщение пользователю: при лимитах — своё (по персонажу), иначе — от API */
+  const isRateLimit =
+    (err.message && /429|resource exhausted|quota|rate limit|too many requests/i.test(err.message)) ||
+    (err.status === 429);
+  const userMessage = isRateLimit ? getRateLimitMessage(character) : err.message;
+  return res.status(500).json({ error: userMessage });
 }
 });
 

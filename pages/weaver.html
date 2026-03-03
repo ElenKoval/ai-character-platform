@@ -21,39 +21,18 @@
 <main class="character-layout character-layout--with-lore">
     <aside class="character-lore">
         <h2 class="character-lore__title">Traces of Presence</h2>
-        <div class="character-lore__text">
-            <p>Weaver stood at the edge of the bed. Her human body looked too fragile for the abyss pulsing inside her. She watched the sleeping man and woman with quiet triumph.</p>
-            <p>Without turning, she said,</p>
+        <div class="character-lore__text" data-lore-src="../content/weaver-lore.html" aria-busy="true">
+            <!-- Lore content loaded from content/weaver-lore.html -->
             <p>“Cat.”</p>
-            <p>A young man stepped out of the dense shadow in the corner. He came close, almost too close. The air between them thickened with that familiar tension. Hunter and his only weakness.</p>
             <p>“You always feel me, Weaver. Even with your back turned.”</p>
             <p>“Did you come to take him?”</p>
-            <p>She turned. Their eyes met. Hers feverish and burning. His heavy, filled with unspoken sorrow.</p>
-            <p>Her fingers twitched, almost brushing his jacket. The Cat froze. In his eyes, possibilities flickered and died one by one.</p>
             <p>“He could have become a great composer,” the Cat said quietly, looking at her, not at the man. “His music would have inspired millions.”</p>
-            <p>Weaver stepped closer, closing the last inches between them.</p>
             <p>“But now he's happy,” she hissed near his lips. “He lives. He feels. He doesn't have to die for sound anymore.”</p>
-            <p>She touched his shoulder. Brief. Electric. There was as much love in that touch as there was defiance.</p>
-            <p>The Cat closed his eyes for a moment.</p>
             <p>“He lives,” he echoed softly. “But the world is deaf. You saved a man, Weaver. And killed the god inside him.”</p>
-            <p>A lock clicked.</p>
-            <p>The air froze.</p>
-            <p>Pak entered.</p>
-            <p>Frost crept along the walls at his presence. The space tightened.</p>
-            <p>Weaver hissed, sharp and low. She looked at the Cat one last time. The look was long, promising, desperate.</p>
-            <p>Then she was gone.</p>
             <p>Pak stopped by the bed. His cold gaze scanned the sleeping man's Threads. He raised his hand, attempting to pull them back into their former, higher trajectory. His fingers slid across the thick golden glow of happiness Weaver had woven into reality.</p>
-            <p>He slowly lowered his hand.</p>
-            <p>He was too late.</p>
             <p>Pak looked at the sleeping man. At the golden light of happiness.</p>
-            <p>His face remained still.</p>
             <p>“The world is poorer. For a smile. An irrational choice.”</p>
-            <p>The Cat did not answer.</p>
-            <p>He could still feel her touch on his shoulder.</p>
             <p>There was pain in his eyes — not because of the lost composer.</p>
-            <p>Because of her.</p>
-            <p>Pak saw it.</p>
-            <p>And said nothing.</p>
         </div>
     </aside>
     <figure class="character-figure">
@@ -61,12 +40,17 @@
             <img src="../assets/img/weaver.jpeg" alt="Weaver" />
         </div>
         <figcaption class="character-caption">
-            <h1 class="character-caption__name">Weaver</h1>
-            <p class="character-caption__tag">The Wild Pulse</p>
-            <div class="character-caption__actions">
-                <a href="dream-world.html">Dream world</a>
-                <a href="weaver-world.html">Weaver world</a>
-                <a href="../index.html">The Gate</a>
+            <div class="character-caption__row">
+                <div class="character-caption__left">
+                    <h1 class="character-caption__name">Weaver</h1>
+                    <p class="character-caption__tag">The Wild Pulse</p>
+                    <div class="character-caption__actions">
+                        <a href="dream-world.html">Dream world</a>
+                        <a href="weaver-world.html">Weaver world</a>
+                        <a href="../index.html">The Gate</a>
+                    </div>
+                </div>
+                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-weaver">Inner Sound · Weaver</a>
             </div>
         </figcaption>
         <aside class="character-chat">
@@ -109,5 +93,19 @@
     </figure>
 </main>
 <script src="../assets/js/character-chat.js"></script>
+<script>
+(function () {
+  var el = document.querySelector('.character-lore__text[data-lore-src]');
+  if (!el) return;
+  var src = el.getAttribute('data-lore-src');
+  fetch(src)
+    .then(function (r) { return r.text(); })
+    .then(function (html) {
+      el.innerHTML = html.trim();
+      el.removeAttribute('aria-busy');
+    })
+    .catch(function () { el.removeAttribute('aria-busy'); });
+})();
+</script>
 </body>
 </html>
