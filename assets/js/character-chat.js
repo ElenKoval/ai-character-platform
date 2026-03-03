@@ -13,7 +13,7 @@
 
   if (!form || !input || !log) return;
 
-  /** Идентификатор персонажа для системного промпта (data-character на .chat). По умолчанию weaver. */
+  
   const character = (chatContainer && chatContainer.getAttribute("data-character")) || "weaver";
 
   /** Текст в шапке чата: Keeper - про эссенцию, остальные - ASK ME SOMETHING... */
