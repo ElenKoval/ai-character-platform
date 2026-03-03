@@ -61,7 +61,7 @@
   });
 
   const apiBase = (window.location.port === "63342" || window.location.port === "63343")
-    ? "http://localhost:3000"
+    ? "https://ai-character-platform.onrender.com"
     : window.location.origin;
 
   function appendMessage(text, isUser, providerLabel) {
