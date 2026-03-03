@@ -51,7 +51,17 @@ function isEnglish(text) {
   return latin >= cyrillic && latin > 0;
 }
 
+/** Health check: returns 200 and whether API is configured (for Render/debug). */
+app.get("/api/health", (req, res) => {
+  res.json({
+    ok: true,
+    gemini: !!apiKey,
+    groq: !!GROQ_API_KEY
+  });
+});
+
 app.post("/api/chat", async (req, res) => {
+  try {
   const { message, history = [], character = "weaver", provider = "gemini" } = req.body;
 
   if (!message || typeof message !== "string") {
@@ -183,8 +193,12 @@ const result = await genAI.models.generateContent({
   }
 });
 
-const text = result?.text ?? (typeof result?.text === "function" ? result.text() : "") ?? "";
-return res.json({ text: (text || "").trim() || "…", provider: "gemini" });
+let text = result?.text;
+if (typeof text === "function") text = text();
+if (text == null && result?.candidates?.[0]?.content?.parts?.[0])
+  text = result.candidates[0].content.parts[0].text;
+text = (text ?? "").trim() || "…";
+return res.json({ text, provider: "gemini" });
 } catch (err) {
   console.warn("[Gemini] error", err.message, "→ fallback to Groq");
   /* При любой ошибке Gemini (429, таймаут и т.д.) — пробуем Groq */
@@ -233,6 +247,12 @@ return res.json({ text: (text || "").trim() || "…", provider: "gemini" });
   const userMessage = isRateLimit ? getRateLimitMessage(character) : err.message;
   return res.status(500).json({ error: userMessage });
 }
+  } catch (handlerErr) {
+    console.error("[api/chat] unhandled", handlerErr);
+    if (!res.headersSent) {
+      res.status(500).json({ error: handlerErr.message || "Internal server error" });
+    }
+  }
 });
 
 app.listen(PORT, () => {

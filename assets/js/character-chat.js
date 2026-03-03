@@ -152,7 +152,7 @@
             errMsg = parsed.error?.message || parsed.message || errMsg;
           } catch (_) {}
         }
-        appendMessage(errMsg ? "Ошибка: " + errMsg : "Ошибка сервера", false, null);
+        appendMessage(errMsg ? "Ошибка: " + errMsg : "Ошибка сервера (" + res.status + ")", false, null);
         history.pop();
         setLoading(false);
         input.focus();

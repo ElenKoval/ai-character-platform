@@ -133,7 +133,7 @@
           if (providerToSend === "groq") {
             errMsg = "Groq не ответил. Проверь GROQ_API_KEY в server/.env (ключ: console.groq.com).";
           }
-          if (appendReplyToKeeperLog) appendToLog(keeperLog, errMsg, false, null);
+          if (appendReplyToKeeperLog) appendToLog(keeperLog, errMsg || "Ошибка сервера (" + res.status + ")", false, null);
           keeperHistory.pop();
           return;
         }
