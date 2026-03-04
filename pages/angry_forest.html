@@ -21,8 +21,8 @@
 <main class="character-layout character-layout--with-lore">
     <aside class="character-lore">
         <h2 class="character-lore__title">Traces of Presence</h2>
-        <div class="character-lore__text">
-            <p>Character of the Weaver world. Write the character's story and role here.</p>
+        <div class="character-lore__text" data-lore-src="../content/angry-forest-lore.html" aria-busy="true">
+            <!-- Lore loaded from content/angry-forest-lore.html -->
         </div>
     </aside>
     <figure class="character-figure">
@@ -83,5 +83,19 @@
     </figure>
 </main>
 <script src="../assets/js/character-chat.js"></script>
+<script>
+(function () {
+  var el = document.querySelector('.character-lore__text[data-lore-src]');
+  if (!el) return;
+  var src = el.getAttribute('data-lore-src');
+  fetch(src)
+    .then(function (r) { return r.text(); })
+    .then(function (html) {
+      el.innerHTML = html.trim();
+      el.removeAttribute('aria-busy');
+    })
+    .catch(function () { el.removeAttribute('aria-busy'); });
+})();
+</script>
 </body>
 </html>
