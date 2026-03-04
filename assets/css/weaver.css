@@ -365,3 +365,43 @@
     margin: 0 auto;
   }
 }
+
+/* Мобильная шапка: компактно, без растягивания по всему верху */
+@media (max-width: 900px) {
+  .topbar {
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    gap: 8px 12px;
+  }
+  .topbar__back {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .topbar__right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    justify-content: flex-end;
+  }
+  .topbar__link {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+  .topbar__dot {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 8px 10px;
+  }
+  .topbar__back {
+    font-size: 0.8rem;
+  }
+  .topbar__link {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+}

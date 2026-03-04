@@ -976,12 +976,12 @@
   display: none;
 }
 
-/* ----- Responsive: всё в экран без прокрутки - чат виден ----- */
+/* ----- Responsive: картинка компактно, чат и ввод всегда видны ----- */
 @media (max-width: 900px) {
   .character-layout {
     min-height: 0;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 6px;
+    padding-bottom: 12px;
   }
 
   .character-page--vertical .character-layout {
@@ -1010,35 +1010,48 @@
     grid-row: 3;
   }
 
-  /* Панель истории - достаточно высоты, прокрутка внутри, финал виден */
+  /* Лор: ограниченная высота, прокрутка — чтобы ниже поместился чат */
   .character-lore {
     position: static;
-    max-height: 50vh;
+    max-height: 26vh;
     min-height: 0;
   }
   .character-lore__text {
     overflow-y: auto;
     padding-bottom: 24px;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Вертикальный рисунок - на узком экране компактно */
+  /* Вертикальный рисунок: фиксированная высота, картинка не сжата и не на полэкрана */
   .character-page--vertical .character-figure__img-wrap {
-    max-height: 28vh;
-    min-height: 140px;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    flex: 0 0 auto;
   }
 
   .character-page--vertical .character-layout--with-lore .character-figure__img-wrap {
-    max-height: 28vh;
-    min-height: 140px;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
   }
 
-  /* Чат на узком экране */
+  /* Чат: минимум высоты, чтобы лог + форма ввода были видны */
+  .character-page--vertical .character-layout--with-lore > .character-chat {
+    min-height: 280px;
+    max-height: none;
+  }
   .character-page--vertical .character-layout--with-lore > .character-chat .chat {
-    max-height: 28vh;
-    min-height: 0;
+    max-height: none;
+    min-height: 260px;
+  }
+  .character-page--vertical .character-layout--with-lore > .character-chat .chat__log {
+    flex: 1;
+    min-height: 80px;
+    max-height: none;
   }
 
-  /* Новый вертикальный макет (visual-left) на узком экране: одна колонка */
+  /* Вертикальный макет (visual-left): та же логика */
   .character-page--vertical .character-layout--visual-left {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
@@ -1052,34 +1065,47 @@
     display: flex;
     flex-direction: column;
   }
+  .character-page--vertical .character-layout--visual-left .character-figure__img-wrap {
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    flex: 0 0 auto;
+  }
+  .character-page--vertical .character-layout--visual-left .character-content > .character-lore {
+    max-height: 26vh;
+  }
   .character-page--vertical .character-layout--visual-left .character-content > .character-chat {
     position: static;
-    height: auto;
-    max-height: 28vh;
-    min-height: 140px;
+    min-height: 280px;
+    max-height: none;
+    flex: 0 0 auto;
   }
-  .character-page--vertical .character-layout--visual-left .character-content > .character-chat.is-expanded {
-    max-height: 40vh;
+  .character-page--vertical .character-layout--visual-left .character-content > .character-chat .chat {
+    min-height: 260px;
+  }
+  .character-page--vertical .character-layout--visual-left .character-content > .character-chat.is-expanded .chat {
+    min-height: 300px;
   }
 
-  /* Горизонтальные: одна колонка, рисунок компактный - чат виден без прокрутки */
+  /* Горизонтальные (Weaver и т.д.): одна колонка, картинка фиксирована, чат внизу */
   .character-page--horizontal .character-layout--with-lore {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
     height: auto;
     min-height: 0;
-    gap: 12px;
+    gap: 10px;
   }
 
   .character-page--horizontal .character-layout--with-lore .character-figure {
     max-width: none;
     width: 100%;
+    flex: 0 0 auto;
   }
 
   .character-page--horizontal .character-figure__img-wrap {
-    height: 24vh;
-    min-height: 100px;
-    max-height: 24vh;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
     flex: 0 0 auto;
   }
 
@@ -1090,26 +1116,33 @@
     object-position: center;
   }
 
-  /* На узком экране чат в потоке, фиксированная доля высоты */
+  /* Чат занимает оставшееся место, ввод всегда внизу экрана по сути */
   .character-page--horizontal .character-chat {
-    flex: 0 0 auto;
-    min-height: 180px;
-    max-height: 40vh;
+    flex: 1 1 auto;
+    min-height: 280px;
+    max-height: none;
   }
-  .character-page--horizontal .character-chat.is-expanded {
-    min-height: 240px;
-    max-height: 55vh;
+  .character-page--horizontal .character-chat .chat {
+    min-height: 260px;
+  }
+  .character-page--horizontal .character-chat .chat__log {
+    flex: 1;
+    min-height: 60px;
+    max-height: none;
+  }
+  .character-page--horizontal .character-chat.is-expanded .chat {
+    min-height: 320px;
   }
 
   .character-chat .chat__log {
-    max-height: 24vh;
+    max-height: none;
   }
 }
 
-/* Мобильные: читаемость текста и удобные кнопки */
+/* Мобильные: читаемость, крупный ввод, чат всегда с местом для набора */
 @media (max-width: 600px) {
   .character-layout {
-    padding: 10px 12px;
+    padding: 8px 10px 12px;
   }
   .character-lore__text,
   .character-lore__title {
@@ -1120,13 +1153,41 @@
     margin-bottom: 14px;
   }
   .character-lore {
-    padding: 14px 16px 20px;
+    padding: 12px 14px 16px;
+    max-height: 22vh;
+  }
+  .character-caption {
+    padding: 10px 12px 12px;
   }
   .character-caption__name {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
   }
   .character-caption__tag {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+  }
+  .character-caption__actions a {
+    font-size: 0.8rem;
+    padding: 5px 8px;
+  }
+  /* Картинка на очень узком экране чуть ниже */
+  .character-page--vertical .character-figure__img-wrap,
+  .character-page--vertical .character-layout--with-lore .character-figure__img-wrap,
+  .character-page--vertical .character-layout--visual-left .character-figure__img-wrap,
+  .character-page--horizontal .character-figure__img-wrap {
+    height: 180px;
+    min-height: 180px;
+    max-height: 180px;
+  }
+  /* Чат и ввод всегда видны */
+  .character-page--vertical .character-layout--with-lore > .character-chat,
+  .character-page--vertical .character-layout--visual-left .character-content > .character-chat,
+  .character-page--horizontal .character-chat {
+    min-height: 260px;
+  }
+  .character-page--vertical .character-layout--with-lore > .character-chat .chat,
+  .character-page--vertical .character-layout--visual-left .character-content > .character-chat .chat,
+  .character-page--horizontal .character-chat .chat {
+    min-height: 240px;
   }
   .character-chat .chat__bubble {
     font-size: 0.95rem;
@@ -1135,11 +1196,15 @@
   }
   .character-chat .chat__input,
   .character-chat .chat__send {
-    min-height: 44px;
+    min-height: 48px;
     font-size: 16px;
   }
   .character-chat .chat__send {
-    min-width: 60px;
+    min-width: 64px;
     padding: 0 16px;
+  }
+  .character-chat .chat__form {
+    padding: 10px 12px 12px;
+    flex-shrink: 0;
   }
 }
