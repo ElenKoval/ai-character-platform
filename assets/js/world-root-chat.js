@@ -35,10 +35,7 @@
   /** roots → Groq, aether → Gemini */
   let aiSource = "aether";
 
-  /** API на Render; с Vercel/других хостов — всегда ходим на Render, иначе 404 */
-  const apiOrigin = "https://ai-character-platform.onrender.com";
-  const isOnRender = window.location.origin === apiOrigin;
-  const apiBase = isOnRender ? window.location.origin : apiOrigin;
+  const apiBase = "https://ai-character-platform.onrender.com";
 
   /** Инициализация: по умолчанию Gemini (aether), класс на панелях */
   document.querySelectorAll(".world-history__chat").forEach(function (p) {

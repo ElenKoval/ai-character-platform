@@ -60,10 +60,7 @@
     btn.addEventListener("click", function () { setAiSource("aether"); });
   });
 
-  /** API на Render; с Vercel/других хостов — всегда ходим на Render, иначе 404 */
-  const apiOrigin = "https://ai-character-platform.onrender.com";
-  const isOnRender = window.location.origin === apiOrigin;
-  const apiBase = isOnRender ? window.location.origin : apiOrigin;
+  const apiBase = "https://ai-character-platform.onrender.com";
 
   function appendMessage(text, isUser, providerLabel) {
     const wrap = document.createElement("div");

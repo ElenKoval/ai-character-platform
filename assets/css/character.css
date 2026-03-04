@@ -939,9 +939,37 @@
   box-shadow: none;
 }
 
-/* Кнопка отправки минимальная, справа внизу поля или скрыта - отправка по Enter */
+/* Форма: строка ввода + кнопка отправки (Enter и кнопка) */
+.character-chat .chat__form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.character-chat .chat__form .chat__input {
+  flex: 1;
+  min-width: 0;
+}
 .character-chat .chat__send {
-  display: none;
+  flex-shrink: 0;
+  min-width: 56px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.character-chat .chat__send:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.character-chat .chat__send:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .character-chat .chat__hint {
@@ -1075,5 +1103,43 @@
 
   .character-chat .chat__log {
     max-height: 24vh;
+  }
+}
+
+/* Мобильные: читаемость текста и удобные кнопки */
+@media (max-width: 600px) {
+  .character-layout {
+    padding: 10px 12px;
+  }
+  .character-lore__text,
+  .character-lore__title {
+    font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+    line-height: 1.65;
+  }
+  .character-lore__text p {
+    margin-bottom: 14px;
+  }
+  .character-lore {
+    padding: 14px 16px 20px;
+  }
+  .character-caption__name {
+    font-size: 1.15rem;
+  }
+  .character-caption__tag {
+    font-size: 0.75rem;
+  }
+  .character-chat .chat__bubble {
+    font-size: 0.95rem;
+    padding: 12px 14px;
+    max-width: 95%;
+  }
+  .character-chat .chat__input,
+  .character-chat .chat__send {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .character-chat .chat__send {
+    min-width: 60px;
+    padding: 0 16px;
   }
 }
