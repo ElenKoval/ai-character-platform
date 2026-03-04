@@ -322,10 +322,6 @@
   outline: none;
 }
 
-.chat__send {
-  display: none;
-}
-
 .chat__hint {
   display: none;
 }
