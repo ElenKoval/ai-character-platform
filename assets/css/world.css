@@ -239,6 +239,27 @@
   aspect-ratio: 4/3;
 }
 
+/* Заглушка вместо картинки (CAT): как на персональной странице */
+.world-team__card-img-link--placeholder {
+  aspect-ratio: 4/3;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(160deg, rgba(28, 26, 35, 0.97) 0%, rgba(18, 16, 24, 0.98) 40%, rgba(12, 10, 18, 0.99) 100%);
+  box-shadow: inset 0 0 80px rgba(60, 50, 80, 0.25);
+}
+.world-team__card-placeholder-text {
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.04em;
+  text-align: center;
+  max-width: 18em;
+  line-height: 1.45;
+}
+
 .world-team__card-info {
   padding: 10px 14px 14px;
 }

@@ -13,6 +13,7 @@ import { getSystemPrompt as getAngryForest } from "./angry_forest.js";
 import { getSystemPrompt as getTalkMushroom } from "./talk_mushroom.js";
 import { getSystemPrompt as getDryad } from "./dryad.js";
 import { getSystemPrompt as getKeeper } from "./keeper.js";
+import { getSystemPrompt as getCat } from "./cat.js";
 
 const prompts = {
   weaver: getWeaver,
@@ -27,6 +28,7 @@ const prompts = {
   nature: getDryad,
   dryad: getDryad,
   keeper: getKeeper,
+  cat: getCat,
 };
 
 /**

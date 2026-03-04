@@ -18,6 +18,7 @@ export const RATE_LIMIT_MESSAGES = {
   talk_mushroom: "The soil stops here.Dialogue sealed.",
   dryad: "",
   keeper: "The page tore itself. No more words today",
+  cat: "Enough. The rest is silence.",
 };
 
 /**
