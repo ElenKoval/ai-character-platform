@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "siteTitle": "SunnyChimera",
+    "langLabel": "Language"
+  },
+  "lang": {
+    "en": "EN",
+    "ru": "RU"
+  },
+  "common": {
+    "gate": "The Gate",
+    "dream": "Dream World",
+    "weaver": "Weaver World",
+    "dreamWorld": "Dream World",
+    "weaverWorld": "Weaver World",
+    "worldHistory": "World history",
+    "soundOfWorld": "The Sound of the World",
+    "portalRemembers": "The portal remembers.",
+    "sunnyChimera": "SunnyChimera"
+  },
+  "nav": {
+    "backGate": "← The Gate",
+    "backDreamWorld": "← Dream World",
+    "backWeaverWorld": "← Weaver World",
+    "backWorldHistory": "← World history",
+    "backToGate": "← back to The Gate"
+  },
+  "index": {
+    "dreamName": "Mr. Dream",
+    "dreamTag": "observation · protection",
+    "dreamStay": "Stay",
+    "dreamWhisper1": "Lay yourself into the calm.",
+    "dreamWhisper2": "There is no place for fear here.",
+    "dreamWhisper3": "Your path has already been drawn.",
+    "coreTitle": "SunnyChimera World",
+    "coreText": "Not the first story.<br>Not the last.",
+    "weaverName": "The weaver",
+    "weaverTag": "threads · thirst · change",
+    "weaverWake": "Wake Up!!!",
+    "weaverWhisper1": "Wake up to the tension.",
+    "weaverWhisper2": "Feel the hunger for life.",
+    "weaverWhisper3": "Let it pull you into the abyss. It's the only way to breathe."
+  },
+  "dreamWorld": {
+    "title": "Dream World",
+    "heroTag": "observation · protection",
+    "catPlaceholder": "Searching for self on the moonlit rooftops…"
+  },
+  "weaverWorld": {
+    "title": "Weaver World",
+    "heroTag": "threads · thirst · change"
+  },
+  "world": {
+    "pageTitle": "The Root of All Things. Silence and Madness. - SunnyChimera",
+    "title": "THE ROOT OF ALL THINGS<br>Silence and Madness",
+    "dreamWorldBtn": "Dream World",
+    "weaverWorldBtn": "Weaver World",
+    "dryadPlaceholder": "Dryad",
+    "keeperCaption": "Keeper",
+    "keeperGreeting": "Don't move. You're blocking my view of yesterday. Well? Why are you staring? Your thoughts have too much... echo. Say something already.",
+    "dryadGreeting": "The Dryad is silent. Speak — the Keeper will answer."
+  },
+  "lore": {
+    "tracesTitle": "Traces of Presence",
+    "dreamBody": "Observation and protection. Here you can write the character's story, role, and connection to the Dream World.",
+    "dryadBody": "Figure from world history. Write the character's story and role here.",
+    "shinyBroBody": "Character of the Weaver World. Write the character's story and role here."
+  },
+  "chat": {
+    "send": "Send",
+    "seekPlaceholder": "Seek the truth...",
+    "messageAria": "Message to character",
+    "askSomething": "ASK ME SOMETHING...",
+    "askKeeper": "ASK THE KEEPER ABOUT YOUR ESSENCE",
+    "innerSound": "Inner Sound",
+    "hintGeminiGroq": "Response via Gemini or Groq.",
+    "model": "Model",
+    "chooseModel": "Choose model"
+  },
+  "sound": {
+    "title": "The Sound of the World",
+    "lead": "Music archive by character",
+    "back": "← The Gate",
+    "trackOne": "Track one",
+    "trackTwo": "Track two",
+    "trackThree": "Track three",
+    "trackFour": "Track four",
+    "keeperName": "Keeper",
+    "dryadName": "Dryad"
+  },
+  "about": {
+    "title": "About - SunnyChimera",
+    "tag": "this world is still growing",
+    "body": "Write a few words about yourself and the project here."
+  },
+  "tags": {
+    "wildPulse": "The Wild Pulse",
+    "dreamWorld": "Dream World",
+    "orderCircle": "Order Circle"
+  },
+  "cat": {
+    "greeting": "You always feel me, even with your back turned. Say something."
+  },
+  "dream": {
+    "greeting": "If everything stopped, what would still remain true?"
+  },
+  "crystal": {
+    "greeting": "You don't have to prove anything to me. Let's just talk. What's actually happening behind that smile of yours?"
+  },
+  "drpak": {
+    "greeting": "Where did the system break?"
+  },
+  "liora": {
+    "greeting": "When did you last allow yourself to be small and safe?"
+  },
+  "shiny": {
+    "greeting": "What are you holding that should belong to me?"
+  },
+  "shinyBro": {
+    "greeting": "Who are you without the person you serve?"
+  },
+  "weaver": {
+    "greeting": "I'm Weaver. Say one thing you want so badly it scares you."
+  },
+  "talkMushroom": {
+    "greeting": "What if the voice in your head isn't yours?"
+  },
+  "angryForest": {
+    "greeting": "Why are you disturbing my ground?"
+  }
+}
