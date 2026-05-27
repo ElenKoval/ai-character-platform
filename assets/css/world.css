@@ -35,16 +35,23 @@
 .world-page__back[href*="dream-world"],
 .world-page__topbar-link[href*="dream-world"],
 .world-page__topbar-link[href*="dream.html"] {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 .world-page__back[href*="weaver-world"],
 .world-page__topbar-link[href*="weaver-world"],
 .world-page__topbar-link[href*="weaver.html"] {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 .world-page__back[href*="index.html"],
 .world-page__topbar-link[href*="index.html"] {
   font-family: var(--font-root, "Playfair Display", serif);
+}
+
+/* RU: Dream World label in body font */
+html[lang="ru"] .world-page__back[href*="dream-world"],
+html[lang="ru"] .world-page__topbar-link[href*="dream-world"],
+html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
+  font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 
 .world-page__back:hover,
@@ -99,19 +106,23 @@
 }
 
 .world-hero__frame {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 720px;
   margin: 0 auto 14px;
   border-radius: 24px 40px 20px 36px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
+  background: #000;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
   text-decoration: none;
   color: inherit;
   cursor: pointer;
   position: relative;
   z-index: 1;
+  padding: 12px 16px;
+  box-sizing: border-box;
 }
 
 .world-hero__frame:hover {
@@ -120,10 +131,13 @@
 }
 
 .world-hero__frame img {
-  width: 100%;
-  height: auto;
   display: block;
-  object-fit: cover;
+  max-width: 92%;
+  max-height: min(70vh, 520px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
   image-rendering: auto;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -219,24 +233,37 @@
 .world-team__card--tilt-r:hover { transform: rotate(0deg) scale(1.02); }
 
 .world-team__card-img-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: inherit;
+  background: #000;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  min-height: 200px;
 }
 
 .world-team__card img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 3/4;
-  object-fit: cover;
   display: block;
+  max-width: 92%;
+  max-height: 92%;
+  width: auto;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
   image-rendering: auto;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
+.world-team__card--horizontal .world-team__card-img-link {
+  min-height: 160px;
+}
+
 .world-team__card--horizontal img {
-  aspect-ratio: 4/3;
+  aspect-ratio: auto;
 }
 
 /* Заглушка вместо картинки (CAT): как на персональной странице */

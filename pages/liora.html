@@ -78,7 +78,7 @@
             </div>
                 <div class="chat__log">
                     <div class="chat__msg chat__msg--npc">
-                        <div class="chat__bubble">When did you last allow yourself to be small and safe?</div>
+                        <div class="chat__bubble" data-i18n="liora.greeting">When did you last allow yourself to be small and safe?</div>
                     </div>
                 </div>
             <form class="chat__form">
@@ -90,20 +90,7 @@
     </aside>
     </div>
 </main>
+<script src="../assets/js/i18n.js"></script>
 <script src="../assets/js/character-chat.js"></script>
-<script>
-(function () {
-  var el = document.querySelector('.character-lore__text[data-lore-src]');
-  if (!el) return;
-  var src = el.getAttribute('data-lore-src');
-  fetch(src)
-    .then(function (r) { return r.text(); })
-    .then(function (html) {
-      el.innerHTML = html.trim();
-      el.removeAttribute('aria-busy');
-    })
-    .catch(function () { el.removeAttribute('aria-busy'); });
-})();
-</script>
 </body>
 </html>

@@ -38,16 +38,23 @@
 .topbar__back[href*="dream-world"],
 .topbar__link[href*="dream-world"],
 .topbar__link[href*="dream.html"] {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 .topbar__back[href*="weaver-world"],
 .topbar__link[href*="weaver-world"],
 .topbar__link[href*="weaver.html"] {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 .topbar__back[href*="index.html"],
 .topbar__link[href*="index.html"] {
   font-family: var(--font-root, "Playfair Display", serif);
+}
+
+/* RU: Dream World label in body font */
+html[lang="ru"] .topbar__back[href*="dream-world"],
+html[lang="ru"] .topbar__link[href*="dream-world"],
+html[lang="ru"] .topbar__link[href*="dream.html"] {
+  font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 
 .topbar__link.is-active{ color: rgba(255,255,255,0.95); }
@@ -116,11 +123,18 @@
   border-color: rgba(255,255,255,0.22);
   box-shadow: 0 32px 80px rgba(0,0,0,0.65);
 }
+.weaver__side{
+  background: #000;
+}
 .weaver__side img{
-  width: 100%;
-  height: auto;
   display: block;
-  object-fit: cover;
+  max-width: 92%;
+  max-height: 92%;
+  width: auto;
+  height: auto;
+  margin: 10px auto;
+  object-fit: contain;
+  object-position: center;
 }
 .weaver__side--left{ transform: rotate(-1.5deg); }
 .weaver__side--right{ transform: rotate(1.5deg); }
@@ -140,19 +154,25 @@
   border-radius: 18px 38px 14px 44px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
+  background: #000;
   box-shadow: 0 30px 90px rgba(0,0,0,0.7);
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  box-sizing: border-box;
   transform: rotate(1.2deg);
 }
 
 .weaver__art{
-  width: 100%;
-  height: auto;
   display: block;
-  object-fit: cover;
-  transform: scale(1.02);
-  /* Чуть лучше при масштабировании; зернистость убирают только исходники повыше разрешения */
+  max-width: 92%;
+  max-height: 92%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  transform: scale(1);
   image-rendering: -webkit-optimize-contrast;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -161,12 +181,11 @@
 /* Горизонтальная картинка на странице персонажа */
 .weaver__frame--horizontal{
   max-width: 720px;
-  aspect-ratio: 2/1;
+  min-height: 280px;
 }
 .weaver__frame--horizontal .weaver__art{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 90%;
+  max-height: min(50vh, 360px);
 }
 
 .weaver__intro{
