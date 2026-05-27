@@ -111,36 +111,23 @@
   padding: 14px 18px 18px;
 }
 
-/* Панель рисунка — как Crystal: чёрные поля по краям, картинка целиком */
-.character-figure__img-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000;
-  box-sizing: border-box;
-}
-
-.character-figure__img-wrap img {
-  display: block;
-  max-width: 92%;
-  max-height: 92%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
-}
-
+/* Панель рисунка - картинка целиком видна, без обрезки; по бокам - текстура (паутина для Weaver) */
 .character-page--vertical .character-figure__img-wrap {
   flex: 1;
   min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 0;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: none;
   border-bottom: none;
-  padding: 10px 14px;
-  background: #000;
-  background-image: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url(../img/web-texture.jpg);
+  background-repeat: repeat;
+  background-size: 300px auto;
+  background-position: center center;
 }
 
 /* Мир Dream: вместо паутины - один слой размытых чёрно-белых перьев, blend + низкая opacity */
@@ -167,6 +154,13 @@
   background-image: none;
 }
 
+.character-page--vertical .character-figure__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
 
 /* Чат справа снизу - растягивается по высоте колонки */
 .character-page--vertical .character-layout--with-lore > .character-chat .chat {
@@ -247,17 +241,14 @@
   border-radius: 0 0 16px 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: none;
-  background: #000;
-  padding: 10px 14px;
-  box-sizing: border-box;
 }
 
 .character-page--vertical .character-layout--visual-left .character-figure__img-wrap img {
-  max-width: 90%;
-  max-height: 90%;
-  width: auto;
-  height: auto;
-  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  aspect-ratio: 2 / 3;
 }
 
 /* Dryad: картинка целиком, низ виден — прокрутка */
@@ -267,11 +258,12 @@
   min-height: 0;
 }
 .character-figure__img-wrap img.character-figure__img--portrait {
-  max-width: 90%;
-  max-height: none;
-  width: auto;
+  object-fit: contain;
+  aspect-ratio: auto;
+  width: 100%;
   height: auto;
-  min-height: 0;
+  min-height: min(50vh, 100%);
+  display: block;
 }
 
 /* Правая колонка: история сверху, чат снизу — прокрутка истории заканчивается у границы чата */
@@ -450,37 +442,6 @@
   margin-bottom: 0;
 }
 
-.character-lore__stories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0 0 12px;
-}
-
-.character-lore__story-btn {
-  appearance: none;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.9);
-  border-radius: 999px;
-  padding: 5px 12px;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.character-lore__story-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.character-lore__story-btn.is-active {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.45);
-  color: #fff;
-}
-
 .character-lore__actions {
   flex: 0 0 auto;
   margin-top: 18px;
@@ -550,7 +511,7 @@
   position: relative;
 }
 
-/* Горизонтальные страницы (Crystal и др.) */
+/* Верх (визуал): изображение целиком видно, без обрезки (contain) */
 .character-page--horizontal .character-figure__img-wrap {
   flex: 1;
   min-height: 0;
@@ -559,9 +520,19 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: none;
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  padding: 12px 16px;
-  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-page--horizontal .character-figure__img-wrap img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
 }
 
 /* Заглушка вместо изображения (CAT): дымчатый фон и надпись */

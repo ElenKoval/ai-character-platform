@@ -16,26 +16,11 @@
   
   const character = (chatContainer && chatContainer.getAttribute("data-character")) || "weaver";
 
-  function applyChatLabels() {
-    const t = window.SunnyI18n && window.SunnyI18n.t;
-    const headerTitle = document.querySelector(".chat__header-title");
-    const headerKey = character === "keeper" ? "chat.askKeeper" : "chat.askSomething";
-    if (headerTitle) {
-      headerTitle.textContent = t ? t(headerKey) : (character === "keeper" ? "ASK THE KEEPER ABOUT YOUR ESSENCE" : "ASK ME SOMETHING...");
-    }
-    if (input) {
-      input.placeholder = t ? t("chat.seekPlaceholder") : "Seek the truth...";
-    }
-    if (sendBtn && t) sendBtn.textContent = t("chat.send");
-    if (hint && t) {
-      const hintKey = "chat.hintGeminiGroq";
-      if (hint.textContent.indexOf("Gemini") !== -1 || hint.textContent.indexOf("Groq") !== -1) {
-        hint.textContent = t(hintKey);
-      }
-    }
-  }
-  applyChatLabels();
-  document.addEventListener("sunnychimera:i18n-ready", applyChatLabels);
+  /** Текст в шапке чата: Keeper - про эссенцию, остальные - ASK ME SOMETHING... */
+  const placeholderText = character === "keeper" ? "ASK THE KEEPER ABOUT YOUR ESSENCE" : "ASK ME SOMETHING...";
+  const headerTitle = document.querySelector(".chat__header-title");
+  if (headerTitle) headerTitle.textContent = placeholderText;
+  if (input) input.placeholder = "Seek the truth...";
 
   let history = [];
   let loading = false;
