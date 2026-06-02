@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -10,17 +10,17 @@
 </head>
 <body class="world world--dream character-page character-page--horizontal">
 <header class="topbar">
-    <a class="topbar__back" href="dream-world.html">← Dream world</a>
+    <a class="topbar__back" href="dream-world.html" data-i18n="characterNav.backDreamWorld">← Dream's world</a>
     <div class="topbar__right">
-        <a class="topbar__link" href="dream-world.html">Dream</a>
+        <a class="topbar__link" href="dream-world.html" data-i18n="characterNav.dreamShort">Dream</a>
         <span class="topbar__dot">·</span>
-        <a class="topbar__link" href="weaver-world.html">Weaver</a>
+        <a class="topbar__link" href="weaver-world.html" data-i18n="characterNav.weaverShort">Weaver</a>
     </div>
 </header>
 
 <main class="character-layout character-layout--with-lore">
     <aside class="character-lore">
-        <h2 class="character-lore__title">Traces of Presence</h2>
+        <h2 class="character-lore__title" data-i18n="lore.tracesTitle">Traces of Presence</h2>
         <div class="character-lore__text" data-lore-src="../content/crystal-lore.html" aria-busy="true">
             <!-- Lore content loaded from content/crystal-lore.html -->
         </div>
@@ -33,14 +33,14 @@
             <div class="character-caption__row">
                 <div class="character-caption__left">
                     <h1 class="character-caption__name">Crystal</h1>
-                    <p class="character-caption__tag">Order Circle</p>
+                    <p class="character-caption__tag" data-i18n="characterTags.crystal">The Wandering Guitar</p>
                     <div class="character-caption__actions">
-                        <a href="dream-world.html">Dream world</a>
-                        <a href="weaver-world.html">Weaver world</a>
-                        <a href="../index.html">The Gate</a>
+                        <a href="dream-world.html" data-i18n="characterNav.dreamWorld">Dream's world</a>
+                        <a href="weaver-world.html" data-i18n="characterNav.weaverWorld">Weaver's world</a>
+                        <a href="../index.html" data-i18n="characterNav.gate">The Gate</a>
                     </div>
                 </div>
-                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-crystal">Inner Sound · Crystal</a>
+                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-crystal" data-i18n="chat.innerSound">Inner Sound</a>
             </div>
         </figcaption>
         <aside class="character-chat">
@@ -70,7 +70,7 @@
             </div>
                 <div class="chat__log">
                     <div class="chat__msg chat__msg--npc">
-                        <div class="chat__bubble" data-i18n="crystal.greeting">You don't have to prove anything to me. Let's just talk. What's actually happening behind that smile of yours?</div>
+                        <div class="chat__bubble" data-i18n="crystal.greeting">Oh, new strings. I want to hear how you sound when you stop holding yourself together. Your Thread is damn out of tune… but I'll admit, I like that dirty rhythm. So, shall we play?</div>
                     </div>
                 </div>
             <form class="chat__form">

@@ -42,7 +42,7 @@
     "weaverWhisper3": "Let it pull you into the abyss. It's the only way to breathe."
   },
   "dreamWorld": {
-    "title": "Dream World",
+    "title": "Dream's world",
     "heroTag": "observation · protection",
     "catPlaceholder": "Searching for self on the moonlit rooftops…"
   },
@@ -90,8 +90,7 @@
   },
   "about": {
     "title": "About - SunnyChimera",
-    "tag": "this world is still growing",
-    "body": "Write a few words about yourself and the project here."
+    "tag": "this world is still growing"
   },
   "tags": {
     "wildPulse": "The Wild Pulse",
@@ -99,33 +98,48 @@
     "orderCircle": "Order Circle"
   },
   "cat": {
-    "greeting": "You always feel me, even with your back turned. Say something."
+    "greeting": "Don't look at me like that. I don't know myself why I'm standing here. But if you came with a question, ask it before I change my mind."
   },
   "dream": {
-    "greeting": "If everything stopped, what would still remain true?"
+    "greeting": "I don't predict the future. I watch what a Thread is trying to become. Speak, and we'll see where it pulls."
   },
   "crystal": {
-    "greeting": "You don't have to prove anything to me. Let's just talk. What's actually happening behind that smile of yours?"
+    "greeting": "Oh, new strings. I want to hear how you sound when you stop holding yourself together. Your Thread is damn out of tune… but I'll admit, I like that dirty rhythm. So, shall we play?"
   },
   "drpak": {
-    "greeting": "Where did the system break?"
+    "greeting": "Don't waste my time on pretty explanations. Show me where it hurts. I'll cut away the rest."
   },
   "liora": {
-    "greeting": "When did you last allow yourself to be small and safe?"
+    "greeting": "Come closer. When was the last time you felt safe enough to feel like a child again?"
   },
   "shiny": {
-    "greeting": "What are you holding that should belong to me?"
+    "greeting": "Come on, wake up! Your Thirst wants to breathe. Give me just one second of pure courage - and we'll blow this dead-right order to hell!"
   },
   "shinyBro": {
-    "greeting": "Who are you without the person you serve?"
+    "greeting": "Stepping into chaos is easy; surviving it is harder. Shiny will give you the spark, but I'm here so the fire doesn't consume you whole. Tell me what's going on there."
   },
   "weaver": {
-    "greeting": "I'm Weaver. Say one thing you want so badly it scares you."
+    "greeting": "I'm Weaver. Name what you want so badly that you're afraid to hear your own answer."
   },
   "talkMushroom": {
-    "greeting": "What if the voice in your head isn't yours?"
+    "greeting": "Oh, fresh lies on the doorstep. Came to pretend you're all proper and convenient? Drop it, that crap doesn't work here. Who are you so afraid to admit your Thirst to? Spill it."
   },
   "angryForest": {
-    "greeting": "Why are you disturbing my ground?"
+    "greeting": "Everyone brings me what they could not bear themselves. Pain, Thirst, dryness, hunger. What did you bring?"
+  },
+  "characterTags": {
+    "dream": "The Gardener",
+    "drPak": "Reality Surgeon",
+    "crystal": "The Wandering Guitar",
+    "liora": "The Amber Flame"
+  },
+  "characterNav": {
+    "dreamWorld": "Dream's world",
+    "weaverWorld": "Weaver's world",
+    "gate": "The Gate",
+    "backDreamWorld": "← Dream's world",
+    "backWeaverWorld": "← Weaver's world",
+    "dreamShort": "Dream",
+    "weaverShort": "Weaver"
   }
 }

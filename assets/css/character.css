@@ -882,19 +882,23 @@
   display: none;
 }
 
-/* Лог чата на всю серую панель, прокручивается */
+/* Лог: приветствие прокручивается, место внизу остаётся для ввода */
 .character-chat .chat__log {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   max-height: none;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 14px 16px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   background: rgba(0, 0, 0, 0.15);
   -webkit-overflow-scrolling: touch;
+}
+
+.character-chat:not(.is-expanded) .chat__log {
+  max-height: min(190px, 34vh);
 }
 
 .character-chat .chat__msg {
@@ -952,29 +956,38 @@
   margin-top: 2px;
 }
 
-/* Ввод - одна строка внизу, без отдельной панели */
+/* Зона ввода пользователя - всегда крупная и на виду */
 .character-chat .chat__form {
+  flex: 0 0 auto;
   flex-shrink: 0;
-  padding: 8px 14px 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  background: transparent;
+  min-height: 68px;
+  padding: 14px 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.character-chat .chat__input-row {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
 }
 
 .character-chat .chat__input {
   width: 100%;
-  min-height: 0;
-  height: 36px;
+  min-height: 52px;
+  height: 52px;
   box-sizing: border-box;
-  border-radius: 6px;
-  border: none;
-  background: transparent;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.95);
-  padding: 6px 12px;
+  padding: 12px 14px;
   font-family: var(--font-body, serif);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.4;
   outline: none;
-  transition: box-shadow 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .character-chat .chat__input::placeholder {
@@ -982,7 +995,8 @@
 }
 
 .character-chat .chat__input:focus {
-  box-shadow: none;
+  border-color: rgba(160, 200, 255, 0.45);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 /* Форма: строка ввода + кнопка отправки (Enter и кнопка) */
@@ -997,14 +1011,15 @@
 }
 .character-chat .chat__send {
   flex-shrink: 0;
-  min-width: 56px;
-  height: 36px;
-  padding: 0 14px;
-  border-radius: 6px;
+  min-width: 68px;
+  height: 52px;
+  min-height: 52px;
+  padding: 0 18px;
+  border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
@@ -1393,7 +1408,8 @@
   }
   .character-chat .chat__input,
   .character-chat .chat__send {
-    min-height: 48px;
+    min-height: 52px;
+    height: 52px;
     font-size: 16px;
   }
   .character-chat .chat__send {

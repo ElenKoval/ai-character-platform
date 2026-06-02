@@ -119,22 +119,6 @@
     "Keeper": "names.keeper"
   };
 
-  var INNER_SOUND_SUFFIX = {
-    "Weaver": "names.weaver",
-    "Mr. Dream": "names.mrDream",
-    "Dream": "names.dream",
-    "Crystal": "names.crystal",
-    "CAT": "names.cat",
-    "Liora": "names.liora",
-    "Dr. Pak": "names.drPak",
-    "Dryad": "names.dryad",
-    "Keeper": "names.keeper",
-    "Shiny": "names.shiny",
-    "Shiny Brother": "names.shinyBro",
-    "Talking Mushroom": "names.talkMushroom",
-    "Angry Forest": "names.angryForest"
-  };
-
   function applyCharacterNames(dict) {
     if (getLang() !== "ru") return;
     var sel = ".character-caption__name, .world-team__card-name, .world-hero__name, .sound-character__name";
@@ -154,6 +138,7 @@
     );
     nodes.forEach(function (el) {
       if (el.closest(".lang-switch")) return;
+      if (el.closest(".character-page")) return;
       if (el.hasAttribute("data-i18n") || el.hasAttribute("data-i18n-html")) return;
       var raw = el.childNodes.length === 1 && el.childNodes[0].nodeType === 3
         ? el.textContent.trim()
@@ -182,16 +167,11 @@
   }
 
   function applyInnerSoundLinks(dict) {
-    var prefix = get(dict, "chat.innerSound");
-    if (!prefix) return;
+    var label = get(dict, "chat.innerSound");
+    if (!label) return;
     document.querySelectorAll(".sound-playlist-link").forEach(function (a) {
-      var t = a.textContent.trim();
-      var m = /Inner Sound · (.+)/i.exec(t) || /Внутренний звук · (.+)/.exec(t);
-      if (!m) return;
-      var suffix = m[1];
-      var suffixKey = INNER_SOUND_SUFFIX[suffix];
-      var localizedSuffix = suffixKey ? get(dict, suffixKey) : suffix;
-      a.textContent = prefix + " · " + localizedSuffix;
+      if (a.hasAttribute("data-i18n")) return;
+      a.textContent = label;
     });
   }
 

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -10,19 +10,22 @@
 </head>
 <body class="world world--dream character-page character-page--horizontal">
 <header class="topbar">
-    <a class="topbar__back" href="dream-world.html">← Dream world</a>
+    <a class="topbar__back" href="dream-world.html" data-i18n="characterNav.backDreamWorld">← Dream's world</a>
     <div class="topbar__right">
-        <a class="topbar__link" href="dream-world.html">Dream</a>
+        <a class="topbar__link" href="dream-world.html" data-i18n="characterNav.dreamShort">Dream</a>
         <span class="topbar__dot">·</span>
-        <a class="topbar__link" href="weaver-world.html">Weaver</a>
+        <a class="topbar__link" href="weaver-world.html" data-i18n="characterNav.weaverShort">Weaver</a>
     </div>
 </header>
 
 <main class="character-layout character-layout--with-lore">
     <aside class="character-lore">
-        <h2 class="character-lore__title">Traces of Presence</h2>
-        <div class="character-lore__text" data-lore-src="../content/cat-lore.html" aria-busy="true">
-            <!-- Lore content loaded from content/cat-lore.html -->
+        <h2 class="character-lore__title" data-i18n="lore.tracesTitle">Traces of Presence</h2>
+        <div class="character-lore__stories" data-character-lore-nav>
+            <button type="button" class="character-lore__story-btn is-active" data-story-src="../content/cat-lore-meeting.html" data-label-en="The Encounter" data-label-ru="Встреча">The Encounter</button>
+        </div>
+        <div class="character-lore__text" data-character-lore-content aria-busy="true">
+            <!-- Lore loaded from content/cat-lore-meeting.html -->
         </div>
     </aside>
     <figure class="character-figure">
@@ -33,14 +36,13 @@
             <div class="character-caption__row">
                 <div class="character-caption__left">
                     <h1 class="character-caption__name">CAT</h1>
-                    <p class="character-caption__tag">Dream world</p>
                     <div class="character-caption__actions">
-                        <a href="dream-world.html">Dream world</a>
-                        <a href="weaver-world.html">Weaver world</a>
-                        <a href="../index.html">The Gate</a>
+                        <a href="dream-world.html" data-i18n="characterNav.dreamWorld">Dream's world</a>
+                        <a href="weaver-world.html" data-i18n="characterNav.weaverWorld">Weaver's world</a>
+                        <a href="../index.html" data-i18n="characterNav.gate">The Gate</a>
                     </div>
                 </div>
-                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-cat">Inner Sound · CAT</a>
+                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-cat" data-i18n="chat.innerSound">Inner Sound</a>
             </div>
         </figcaption>
         <aside class="character-chat">
@@ -70,7 +72,7 @@
                 </div>
                 <div class="chat__log">
                     <div class="chat__msg chat__msg--npc">
-                        <div class="chat__bubble" data-i18n="cat.greeting">You always feel me, even with your back turned. Say something.</div>
+                        <div class="chat__bubble" data-i18n="cat.greeting">Don't look at me like that. I don't know myself why I'm standing here. But if you came with a question, ask it before I change my mind.</div>
                     </div>
                 </div>
                 <form class="chat__form">
@@ -83,6 +85,7 @@
     </figure>
 </main>
 <script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/character-lore-switch.js"></script>
 <script src="../assets/js/character-chat.js"></script>
 </body>
 </html>

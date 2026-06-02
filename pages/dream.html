@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -10,11 +10,11 @@
 </head>
 <body class="world world--dream character-page character-page--vertical">
 <header class="topbar">
-    <a class="topbar__back" href="dream-world.html">← Dream world</a>
+    <a class="topbar__back" href="dream-world.html" data-i18n="characterNav.backDreamWorld">← Dream's world</a>
     <div class="topbar__right">
-        <a class="topbar__link" href="dream-world.html">Dream</a>
+        <a class="topbar__link" href="dream-world.html" data-i18n="characterNav.dreamShort">Dream</a>
         <span class="topbar__dot">·</span>
-        <a class="topbar__link" href="weaver-world.html">Weaver</a>
+        <a class="topbar__link" href="weaver-world.html" data-i18n="characterNav.weaverShort">Weaver</a>
     </div>
 </header>
 
@@ -24,14 +24,14 @@
             <div class="character-caption__row">
                 <div class="character-caption__left">
                     <h1 class="character-caption__name">Mr. Dream</h1>
-                    <p class="character-caption__tag">Order Circle</p>
+                    <p class="character-caption__tag" data-i18n="characterTags.dream">The Gardener</p>
                     <nav class="character-caption__actions" aria-label="Navigation">
-                        <a href="dream-world.html">Dream world</a>
-                        <a href="weaver-world.html">Weaver world</a>
-                        <a href="../index.html">The Gate</a>
+                        <a href="dream-world.html" data-i18n="characterNav.dreamWorld">Dream's world</a>
+                        <a href="weaver-world.html" data-i18n="characterNav.weaverWorld">Weaver's world</a>
+                        <a href="../index.html" data-i18n="characterNav.gate">The Gate</a>
                     </nav>
                 </div>
-                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-dream">Inner Sound · Dream</a>
+                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-dream" data-i18n="chat.innerSound">Inner Sound</a>
             </div>
         </figcaption>
         <div class="character-figure__img-wrap">
@@ -40,12 +40,12 @@
     </figure>
     <div class="character-content">
         <aside class="character-lore">
-            <h2 class="character-lore__title">Traces of Presence</h2>
-            <div class="character-lore__stories" data-dream-lore-nav>
+            <h2 class="character-lore__title" data-i18n="lore.tracesTitle">Traces of Presence</h2>
+            <div class="character-lore__stories" data-character-lore-nav>
                 <button type="button" class="character-lore__story-btn is-active" data-story-src="../content/dream-lore.html" data-label-en="First Child" data-label-ru="Первый ребёнок">First Child</button>
                 <button type="button" class="character-lore__story-btn" data-story-src="../content/dream-lore-beetle.html" data-label-en="Beetle" data-label-ru="Жук">Beetle</button>
             </div>
-            <div class="character-lore__text" data-dream-lore-content aria-busy="true">
+            <div class="character-lore__text" data-character-lore-content aria-busy="true">
                 <!-- Lore content loaded from content/dream-lore.html -->
             </div>
         </aside>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="chat__log">
                     <div class="chat__msg chat__msg--npc">
-                        <div class="chat__bubble" data-i18n="dream.greeting">If everything stopped, what would still remain true?</div>
+                        <div class="chat__bubble" data-i18n="dream.greeting">I don't predict the future. I watch what a Thread is trying to become. Speak, and we'll see where it pulls.</div>
                     </div>
                 </div>
             <form class="chat__form">
@@ -90,7 +90,7 @@
     </div>
 </main>
 <script src="../assets/js/i18n.js"></script>
-<script src="../assets/js/dream-lore-switch.js"></script>
+<script src="../assets/js/character-lore-switch.js"></script>
 <script src="../assets/js/character-chat.js"></script>
 </body>
 </html>

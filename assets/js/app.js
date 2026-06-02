@@ -46,3 +46,25 @@ document.querySelectorAll(".music-link").forEach(link => {
     });
   });
 })();
+
+/* яйцо в центре - локальный наклон к курсору */
+(() => {
+  const egg = document.querySelector(".core__inner");
+  if (!egg) return;
+
+  const reset = () => {
+    egg.style.setProperty("--ex", "0");
+    egg.style.setProperty("--ey", "0");
+  };
+
+  egg.addEventListener("mousemove", (e) => {
+    const rect = egg.getBoundingClientRect();
+    const ex = (e.clientX - rect.left) / rect.width - 0.5;
+    const ey = (e.clientY - rect.top) / rect.height - 0.5;
+    egg.style.setProperty("--ex", ex.toFixed(3));
+    egg.style.setProperty("--ey", ey.toFixed(3));
+  });
+
+  egg.addEventListener("mouseleave", reset);
+  reset();
+})();

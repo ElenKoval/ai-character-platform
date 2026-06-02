@@ -349,6 +349,18 @@ body.page-portal::before {
     transform: rotate(-28deg) translateX(20vw);
     opacity: 0.5;
   }
+
+  .core__inner {
+    animation: coreMorph 14s ease-in-out infinite;
+    --egg-tilt-x: 0deg;
+    --egg-tilt-y: 0deg;
+    will-change: auto;
+  }
+
+  .core__inner::after {
+    animation: none;
+    opacity: 0.6;
+  }
 }
 
 /* ===============================
@@ -691,22 +703,39 @@ body.page-portal::before {
 }
 
 /* ===============================
-   CORE (ДЫРА) + лёгкое «дыхание»
+   CORE (яйцо) - выпуклое 3D, живое «дыхание»
    =============================== */
 .core {
   display: flex;
   justify-content: center;
   padding-top: 150px;
   position: relative;
+  perspective: 1100px;
+  perspective-origin: 50% 38%;
 }
 
 .core__inner {
+  --egg-tilt-x: calc(var(--my, 0) * -6deg + var(--ey, 0) * -16deg);
+  --egg-tilt-y: calc(var(--mx, 0) * 8deg + var(--ex, 0) * 18deg);
   width: 320px;
   height: 520px;
-  background: rgba(20, 22, 26, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(ellipse 88% 52% at 50% 16%, rgba(255, 255, 255, 0.2), transparent 58%),
+    radial-gradient(ellipse 95% 70% at 74% 80%, rgba(0, 0, 0, 0.38), transparent 52%),
+    radial-gradient(ellipse 80% 65% at 24% 74%, rgba(0, 0, 0, 0.28), transparent 48%),
+    linear-gradient(
+      168deg,
+      rgba(54, 58, 68, 0.92) 0%,
+      rgba(32, 35, 42, 0.94) 42%,
+      rgba(16, 18, 24, 0.97) 100%
+    );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top-color: rgba(255, 255, 255, 0.32);
+  border-left-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(0, 0, 0, 0.45);
+  border-right-color: rgba(0, 0, 0, 0.25);
   border-radius: 48% 52% 46% 54% / 60% 60% 40% 40%;
   display: flex;
   flex-direction: column;
@@ -715,22 +744,58 @@ body.page-portal::before {
   text-align: center;
   padding: 32px 28px;
   box-shadow:
-    0 0 80px 16px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    0 25px 60px rgba(0, 0, 0, 0.4);
-  animation: coreMorph 14s ease-in-out infinite;
+    0 48px 78px -14px rgba(0, 0, 0, 0.72),
+    0 22px 40px rgba(0, 0, 0, 0.48),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    inset 0 32px 54px -22px rgba(255, 255, 255, 0.16),
+    inset 0 -40px 58px -26px rgba(0, 0, 0, 0.58),
+    inset -22px -28px 44px -30px rgba(0, 0, 0, 0.4),
+    0 0 100px 6px rgba(130, 150, 190, 0.1);
+  animation: coreMorph 14s ease-in-out infinite, coreBreathe 7s ease-in-out infinite;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  transition: box-shadow 0.35s ease, transform 0.35s ease, background 0.35s ease;
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.22s ease-out,
+    filter 0.35s ease;
   position: relative;
   isolation: isolate;
-  transform: translate3d(calc(var(--mx, 0) * -4px), calc(var(--my, 0) * -4px), 0);
+  transform-style: preserve-3d;
+  transform:
+    translate3d(calc(var(--mx, 0) * -4px), calc(var(--my, 0) * -4px), 0)
+    rotateX(var(--egg-tilt-x))
+    rotateY(var(--egg-tilt-y));
   overflow: hidden;
+  will-change: transform;
 }
 
-/* Пульсация света изнутри яйца, из центра */
+/* блик на выпуклой поверхности */
+.core__inner::before {
+  content: "";
+  position: absolute;
+  inset: 6%;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      ellipse 42% 34% at calc(36% + var(--ex, 0) * -22%) calc(26% + var(--ey, 0) * -18%),
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.14) 32%,
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 28% 20% at calc(64% + var(--ex, 0) * 12%) calc(70% + var(--ey, 0) * 10%),
+      rgba(255, 255, 255, 0.07) 0%,
+      transparent 52%
+    );
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+  opacity: 0.88;
+  transition: opacity 0.3s ease;
+}
+
+/* пульсация света изнутри яйца */
 .core__inner::after {
   content: "";
   position: absolute;
@@ -742,10 +807,10 @@ body.page-portal::before {
   margin-top: -70%;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(255, 255, 255, 0.18) 0%,
-    rgba(255, 255, 255, 0.06) 25%,
-    rgba(200, 220, 255, 0.04) 45%,
-    transparent 65%
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.08) 24%,
+    rgba(200, 220, 255, 0.05) 44%,
+    transparent 66%
   );
   border-radius: 50%;
   pointer-events: none;
@@ -753,19 +818,53 @@ body.page-portal::before {
   z-index: 0;
 }
 
+@keyframes coreBreathe {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  50%      { filter: brightness(1.07) saturate(1.05); }
+}
+
 @keyframes coreInnerGlow {
-  0%, 100% { opacity: 0.5; transform: scale(0.92); }
-  50%      { opacity: 1; transform: scale(1); }
+  0%, 100% { opacity: 0.45; transform: scale(0.9); }
+  50%      { opacity: 1; transform: scale(1.04); }
 }
 
 .core__inner:hover {
-  background: rgba(28, 30, 36, 0.65);
+  filter: brightness(1.08) saturate(1.06);
   box-shadow:
-    0 0 100px 24px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
-    0 30px 70px rgba(0, 0, 0, 0.5);
-  transform: translate3d(calc(var(--mx, 0) * -4px), calc(var(--my, 0) * -4px), 0) translateY(-4px);
+    0 56px 90px -10px rgba(0, 0, 0, 0.78),
+    0 28px 52px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    inset 0 36px 60px -18px rgba(255, 255, 255, 0.2),
+    inset 0 -44px 64px -22px rgba(0, 0, 0, 0.62),
+    0 0 120px 12px rgba(150, 175, 220, 0.14);
+  transform:
+    translate3d(calc(var(--mx, 0) * -4px), calc(var(--my, 0) * -4px), 0)
+    rotateX(var(--egg-tilt-x))
+    rotateY(var(--egg-tilt-y))
+    translateY(-8px)
+    translateZ(24px)
+    scale(1.028);
+}
+
+.core__inner:hover::before {
+  opacity: 1;
+}
+
+.core__inner:active {
+  transition-duration: 0.08s;
+  filter: brightness(0.96);
+  box-shadow:
+    0 28px 48px -8px rgba(0, 0, 0, 0.65),
+    0 12px 24px rgba(0, 0, 0, 0.45),
+    inset 0 18px 36px -20px rgba(255, 255, 255, 0.1),
+    inset 0 -28px 40px -20px rgba(0, 0, 0, 0.55);
+  transform:
+    translate3d(calc(var(--mx, 0) * -4px), calc(var(--my, 0) * -4px), 0)
+    rotateX(var(--egg-tilt-x))
+    rotateY(var(--egg-tilt-y))
+    translateY(-2px)
+    translateZ(6px)
+    scale(0.992);
 }
 
 @keyframes coreMorph {

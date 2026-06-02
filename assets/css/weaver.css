@@ -50,10 +50,10 @@
   font-family: var(--font-root, "Playfair Display", serif);
 }
 
-/* RU: Dream World label in body font */
-html[lang="ru"] .topbar__back[href*="dream-world"],
-html[lang="ru"] .topbar__link[href*="dream-world"],
-html[lang="ru"] .topbar__link[href*="dream.html"] {
+/* RU: кириллица в топбаре - на страницах персонажей оставляем глифы как в EN */
+html[lang="ru"] body:not(.character-page) .topbar__back[href*="dream-world"],
+html[lang="ru"] body:not(.character-page) .topbar__link[href*="dream-world"],
+html[lang="ru"] body:not(.character-page) .topbar__link[href*="dream.html"] {
   font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 
