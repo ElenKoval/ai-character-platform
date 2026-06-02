@@ -51,6 +51,106 @@ function isEnglish(text) {
   return latin >= cyrillic && latin > 0;
 }
 
+function isRateLimitError(err) {
+  return (
+    (err?.message && /429|resource exhausted|quota|rate limit|too many requests/i.test(err.message)) ||
+    err?.status === 429
+  );
+}
+
+/** @returns {Promise<string|null>} */
+async function tryGroq(fullPrompt, history, trimmed) {
+  if (!GROQ_API_KEY) return null;
+  try {
+    const messages = [{ role: "system", content: fullPrompt }];
+    for (const turn of history) {
+      messages.push({
+        role: turn.role === "user" ? "user" : "assistant",
+        content: turn.text || ""
+      });
+    }
+    messages.push({ role: "user", content: trimmed });
+
+    const groqRes = await fetch(`${GROQ_BASE}/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages,
+        stream: false,
+        temperature: 1.0,
+        top_p: 0.9,
+        max_tokens: 1024
+      })
+    });
+
+    if (groqRes.ok) {
+      const data = await groqRes.json();
+      const text = data?.choices?.[0]?.message?.content ?? "";
+      return (text.trim() || "…");
+    }
+
+    const errText = await groqRes.text();
+    let errMsg = errText;
+    try {
+      const j = JSON.parse(errText);
+      errMsg = j.error?.message || j.error?.code || errText;
+    } catch (_) {}
+    console.warn("[Groq] error", groqRes.status, errMsg);
+  } catch (err) {
+    console.warn("[Groq] error", err.message);
+  }
+  return null;
+}
+
+/** @returns {Promise<{ ok: true, text: string } | { ok: false, err: Error, isRateLimit: boolean }>} */
+async function tryGemini(fullPrompt, history, trimmed) {
+  if (!genAI) return { ok: false, err: new Error("Gemini API key missing"), isRateLimit: false };
+  try {
+    const contents = history.map(turn => ({
+      role: turn.role === "user" ? "user" : "model",
+      parts: [{ text: turn.text || "" }]
+    }));
+    contents.push({ role: "user", parts: [{ text: trimmed }] });
+
+    const result = await genAI.models.generateContent({
+      model: GEMINI_MODEL,
+      contents,
+      config: {
+        systemInstruction: fullPrompt,
+        temperature: 1.0,
+        maxOutputTokens: 1024,
+        safetySettings: [
+          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+        ]
+      }
+    });
+
+    let text = result?.text;
+    if (typeof text === "function") text = text();
+    if (text == null && result?.candidates?.[0]?.content?.parts?.[0])
+      text = result.candidates[0].content.parts[0].text;
+    return { ok: true, text: (text ?? "").trim() || "…" };
+  } catch (err) {
+    console.warn("[Gemini] error", err.message);
+    return { ok: false, err, isRateLimit: isRateLimitError(err) };
+  }
+}
+
+function bothProvidersFailedResponse(res, character, geminiFail) {
+  const isRateLimit = geminiFail?.isRateLimit;
+  const userMessage = isRateLimit
+    ? getRateLimitMessage(character)
+    : (geminiFail?.err?.message || "Обе модели недоступны. Попробуйте позже.");
+  return res.status(500).json({ error: userMessage });
+}
+
 /** Health check: returns 200 and whether API is configured (for Render/debug). */
 app.get("/api/health", (req, res) => {
   res.json({
@@ -111,142 +211,60 @@ app.post("/api/chat", async (req, res) => {
         : "\n\n[ЖЁСТКО] Ты мужчина. В ответе используй ТОЛЬКО мужской род: «я сделал», «я пришёл», «я наблюдал». Никогда не используй женские окончания глаголов про себя.";
 
   const fullPrompt = systemPrompt + genderInstruction;
+  const requestedProvider = activeProvider === "groq" ? "groq" : "gemini";
 
-  /* ===================== GROQ ===================== */
-  if (activeProvider === "groq") {
-    if (GROQ_API_KEY) {
-      try {
-        const messages = [{ role: "system", content: fullPrompt }];
-
-        for (const turn of history) {
-          messages.push({
-            role: turn.role === "user" ? "user" : "assistant",
-            content: turn.text || ""
-          });
-        }
-
-        messages.push({ role: "user", content: trimmed });
-
-        const groqRes = await fetch(`${GROQ_BASE}/chat/completions`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${GROQ_API_KEY}`
-          },
-          body: JSON.stringify({
-            model: GROQ_MODEL,
-            messages,
-            stream: false,
-            temperature: 1.0,
-            top_p: 0.9,
-            max_tokens: 1024
-          })
-        });
-
-        if (groqRes.ok) {
-          const data = await groqRes.json();
-          const text = data?.choices?.[0]?.message?.content ?? "";
-          return res.json({ text: text.trim() || "…", provider: "groq" });
-        }
-
-        /* Любая ошибка Groq (429, 401, 503 и т.д.) - fallback на Gemini */
-        const errText = await groqRes.text();
-        let errMsg = errText;
-        try {
-          const j = JSON.parse(errText);
-          errMsg = j.error?.message || j.error?.code || errText;
-        } catch (_) {}
-        console.warn("[Groq] error", groqRes.status, errMsg, "→ fallback to Gemini");
-      } catch (err) {
-        console.warn("[Groq] error", err.message, "→ fallback to Gemini");
-      }
-    } else {
-      console.warn("[Groq] GROQ_API_KEY not set → fallback to Gemini");
-    }
-
-    /* Если сюда дошли - Groq не сработал; не return, выполнение уйдёт в блок Gemini ниже */
-  }
-
-/* ===================== GEMINI ===================== */
-if (!genAI) return res.status(503).json({ error: "Gemini API key missing" });
-
-try {
-const contents = history.map(turn => ({
-  role: turn.role === "user" ? "user" : "model",
-  parts: [{ text: turn.text || "" }]
-}));
-contents.push({ role: "user", parts: [{ text: trimmed }] });
-
-const result = await genAI.models.generateContent({
-  model: GEMINI_MODEL,
-  contents,
-  config: {
-    systemInstruction: fullPrompt,
-    temperature: 1.0,
-    maxOutputTokens: 1024,
-    safetySettings: [
-      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
-    ]
-  }
-});
-
-let text = result?.text;
-if (typeof text === "function") text = text();
-if (text == null && result?.candidates?.[0]?.content?.parts?.[0])
-  text = result.candidates[0].content.parts[0].text;
-text = (text ?? "").trim() || "…";
-return res.json({ text, provider: "gemini" });
-} catch (err) {
-  console.warn("[Gemini] error", err.message, "→ fallback to Groq");
-  /* При любой ошибке Gemini (429, таймаут и т.д.) — пробуем Groq */
-  if (GROQ_API_KEY) {
-    try {
-      const messages = [{ role: "system", content: fullPrompt }];
-      for (const turn of history) {
-        messages.push({
-          role: turn.role === "user" ? "user" : "assistant",
-          content: turn.text || ""
-        });
-      }
-      messages.push({ role: "user", content: trimmed });
-
-      const groqRes = await fetch(`${GROQ_BASE}/chat/completions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: GROQ_MODEL,
-          messages,
-          stream: false,
-          temperature: 1.0,
-          top_p: 0.9,
-          max_tokens: 1024
-        })
+  /* Gemini (Aether) → при ошибке fallback на Groq */
+  if (activeProvider === "gemini") {
+    const geminiResult = await tryGemini(fullPrompt, history, trimmed);
+    if (geminiResult.ok) {
+      return res.json({
+        text: geminiResult.text,
+        provider: "gemini",
+        requestedProvider
       });
-
-      if (groqRes.ok) {
-        const data = await groqRes.json();
-        const text = data?.choices?.[0]?.message?.content ?? "";
-        return res.json({ text: text.trim() || "…", provider: "groq" });
-      }
-      const errText = await groqRes.text();
-      console.warn("[Groq] fallback failed", groqRes.status, errText.slice(0, 200));
-    } catch (groqErr) {
-      console.warn("[Groq] fallback error", groqErr.message);
     }
+
+    if (!genAI && !GROQ_API_KEY) {
+      return res.status(503).json({ error: "Gemini API key missing" });
+    }
+
+    console.warn("[Gemini] → fallback to Groq");
+    const groqText = await tryGroq(fullPrompt, history, trimmed);
+    if (groqText != null) {
+      return res.json({ text: groqText, provider: "groq", requestedProvider });
+    }
+
+    if (!genAI) return res.status(503).json({ error: "Gemini API key missing" });
+
+    let userMessage = geminiResult.isRateLimit
+      ? getRateLimitMessage(character)
+      : `Gemini не ответил: ${geminiResult.err?.message || "ошибка API"}. Groq тоже недоступен.`;
+    return res.status(500).json({ error: userMessage });
   }
-  /* Сообщение пользователю: при лимитах — своё (по персонажу), иначе — от API */
-  const isRateLimit =
-    (err.message && /429|resource exhausted|quota|rate limit|too many requests/i.test(err.message)) ||
-    (err.status === 429);
-  const userMessage = isRateLimit ? getRateLimitMessage(character) : err.message;
-  return res.status(500).json({ error: userMessage });
-}
+
+  /* Groq (Roots) → при ошибке fallback на Gemini */
+  const groqText = await tryGroq(fullPrompt, history, trimmed);
+  if (groqText != null) {
+    return res.json({ text: groqText, provider: "groq", requestedProvider });
+  }
+
+  if (!GROQ_API_KEY) console.warn("[Groq] GROQ_API_KEY not set → fallback to Gemini");
+  else console.warn("[Groq] → fallback to Gemini");
+
+  const geminiResult = await tryGemini(fullPrompt, history, trimmed);
+  if (geminiResult.ok) {
+    return res.json({
+      text: geminiResult.text,
+      provider: "gemini",
+      requestedProvider
+    });
+  }
+
+  if (!genAI) {
+    return res.status(503).json({ error: "Gemini API key missing" });
+  }
+
+  return bothProvidersFailedResponse(res, character, geminiResult);
   } catch (handlerErr) {
     console.error("[api/chat] unhandled", handlerErr);
     if (!res.headersSent) {
