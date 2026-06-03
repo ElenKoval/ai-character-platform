@@ -7,71 +7,114 @@
     "en": "EN",
     "ru": "RU"
   },
+  "names": {
+    "dream": "Dream",
+    "mrDream": "Mr. Dream",
+    "weaver": "Weaver",
+    "theWeaver": "Weaver",
+    "drPak": "Dr. Pak",
+    "crystal": "Crystal",
+    "cat": "CAT",
+    "liora": "Liora",
+    "shiny": "Shiny",
+    "shinyBro": "Shiny's Brother",
+    "talkMushroom": "Talking Mushroom",
+    "angryForest": "Angry Forest",
+    "dryad": "Dryad",
+    "keeper": "Kiper"
+  },
   "common": {
     "gate": "The Gate",
-    "dream": "Dream World",
-    "weaver": "Weaver World",
-    "dreamWorld": "Dream World",
-    "weaverWorld": "Weaver World",
+    "dream": "Dream's World",
+    "weaver": "Weaver's World",
+    "dreamWorld": "Dream's World",
+    "weaverWorld": "Weaver's World",
     "worldHistory": "World history",
     "soundOfWorld": "The Sound of the World",
     "portalRemembers": "The portal remembers.",
     "sunnyChimera": "SunnyChimera"
   },
   "nav": {
-    "backGate": "← The Gate",
-    "backDreamWorld": "← Dream World",
-    "backWeaverWorld": "← Weaver World",
+    "backGate": "The Gate",
+    "backDreamWorld": "← Dream's World",
+    "backWeaverWorld": "← Weaver's World",
     "backWorldHistory": "← World history",
-    "backToGate": "← back to The Gate"
+    "backToGate": "← The Gate"
   },
   "index": {
     "dreamName": "Mr. Dream",
     "dreamTag": "observation · protection",
     "dreamStay": "Stay",
-    "dreamWhisper1": "Lay yourself into the calm.",
-    "dreamWhisper2": "There is no place for fear here.",
-    "dreamWhisper3": "Your path has already been drawn.",
+    "dreamWhisper1": "Not every growth leads to life.",
+    "dreamWhisper2": "Dream sees where the Thread began to pull astray.",
     "coreTitle": "SunnyChimera World",
     "coreText": "Not the first story.<br>Not the last.",
     "weaverName": "The weaver",
-    "weaverTag": "threads · thirst · change",
+    "weaverTag": "thirst · change",
     "weaverWake": "Wake Up!!!",
-    "weaverWhisper1": "Wake up to the tension.",
-    "weaverWhisper2": "Feel the hunger for life.",
-    "weaverWhisper3": "Let it pull you into the abyss. It's the only way to breathe."
+    "weaverWhisper1": "Wake up.",
+    "weaverWhisper2": "Feel the Thirst.",
+    "weaverWhisper3": "Leap into the abyss — or you may never feel alive.",
+    "scrollHint": "Scroll down"
   },
   "dreamWorld": {
-    "title": "Dream's world",
+    "title": "Dream's World",
     "heroTag": "observation · protection",
-    "catPlaceholder": "Searching for self on the moonlit rooftops…"
+    "catPlaceholder": "Searching for self on the moonlit rooftops…",
+    "scrollHint": "More characters below"
   },
   "weaverWorld": {
-    "title": "Weaver World",
-    "heroTag": "threads · thirst · change"
+    "title": "Weaver's World",
+    "heroTag": "thirst · change",
+    "scrollHint": "More characters below"
   },
   "world": {
     "pageTitle": "The Root of All Things. Silence and Madness. - SunnyChimera",
+    "tabHistory": "History",
+    "tabDuo": "Dryad & Kiper",
+    "tabDryad": "Dryad",
+    "tabKeeper": "Kiper",
     "title": "THE ROOT OF ALL THINGS<br>Silence and Madness",
-    "dreamWorldBtn": "Dream World",
-    "weaverWorldBtn": "Weaver World",
+    "dreamWorldBtn": "Dream's World",
+    "weaverWorldBtn": "Weaver's World",
     "dryadPlaceholder": "Dryad",
-    "keeperCaption": "Keeper",
+    "keeperCaption": "Kiper",
+    "keeperEyeTitle": "The Kiper is watching...",
     "keeperGreeting": "Don't move. You're blocking my view of yesterday. Well? Why are you staring? Your thoughts have too much... echo. Say something already.",
-    "dryadGreeting": "The Dryad is silent. Speak — the Keeper will answer."
+    "dryadGreeting": "The Dryad is silent. Speak — Kiper will answer."
+  },
+  "mobileTab": {
+    "lore": "Stories",
+    "speak": "Speak"
+  },
+  "mobileLanding": {
+    "startPrompt": "Where will you begin?",
+    "readStories": "Read the stories",
+    "askQuestion": "Speak",
+    "back": "← Back"
   },
   "lore": {
-    "tracesTitle": "Traces of Presence",
-    "dreamBody": "Observation and protection. Here you can write the character's story, role, and connection to the Dream World.",
+    "tracesTitle": "Stories",
+    "dreamBody": "Observation and protection. Here you can write the character's story, role, and connection to Dream's World.",
     "dryadBody": "Figure from world history. Write the character's story and role here.",
-    "shinyBroBody": "Character of the Weaver World. Write the character's story and role here."
+    "shinyBroBody": "Character of Weaver's World. Write the character's story and role here.",
+    "weaverCat": "Weaver and Cat",
+    "weaverFlight": "The Flight",
+    "catMeeting": "The Encounter",
+    "angryForestLiberation": "Liberation",
+    "drpakOperation": "The Operation",
+    "lioraAmberSilence": "Amber Silence",
+    "talkMushroomHeights": "Scent of Heights",
+    "shinyUnsoldLight": "Light That Isn't for Sale",
+    "dreamFirstChild": "First Child",
+    "dreamBeetle": "Beetle"
   },
   "chat": {
     "send": "Send",
     "seekPlaceholder": "Seek the truth...",
     "messageAria": "Message to character",
     "askSomething": "ASK ME SOMETHING...",
-    "askKeeper": "ASK THE KEEPER ABOUT YOUR ESSENCE",
+    "askKeeper": "ASK KIPER ABOUT YOUR ESSENCE",
     "innerSound": "Inner Sound",
     "hintGeminiGroq": "Response via Gemini or Groq.",
     "model": "Model",
@@ -85,16 +128,19 @@
     "trackTwo": "Track two",
     "trackThree": "Track three",
     "trackFour": "Track four",
-    "keeperName": "Keeper",
-    "dryadName": "Dryad"
+    "keeperName": "Kiper",
+    "dryadName": "Dryad",
+    "weaverName": "Weaver"
   },
   "about": {
     "title": "About - SunnyChimera",
-    "tag": "this world is still growing"
+    "tag": "this world is still growing",
+    "mailLabel": "A whisper from the human world",
+    "mailHint": "Write — the portal sometimes forwards mail."
   },
   "tags": {
     "wildPulse": "The Wild Pulse",
-    "dreamWorld": "Dream World",
+    "dreamWorld": "Dream's World",
     "orderCircle": "Order Circle"
   },
   "cat": {
@@ -134,11 +180,11 @@
     "liora": "The Amber Flame"
   },
   "characterNav": {
-    "dreamWorld": "Dream's world",
-    "weaverWorld": "Weaver's world",
+    "dreamWorld": "Dream's World",
+    "weaverWorld": "Weaver's World",
     "gate": "The Gate",
-    "backDreamWorld": "← Dream's world",
-    "backWeaverWorld": "← Weaver's world",
+    "backDreamWorld": "← Dream's World",
+    "backWeaverWorld": "← Weaver's World",
     "dreamShort": "Dream",
     "weaverShort": "Weaver"
   }

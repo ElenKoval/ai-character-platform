@@ -1,135 +1,191 @@
 <!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Root of All Things. Silence and Madness. - SunnyChimera</title>
-    <link rel="stylesheet" href="../assets/css/base.css" />
-    <link rel="stylesheet" href="../assets/css/character.css" />
-    <link rel="stylesheet" href="../assets/css/world-history.css" />
-</head>
-<body class="page-world-history">
-<header class="world-history__topbar">
-    <a class="world-history__back" href="../index.html">← The Gate</a>
-    <nav class="world-history__nav">
-        <a class="world-history__link world-history__link--dream" href="dream-world.html">Dream World</a>
-        <a class="world-history__link world-history__link--weaver" href="weaver-world.html">Weaver World</a>
-    </nav>
-</header>
 
-<main class="world-history">
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <title>The Root of All Things. Silence and Madness. - SunnyChimera</title>
+
+    <link rel="stylesheet" href="../assets/css/base.css" />
+
+    <link rel="stylesheet" href="../assets/css/weaver.css" />
+
+    <link rel="stylesheet" href="../assets/css/character.css" />
+
+    <link rel="stylesheet" href="../assets/css/world-history.css" />
+
+</head>
+
+<body class="world page-world-history">
+
+<div class="world-history__chrome">
+    <header class="topbar">
+        <div class="topbar__left">
+            <a class="topbar__link" href="../index.html" data-i18n="nav.backToGate">← The Gate</a>
+            <a class="topbar__link topbar__link--world-nav" href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
+            <a class="topbar__link topbar__link--world-nav" href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
+        </div>
+        <div class="topbar__right"></div>
+    </header>
+
+    <nav class="world-history__tabs" role="tablist" aria-label="World history sections">
+        <button type="button" class="world-history__tab is-active" role="tab" id="world-tab-history" aria-selected="true" aria-controls="world-panel-history" data-world-tab="history" data-i18n="world.tabHistory">History</button>
+        <button type="button" class="world-history__tab" role="tab" id="world-tab-duo" aria-selected="false" aria-controls="world-history-main" data-world-tab="duo" data-i18n="world.tabDuo">Dryad &amp; Kiper</button>
+    </nav>
+</div>
+
+<main class="world-history world-history--tabs" id="world-history-main" data-world-view="history">
+
     <aside class="world-history__side world-history__side--left">
         <div class="world-history__frame">
-            <img src="../assets/img/dryad.jpeg" alt="Dryad" class="world-history__img--portrait" />
-            <p class="world-history__placeholder">Dryad</p>
-        </div>
-        <div class="world-history__chat world-history__chat--nature character-chat">
-            <div class="chat world-history__chat-box" data-character="keeper" data-input-only="true">
-                <header class="chat__header">
-                    <span class="chat__header-title"></span>
-                    <div class="chat__source-switcher">
-                        <button type="button" class="chat__source-btn chat__source-btn--roots" title="Groq" aria-label="Roots (Groq)">
-                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M8 4c0 2 2 4 4 6 2-2 4-4 4-6M8 20c0-2 2-4 4-6 2 2 4 4 4 6M4 8c2 0 4 2 6 4-2 2-4 4-6 4M20 8c-2 0-4 2-6 4 2 2 4 4 6 4M6 6l2 2 2-2M14 14l2 2 2-2M6 18l2-2 2 2M14 10l2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                            </svg>
-                        </button>
-                        <span class="chat__source-divider" aria-hidden="true"></span>
-                        <button type="button" class="chat__source-btn chat__source-btn--aether is-active" title="Gemini" aria-label="Aether (Gemini)">
-                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-                                <path d="M12 9l.8 2.4 2.4.8-2.4.8L12 15l-.8-2.4L8.8 12l2.4-.8L12 9z" fill="none" stroke="currentColor" stroke-width="1"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <button type="button" class="chat__eye-toggle" aria-label="Toggle chat height" title="The Keeper is watching...">
-                        <svg class="chat__eye-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path class="chat__eye-lid" d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="currentColor" stroke-width="1"/>
-                            <circle class="chat__eye-pupil" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1"/>
-                        </svg>
-                    </button>
-                </header>
-                <div class="chat__provider" aria-label="Choose model">
-                    <button type="button" class="chat__provider-btn is-active" data-provider="gemini">Gemini</button>
-                    <button type="button" class="chat__provider-btn" data-provider="groq">Groq</button>
-                </div>
-                <div class="chat__log">
-                    <div class="chat__msg chat__msg--npc">
-                        <div class="chat__bubble" data-i18n="world.dryadGreeting">The Dryad is silent. Speak — the Keeper will answer.</div>
-                    </div>
-                </div>
-                <form class="chat__form">
-                    <div class="chat__input-row">
-                        <input class="chat__input" type="text" placeholder="Seek the truth..." autocomplete="off">
-                    </div>
-                    <button class="chat__send" type="submit">Send</button>
-                </form>
+            <div class="world-history__frame-media">
+                <img src="../assets/img/dryad.jpeg" alt="Dryad" data-i18n="names.dryad" data-i18n-attr="alt" />
+            </div>
+            <div class="world-history__frame-footer">
+                <p class="world-history__caption" data-i18n="world.dryadPlaceholder">Dryad</p>
+                <p class="world-history__dryad-hint" data-i18n="world.dryadGreeting">The Dryad is silent. Speak — Kiper will answer.</p>
             </div>
         </div>
     </aside>
 
-    <article class="world-history__center">
-        <h1 class="world-history__title world-history__reveal">THE ROOT OF ALL THINGS<br>Silence and Madness</h1>
-        <div class="world-history__text" data-world-story aria-busy="true">
-            <!-- Story loaded from assets/i18n/world-story.{lang}.html -->
-            <div class="world-history__break-line" aria-hidden="true"></div>
-            <div class="world-history__links world-history__reveal">
-                <a class="world-history__btn world-history__btn--dream" href="dream-world.html">Dream World</a>
-                <a class="world-history__btn world-history__btn--weaver" href="weaver-world.html">Weaver World</a>
+
+
+    <section class="world-history__panel world-history__panel--history is-active" id="world-panel-history" role="tabpanel" aria-labelledby="world-tab-history">
+
+        <article class="world-history__center">
+
+            <h1 class="world-history__title world-history__reveal" data-i18n-html="world.title">THE ROOT OF ALL THINGS<br>Silence and Madness</h1>
+
+            <div class="world-history__text" data-world-story aria-busy="true">
+
+                <div class="world-history__break-line" aria-hidden="true"></div>
+
+                <div class="world-history__links world-history__reveal world-history__links--mobile">
+
+                    <a class="world-history__btn world-history__btn--dream" href="dream-world.html" data-i18n="world.dreamWorldBtn">Dream's World</a>
+
+                    <a class="world-history__btn world-history__btn--weaver" href="weaver-world.html" data-i18n="world.weaverWorldBtn">Weaver's World</a>
+
+                </div>
+
             </div>
-        </div>
-    </article>
+
+        </article>
+
+    </section>
+
+
 
     <aside class="world-history__side world-history__side--right">
+
         <div class="world-history__frame">
-            <img src="../assets/img/keeper.jpeg" alt="Keeper" />
-            <p class="world-history__caption">Keeper</p>
-        </div>
-        <div class="world-history__chat world-history__chat--keeper character-chat">
-            <div class="chat world-history__chat-box" data-character="keeper">
-                <header class="chat__header">
-                    <span class="chat__header-title"></span>
-                    <div class="chat__source-switcher">
-                        <button type="button" class="chat__source-btn chat__source-btn--roots" title="Groq" aria-label="Roots (Groq)">
-                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M8 4c0 2 2 4 4 6 2-2 4-4 4-6M8 20c0-2 2-4 4-6 2 2 4 4 4 6M4 8c2 0 4 2 6 4-2 2-4 4-6 4M20 8c-2 0-4 2-6 4 2 2 4 4 6 4M6 6l2 2 2-2M14 14l2 2 2-2M6 18l2-2 2 2M14 10l2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                            </svg>
-                        </button>
-                        <span class="chat__source-divider" aria-hidden="true"></span>
-                        <button type="button" class="chat__source-btn chat__source-btn--aether is-active" title="Gemini" aria-label="Aether (Gemini)">
-                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="none" stroke="currentColor" stroke-width="1.2"/>
-                                <path d="M12 9l.8 2.4 2.4.8-2.4.8L12 15l-.8-2.4L8.8 12l2.4-.8L12 9z" fill="none" stroke="currentColor" stroke-width="1"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <button type="button" class="chat__eye-toggle" aria-label="Toggle chat height" title="The Keeper is watching...">
-                        <svg class="chat__eye-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path class="chat__eye-lid" d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="currentColor" stroke-width="1"/>
-                            <circle class="chat__eye-pupil" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1"/>
-                        </svg>
-                    </button>
-                </header>
-                <div class="chat__provider" aria-label="Choose model">
-                    <button type="button" class="chat__provider-btn is-active" data-provider="gemini">Gemini</button>
-                    <button type="button" class="chat__provider-btn" data-provider="groq">Groq</button>
-                </div>
-                <div class="chat__log">
-                    <div class="chat__msg chat__msg--npc">
-                        <div class="chat__bubble" data-i18n="world.keeperGreeting">Don't move. You&apos;re blocking my view of yesterday. Well? Why are you staring? Your thoughts have too much... echo. Say something already.</div>
-                    </div>
-                </div>
-                <form class="chat__form">
-                    <div class="chat__input-row">
-                        <input class="chat__input" type="text" placeholder="Seek the truth..." autocomplete="off">
-                    </div>
-                    <button class="chat__send" type="submit">Send</button>
-                </form>
+            <div class="world-history__frame-media">
+                <img src="../assets/img/keeper.jpeg" alt="Kiper" data-i18n="names.keeper" data-i18n-attr="alt" />
             </div>
+            <p class="world-history__caption" data-i18n="world.keeperCaption">Kiper</p>
         </div>
+
+        <div class="world-history__chat world-history__chat--keeper character-chat">
+
+            <div class="chat world-history__chat-box" data-character="keeper">
+
+                <header class="chat__header">
+
+                    <span class="chat__header-title"></span>
+
+                    <div class="chat__source-switcher">
+
+                        <button type="button" class="chat__source-btn chat__source-btn--roots" title="Groq" aria-label="Roots (Groq)">
+
+                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                                <path d="M8 4c0 2 2 4 4 6 2-2 4-4 4-6M8 20c0-2 2-4 4-6 2 2 4 4 4 6M4 8c2 0 4 2 6 4-2 2-4 4-6 4M20 8c-2 0-4 2-6 4 2 2 4 4 6 4M6 6l2 2 2-2M14 14l2 2 2-2M6 18l2-2 2 2M14 10l2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+
+                            </svg>
+
+                        </button>
+
+                        <span class="chat__source-divider" aria-hidden="true"></span>
+
+                        <button type="button" class="chat__source-btn chat__source-btn--aether is-active" title="Gemini" aria-label="Aether (Gemini)">
+
+                            <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                                <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+
+                                <path d="M12 9l.8 2.4 2.4.8-2.4.8L12 15l-.8-2.4L8.8 12l2.4-.8L12 9z" fill="none" stroke="currentColor" stroke-width="1"/>
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                    <button type="button" class="chat__eye-toggle" aria-label="Toggle chat height" data-i18n="world.keeperEyeTitle" data-i18n-attr="title" title="The Kiper is watching...">
+
+                        <svg class="chat__eye-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                            <path class="chat__eye-lid" d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+
+                            <circle class="chat__eye-pupil" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1"/>
+
+                        </svg>
+
+                    </button>
+
+                </header>
+
+                <div class="chat__provider" aria-label="Choose model">
+
+                    <button type="button" class="chat__provider-btn is-active" data-provider="gemini">Gemini</button>
+
+                    <button type="button" class="chat__provider-btn" data-provider="groq">Groq</button>
+
+                </div>
+
+                <div class="chat__log">
+
+                    <div class="chat__msg chat__msg--npc">
+
+                        <div class="chat__bubble" data-i18n="world.keeperGreeting">Don't move. You're blocking my view of yesterday. Well? Why are you staring? Your thoughts have too much... echo. Say something already.</div>
+
+                    </div>
+
+                </div>
+
+                <form class="chat__form">
+
+                    <div class="chat__input-row">
+
+                        <input class="chat__input" type="text" placeholder="Seek the truth..." autocomplete="off" data-i18n="chat.seekPlaceholder" data-i18n-attr="placeholder">
+
+                    </div>
+
+                    <button class="chat__send" type="submit" data-i18n="chat.send">Send</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
     </aside>
+
 </main>
+
 <script src="../assets/js/i18n.js"></script>
+
+<script src="../assets/js/world-history-tabs.js"></script>
+
 <script src="../assets/js/world-root-chat.js"></script>
+
 <script src="../assets/js/world-history-reveal.js"></script>
+
 </body>
+
 </html>
+

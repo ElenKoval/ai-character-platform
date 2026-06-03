@@ -22,7 +22,7 @@
     "talkMushroom": "Говорящий гриб",
     "angryForest": "Злой лес",
     "dryad": "Дриада",
-    "keeper": "Хранитель",
+    "keeper": "Кипер",
     "elias": "Элиас"
   },
   "common": {
@@ -37,59 +37,86 @@
     "sunnyChimera": "SunnyChimera"
   },
   "nav": {
-    "backGate": "← Врата",
+    "backGate": "Врата",
     "backDreamWorld": "← Мир Дрима",
     "backWeaverWorld": "← Мир Вивер",
     "backWorldHistory": "← История мира",
-    "backToGate": "← назад к Вратам"
+    "backToGate": "← Врата"
   },
   "index": {
     "dreamName": "Мистер Дрим",
     "dreamTag": "наблюдение · защита",
     "dreamStay": "Остаться",
-    "dreamWhisper1": "Уложись в покой.",
-    "dreamWhisper2": "Здесь нет места страху.",
-    "dreamWhisper3": "Твой путь уже начертан.",
+    "dreamWhisper1": "Не всякий рост ведёт к жизни.",
+    "dreamWhisper2": "Дрим видит, где Нить начала тянуться не туда.",
     "coreTitle": "Мир SunnyChimera",
     "coreText": "Не первая история.<br>Не последняя.",
     "weaverName": "Вивер",
-    "weaverTag": "нити · жажда · перемены",
+    "weaverTag": "жажда · перемены",
     "weaverWake": "Проснись!!!",
-    "weaverWhisper1": "Проснись к напряжению.",
-    "weaverWhisper2": "Почувствуй голод к жизни.",
-    "weaverWhisper3": "Пусть она утащит тебя в бездну. Иначе не вдохнуть."
+    "weaverWhisper1": "Проснись.",
+    "weaverWhisper2": "Почувствуй Жажду.",
+    "weaverWhisper3": "Прыгни в бездну — иначе тебе никогда не почувствовать себя живым.",
+    "scrollHint": "Листать вниз"
   },
   "dreamWorld": {
-    "title": "Dream's world",
+    "title": "Мир Дрима",
     "heroTag": "наблюдение · защита",
-    "catPlaceholder": "Ищу себя на крышах под луной…"
+    "catPlaceholder": "Ищу себя на крышах под луной…",
+    "scrollHint": "Ещё персонажи ниже"
   },
   "weaverWorld": {
     "title": "Мир Вивер",
-    "heroTag": "нити · жажда · перемены"
+    "heroTag": "жажда · перемены",
+    "scrollHint": "Ещё персонажи ниже"
   },
   "world": {
     "pageTitle": "Корень всего сущего. Тишина и безумие. - SunnyChimera",
+    "tabHistory": "История",
+    "tabDuo": "Дриада и Кипер",
+    "tabDryad": "Дриада",
+    "tabKeeper": "Кипер",
     "title": "КОРЕНЬ ВСЕГО СУЩЕГО<br>Тишина и безумие",
     "dreamWorldBtn": "Мир Дрима",
     "weaverWorldBtn": "Мир Вивер",
     "dryadPlaceholder": "Дриада",
-    "keeperCaption": "Хранитель",
+    "keeperCaption": "Кипер",
+    "keeperEyeTitle": "Кипер смотрит...",
     "keeperGreeting": "Не шевелись. Ты загораживаешь мне вчера. Ну? Чего уставился? В твоих мыслях слишком… эхо. Скажи уже что-нибудь.",
-    "dryadGreeting": "Дриада молчит. Говори - ответит Хранитель."
+    "dryadGreeting": "Дриада молчит. Говори — ответит Кипер."
+  },
+  "mobileTab": {
+    "lore": "Истории",
+    "speak": "Говорить"
+  },
+  "mobileLanding": {
+    "startPrompt": "С чего начнёшь?",
+    "readStories": "Читать истории",
+    "askQuestion": "Говорить",
+    "back": "← Назад"
   },
   "lore": {
-    "tracesTitle": "Следы присутствия",
+    "tracesTitle": "Истории",
     "dreamBody": "Наблюдение и защита. Здесь можно написать историю персонажа, его роль и связь с миром Дрима.",
     "dryadBody": "Фигура из истории мира. Напишите здесь историю персонажа и его роль.",
-    "shinyBroBody": "Персонаж мира Вивер. Напишите здесь историю персонажа и его роль."
+    "shinyBroBody": "Персонаж мира Вивер. Напишите здесь историю персонажа и его роль.",
+    "weaverCat": "Вивер и Кот",
+    "weaverFlight": "Бег",
+    "catMeeting": "Встреча",
+    "angryForestLiberation": "Освобождение",
+    "drpakOperation": "Операция",
+    "lioraAmberSilence": "Янтарная тишина",
+    "talkMushroomHeights": "Запах высоты",
+    "shinyUnsoldLight": "Свет, который не продаётся",
+    "dreamFirstChild": "Первый ребёнок",
+    "dreamBeetle": "Жук"
   },
   "chat": {
     "send": "Отправить",
     "seekPlaceholder": "Ищи истину...",
     "messageAria": "Сообщение персонажу",
     "askSomething": "СПРОСИ МЕНЯ...",
-    "askKeeper": "СПРОСИ ХРАНИТЕЛЯ О СВОЕЙ СУЩНОСТИ",
+    "askKeeper": "СПРОСИ КИПЕРА О СВОЕЙ СУЩНОСТИ",
     "innerSound": "Внутренний звук",
     "hintGeminiGroq": "Ответ через Gemini или Groq.",
     "model": "Модель",
@@ -103,12 +130,15 @@
     "trackTwo": "Трек два",
     "trackThree": "Трек три",
     "trackFour": "Трек четыре",
-    "keeperName": "Хранитель",
-    "dryadName": "Дриада"
+    "keeperName": "Кипер",
+    "dryadName": "Дриада",
+    "weaverName": "Вивер"
   },
   "about": {
     "title": "О проекте - SunnyChimera",
-    "tag": "этот мир ещё растёт"
+    "tag": "этот мир ещё растёт",
+    "mailLabel": "Шёпот из человеческого мира",
+    "mailHint": "Напиши — портал иногда пересылает письма."
   },
   "tags": {
     "wildPulse": "Дикий пульс",
@@ -152,12 +182,12 @@
     "liora": "Янтарное пламя"
   },
   "characterNav": {
-    "dreamWorld": "Dream's world",
-    "weaverWorld": "Weaver's world",
-    "gate": "The Gate",
-    "backDreamWorld": "← Dream's world",
-    "backWeaverWorld": "← Weaver's world",
-    "dreamShort": "Dream",
-    "weaverShort": "Weaver"
+    "dreamWorld": "Мир Дрима",
+    "weaverWorld": "Мир Вивер",
+    "gate": "Врата",
+    "backDreamWorld": "← Мир Дрима",
+    "backWeaverWorld": "← Мир Вивер",
+    "dreamShort": "Дрим",
+    "weaverShort": "Вивер"
   }
 }

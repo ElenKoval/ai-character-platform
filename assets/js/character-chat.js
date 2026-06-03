@@ -21,7 +21,7 @@
     const headerTitle = document.querySelector(".chat__header-title");
     const headerKey = character === "keeper" ? "chat.askKeeper" : "chat.askSomething";
     if (headerTitle) {
-      headerTitle.textContent = t ? t(headerKey) : (character === "keeper" ? "ASK THE KEEPER ABOUT YOUR ESSENCE" : "ASK ME SOMETHING...");
+      headerTitle.textContent = t ? t(headerKey) : (character === "keeper" ? "ASK KIPER ABOUT YOUR ESSENCE" : "ASK ME SOMETHING...");
     }
     if (input) {
       input.placeholder = t ? t("chat.seekPlaceholder") : "Seek the truth...";
@@ -39,6 +39,7 @@
 
   let history = [];
   let loading = false;
+  var STORAGE_KEY = "sunnychimera-ai-source";
   /** roots → Groq, aether → Gemini */
   let aiSource = "roots";
 
@@ -53,9 +54,34 @@
     p.classList.add("ai-source-roots");
   });
 
-  /** Переключатель Roots / Aether */
+  function syncProviderButtons() {
+    document.querySelectorAll(".chat__provider-btn").forEach(function (btn) {
+      var p = (btn.getAttribute("data-provider") || "").toLowerCase();
+      var isGemini = p === "gemini";
+      var isGroq = p === "groq" || p === "ollama";
+      if (isGemini) btn.classList.toggle("is-active", aiSource === "aether");
+      if (isGroq) btn.classList.toggle("is-active", aiSource === "roots");
+    });
+  }
+
+  function updateProviderBadge() {
+    var badge = document.querySelector(".chat__provider-badge");
+    if (!badge) {
+      badge = document.createElement("span");
+      badge.className = "chat__provider-badge";
+      var header = document.querySelector(".chat__header");
+      if (header) header.appendChild(badge);
+    }
+    if (badge) {
+      badge.textContent = aiSource === "aether" ? "Gemini" : "Groq";
+      badge.setAttribute("data-provider", aiSource === "aether" ? "gemini" : "groq");
+    }
+  }
+
+  /** Переключатель Roots / Aether (+ кнопки Gemini / Groq под шапкой) */
   function setAiSource(source) {
     aiSource = source;
+    try { localStorage.setItem(STORAGE_KEY, source); } catch (e) {}
     document.querySelectorAll(".character-chat").forEach(function (p) {
       p.classList.remove("ai-source-roots", "ai-source-aether");
       p.classList.add("ai-source-" + source);
@@ -66,16 +92,38 @@
     document.querySelectorAll(".character-chat .chat__source-btn--aether").forEach(function (b) {
       b.classList.toggle("is-active", source === "aether");
     });
+    syncProviderButtons();
+    updateProviderBadge();
     if (hint) setHintForProvider();
   }
+
+  function providerBtnToSource(btn) {
+    var p = (btn.getAttribute("data-provider") || "").toLowerCase();
+    if (p === "gemini") return "aether";
+    if (p === "groq" || p === "ollama") return "roots";
+    return null;
+  }
+
+  try {
+    var savedSource = localStorage.getItem(STORAGE_KEY);
+    if (savedSource === "roots" || savedSource === "aether") {
+      setAiSource(savedSource);
+    }
+  } catch (e) {}
   document.querySelectorAll(".character-chat .chat__source-btn--roots").forEach(function (btn) {
     btn.addEventListener("click", function () { setAiSource("roots"); });
   });
   document.querySelectorAll(".character-chat .chat__source-btn--aether").forEach(function (btn) {
     btn.addEventListener("click", function () { setAiSource("aether"); });
   });
-
-  const apiBase = "https://ai-character-platform.onrender.com";
+  document.querySelectorAll(".chat__provider-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var next = providerBtnToSource(btn);
+      if (next) setAiSource(next);
+    });
+  });
+  syncProviderButtons();
+  updateProviderBadge();
 
   function appendMessage(text, isUser, providerLabel) {
     const wrap = document.createElement("div");
@@ -90,7 +138,7 @@
     if (!isUser && providerLabel) {
       const label = document.createElement("span");
       label.className = "chat__msg-provider";
-      label.textContent = providerLabel === "groq" ? "Groq" : "Gemini";
+      label.textContent = providerLabel;
       wrap.appendChild(label);
     }
     log.appendChild(wrap);
@@ -109,8 +157,19 @@
   function setHintForProvider() {
     if (!hint) return;
     hint.textContent = aiSource === "roots"
-      ? "Groq (бесплатный тариф). Ключ: console.groq.com → GROQ_API_KEY в server/.env"
-      : "Using Gemini (rate limits). On 429, switch to Roots.";
+      ? "Сейчас: Groq (левая иконка Roots). Для Google Gemini нажмите правую иконку Aether."
+      : "Сейчас: Google Gemini (Aether). Для Groq нажмите левую иконку Roots.";
+  }
+
+  function getApiBase() {
+    var host = window.location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") {
+      return window.location.origin;
+    }
+    if (window.location.protocol === "file:") {
+      return "https://ai-character-platform.onrender.com";
+    }
+    return window.location.origin;
   }
 
   function setLoading(on) {
@@ -144,7 +203,7 @@
     var providerToSend = aiSource === "roots" ? "groq" : "gemini";
 
     try {
-      const res = await fetch(apiBase + "/api/chat", {
+      const res = await fetch(getApiBase() + "/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, history: history.slice(0, -1), provider: providerToSend, character: character }),
@@ -173,8 +232,7 @@
       }
 
       const reply = (data.text || "").trim() || "…";
-      const actualProvider = data.provider || (aiSource === "roots" ? "groq" : "gemini");
-      appendMessage(reply, false, actualProvider);
+      appendMessage(reply, false, null);
       history.push({ role: "model", text: reply });
     } catch (err) {
       appendMessage("Ошибка сети: " + (err.message || "не удалось отправить").trim(), false, null);
@@ -190,7 +248,7 @@
     sendBtn.disabled = false;
     sendBtn.type = "submit";
   }
-  if (hint) hint.textContent = "По умолчанию: Roots (Groq). Или Aether (Gemini). Под каждым ответом - кто ответил.";
+  if (hint) setHintForProvider();
 
   /** Кнопка «свернуть» чат (вертикальный новый макет): возврат к 30% высоты */
   document.querySelectorAll(".chat__reset").forEach(function (btn) {

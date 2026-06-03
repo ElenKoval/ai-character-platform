@@ -31,35 +31,52 @@
   text-decoration: none;
   font-weight: 700;
   letter-spacing: 0.3px;
+}
+
+/* Cinzel только если страница без world--dream / world--weaver */
+body:not(.world--dream):not(.world--weaver) .topbar__back,
+body:not(.world--dream):not(.world--weaver) .topbar__link {
   font-family: var(--font-fantasy, "Cinzel", serif);
 }
 
 /* По цели ссылки: Dream / Weaver / The Gate */
 .topbar__back[href*="dream-world"],
 .topbar__link[href*="dream-world"],
-.topbar__link[href*="dream.html"] {
-  font-family: var(--font-body, "Cormorant Garamond", serif);
+.topbar__link[href*="dream.html"],
+.world--dream .topbar__back,
+.world--dream .topbar__link {
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 .topbar__back[href*="weaver-world"],
 .topbar__link[href*="weaver-world"],
-.topbar__link[href*="weaver.html"] {
-  font-family: var(--font-body, "Cormorant Garamond", serif);
+.topbar__link[href*="weaver.html"],
+.world--weaver .topbar__back,
+.world--weaver .topbar__link {
+  font-family: var(--font-scary, "Alice", serif);
 }
 .topbar__back[href*="index.html"],
 .topbar__link[href*="index.html"] {
   font-family: var(--font-root, "Playfair Display", serif);
 }
 
-/* RU: кириллица в топбаре - на страницах персонажей оставляем глифы как в EN */
-html[lang="ru"] body:not(.character-page) .topbar__back[href*="dream-world"],
-html[lang="ru"] body:not(.character-page) .topbar__link[href*="dream-world"],
-html[lang="ru"] body:not(.character-page) .topbar__link[href*="dream.html"] {
-  font-family: var(--font-body, "Cormorant Garamond", serif);
+.topbar__left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  min-width: 0;
 }
 
 .topbar__link.is-active{ color: rgba(255,255,255,0.95); }
 
-.topbar__dot{ color: rgba(255,255,255,0.3); }
+/* Разделитель между ссылками в шапке (без отдельного span — нет «?» из-за кодировки) */
+.topbar__left > a:not(:first-child)::before {
+  content: "\00b7";
+  margin-right: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
+  pointer-events: none;
+}
 
 .weaver{
   max-width: 1200px;
@@ -202,7 +219,7 @@ html[lang="ru"] body:not(.character-page) .topbar__link[href*="dream.html"] {
   margin: 10px 0 6px;
   font-size: 44px;
   letter-spacing: 2.2px;
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 
 .weaver__tag{
@@ -237,6 +254,94 @@ html[lang="ru"] body:not(.character-page) .topbar__link[href*="dream.html"] {
 
 .btn--ghost{
   background: transparent;
+}
+
+/* About page — контактная «нить» */
+.page-about .about-mail {
+  margin: 2rem 0 0;
+  padding: 22px 20px 20px;
+  border-radius: 20px 14px 22px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255, 220, 140, 0.1), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 80% 100%, rgba(140, 180, 255, 0.08), transparent 50%),
+    rgba(12, 14, 20, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 18px 40px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-about .about-mail::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(
+    from 120deg,
+    transparent,
+    rgba(255, 200, 120, 0.12),
+    transparent,
+    rgba(160, 200, 255, 0.1),
+    transparent
+  );
+  animation: about-mail-glow 12s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes about-mail-glow {
+  to { transform: rotate(360deg); }
+}
+
+.page-about .about-mail__label {
+  margin: 0 0 12px;
+  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  position: relative;
+  z-index: 1;
+}
+
+.page-about .about-mail__link {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  font-family: var(--font-root, "Playfair Display", serif);
+  font-size: clamp(1rem, 3.5vw, 1.15rem);
+  letter-spacing: 0.04em;
+  color: rgba(255, 245, 220, 0.95);
+  text-decoration: none;
+  padding: 6px 4px;
+  border-bottom: 1px solid rgba(255, 200, 120, 0.35);
+  transition: color 0.25s ease, border-color 0.25s ease, text-shadow 0.25s ease;
+  word-break: break-all;
+}
+
+.page-about .about-mail__link:hover {
+  color: #fff;
+  border-bottom-color: rgba(255, 220, 160, 0.7);
+  text-shadow: 0 0 24px rgba(255, 200, 120, 0.35);
+}
+
+.page-about .about-mail__hint {
+  margin: 14px 0 0;
+  font-family: var(--font-body, "Cormorant Garamond", serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.48);
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-about .about-mail::before {
+    animation: none;
+    opacity: 0.5;
+  }
 }
 
 .section__title{

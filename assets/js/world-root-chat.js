@@ -1,48 +1,39 @@
 /**
- * Страница «The Root of All Things»: два чата внизу (Nature слева, Keeper справа).
- * Nature молчит - при отправке сообщения в чат Nature ответ приходит в чат Keeper.
- * Общая история диалога с Keeper для обоих чатов.
+ * world.html: чат только у Кипера; у Дриады — подпись «обращайся к Киперу».
  */
 (function () {
-  const natureChat = document.querySelector(".world-history__chat--nature .chat");
   const keeperChat = document.querySelector(".world-history__chat--keeper .chat");
-  if (!natureChat || !keeperChat) return;
-
-  const natureForm = natureChat.querySelector(".chat__form");
-  const natureInput = natureChat.querySelector(".chat__input");
-  const natureSendBtn = natureChat.querySelector(".chat__send");
-  const natureLog = natureChat.querySelector(".chat__log");
+  if (!keeperChat) return;
 
   const keeperForm = keeperChat.querySelector(".chat__form");
   const keeperInput = keeperChat.querySelector(".chat__input");
   const keeperSendBtn = keeperChat.querySelector(".chat__send");
   const keeperLog = keeperChat.querySelector(".chat__log");
 
-  if (!natureForm || !keeperForm || !natureLog || !keeperLog) return;
+  if (!keeperForm || !keeperLog) return;
 
-  /** Заголовок и плейсхолдер для обоих чатов (Keeper) */
-  const placeholderText = "ASK THE KEEPER ABOUT YOUR ESSENCE";
-  document.querySelectorAll(".world-history__chat .chat").forEach(function (chat) {
-    var title = chat.querySelector(".chat__header-title");
-    if (title) title.textContent = placeholderText;
-    var inp = chat.querySelector(".chat__input");
-    if (inp) inp.placeholder = "Seek the truth...";
-  });
+  function applyWorldChatLabels() {
+    var t = window.SunnyI18n && window.SunnyI18n.t;
+    var headerText = t ? t("chat.askKeeper") : "ASK KIPER ABOUT YOUR ESSENCE";
+    var seek = t ? t("chat.seekPlaceholder") : "Seek the truth...";
+    var title = keeperChat.querySelector(".chat__header-title");
+    if (title) title.textContent = headerText;
+    if (keeperInput) keeperInput.placeholder = seek;
+  }
+  applyWorldChatLabels();
+  document.addEventListener("sunnychimera:i18n-ready", applyWorldChatLabels);
 
   const character = "keeper";
   let keeperHistory = [];
   let loading = false;
-  /** roots → Groq, aether → Gemini */
   let aiSource = "aether";
 
   const apiBase = "https://ai-character-platform.onrender.com";
 
-  /** Инициализация: по умолчанию Gemini (aether), класс на панелях */
   document.querySelectorAll(".world-history__chat").forEach(function (p) {
     p.classList.add("ai-source-aether");
   });
 
-  /** Подсказки с названием модели при наведении */
   document.querySelectorAll(".world-history__chat .chat__source-btn--roots").forEach(function (b) {
     b.title = "Groq";
   });
@@ -50,7 +41,6 @@
     b.title = "Gemini";
   });
 
-  /** Переключатель Roots / Aether: синхронно для обоих чатов */
   function setAiSource(source) {
     aiSource = source;
     document.querySelectorAll(".world-history__chat").forEach(function (p) {
@@ -95,12 +85,15 @@
 
   function setLoading(on) {
     loading = on;
-    [natureInput, keeperInput].forEach(function (el) { if (el) el.disabled = on; });
-    [natureSendBtn, keeperSendBtn].forEach(function (el) { if (el) { el.disabled = on; el.textContent = on ? "…" : "Send"; } });
+    if (keeperInput) keeperInput.disabled = on;
+    if (keeperSendBtn) {
+      keeperSendBtn.disabled = on;
+      var t = window.SunnyI18n && window.SunnyI18n.t;
+      keeperSendBtn.textContent = on ? "…" : (t ? t("chat.send") : "Send");
+    }
   }
 
-  /** askedInChat: "nature" - написали в чате Nature; "keeper" - написали в чате Keeper (напрямую) */
-  function sendMessage(userText, appendReplyToKeeperLog, askedInChat) {
+  function sendMessage(userText) {
     setLoading(true);
     document.querySelectorAll(".world-history__chat").forEach(function (p) { p.classList.add("is-loading"); });
     keeperHistory.push({ role: "user", text: userText });
@@ -108,15 +101,15 @@
     var providerToSend = aiSource === "roots" ? "groq" : "gemini";
 
     fetch(apiBase + "/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: userText,
-          history: keeperHistory.slice(0, -1),
-          provider: providerToSend,
-          character: character,
-          askedInChat: askedInChat || "keeper",
-        }),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: userText,
+        history: keeperHistory.slice(0, -1),
+        provider: providerToSend,
+        character: character,
+        askedInChat: "keeper",
+      }),
     })
       .then(function (res) {
         return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
@@ -131,39 +124,28 @@
           if (providerToSend === "groq") {
             errMsg = "Groq не ответил. Проверь GROQ_API_KEY в server/.env (ключ: console.groq.com).";
           }
-          if (appendReplyToKeeperLog) appendToLog(keeperLog, errMsg || "Ошибка сервера (" + res.status + ")", false, null);
+          appendToLog(keeperLog, errMsg || "Ошибка сервера (" + res.status + ")", false, null);
           keeperHistory.pop();
           return;
         }
         var reply = (data.text || "").trim() || "…";
         var actualProvider = data.provider || (aiSource === "roots" ? "groq" : "gemini");
-        if (appendReplyToKeeperLog) appendToLog(keeperLog, reply, false, actualProvider);
+        appendToLog(keeperLog, reply, false, actualProvider);
         keeperHistory.push({ role: "model", text: reply });
       })
       .catch(function (err) {
         var errMsg = providerToSend === "groq"
           ? "Groq не ответил. Проверь GROQ_API_KEY в server/.env."
           : "Network error: " + (err.message || "failed to send").trim();
-        if (appendReplyToKeeperLog) appendToLog(keeperLog, errMsg, false, null);
+        appendToLog(keeperLog, errMsg, false, null);
         keeperHistory.pop();
       })
       .finally(function () {
         setLoading(false);
         document.querySelectorAll(".world-history__chat").forEach(function (p) { p.classList.remove("is-loading"); });
-        if (askedInChat === "nature" && natureInput) natureInput.focus();
-        else if (keeperInput) keeperInput.focus();
+        if (keeperInput) keeperInput.focus();
       });
   }
-
-  natureForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (loading) return;
-    var text = natureInput.value.trim();
-    if (!text) return;
-    natureInput.value = "";
-    appendToLog(natureLog, text, true);
-    sendMessage(text, true, "nature");
-  });
 
   keeperForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -172,20 +154,16 @@
     if (!text) return;
     keeperInput.value = "";
     appendToLog(keeperLog, text, true);
-    sendMessage(text, true, "keeper");
+    sendMessage(text);
   });
 
-  natureInput.disabled = false;
-  keeperInput.disabled = false;
-  if (natureSendBtn) natureSendBtn.type = "submit";
+  if (keeperInput) keeperInput.disabled = false;
   if (keeperSendBtn) keeperSendBtn.type = "submit";
 
-  /** Автофокус поля ввода при загрузке страницы (Keeper) */
   if (keeperInput) {
     setTimeout(function () { keeperInput.focus(); }, 300);
   }
 
-  /** Eye toggle: один клик - развернуть/свернуть чат */
   document.querySelectorAll(".world-history__chat .chat__eye-toggle").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var chatPanel = btn.closest(".world-history__chat");
@@ -193,7 +171,6 @@
     });
   });
 
-  /** Пока пользователь печатает: зрачок «следит» за текстом (класс is-typing на .chat) */
   function updateTypingState(inputEl) {
     var chatBox = inputEl && inputEl.closest(".chat");
     if (!chatBox) return;
@@ -203,10 +180,9 @@
       chatBox.classList.remove("is-typing");
     }
   }
-  [natureInput, keeperInput].forEach(function (input) {
-    if (!input) return;
-    input.addEventListener("focus", function () { updateTypingState(input); });
-    input.addEventListener("blur", function () { updateTypingState(input); });
-    input.addEventListener("input", function () { updateTypingState(input); });
-  });
+  if (keeperInput) {
+    keeperInput.addEventListener("focus", function () { updateTypingState(keeperInput); });
+    keeperInput.addEventListener("blur", function () { updateTypingState(keeperInput); });
+    keeperInput.addEventListener("input", function () { updateTypingState(keeperInput); });
+  }
 })();

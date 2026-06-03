@@ -3,7 +3,10 @@
    =============================== */
 
 .page-world-history {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  min-height: 100svh;
   position: relative;
   z-index: 2;
 }
@@ -47,17 +50,318 @@
 }
 
 .world-history__link--dream {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world-history__link--weaver {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 
 .world-history__nav {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+/* ----- Вкладки: История / Дриада / Кипер ----- */
+.world-history__tabs {
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 0 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 53px;
+  z-index: 18;
+  backdrop-filter: blur(10px);
+}
+
+.world-history__tab {
+  flex: 1 1 0;
+  max-width: 200px;
+  margin: 0;
+  padding: 12px 10px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: var(--font-root, "Playfair Display", serif);
+  font-size: clamp(0.78rem, 2.8vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.world-history__tab:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.world-history__tab.is-active {
+  color: rgba(255, 255, 255, 0.95);
+  border-bottom-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.world-history__tab[data-world-tab="duo"].is-active {
+  font-family: var(--font-root, "Playfair Display", serif);
+  letter-spacing: 0.08em;
+}
+
+/* ----- Десктоп: три колонки (Дриада | История | Кипер) ----- */
+@media (min-width: 1101px) {
+  .page-world-history .world-history__tabs {
+    display: none;
+  }
+
+  .page-world-history .topbar__link--world-nav {
+    display: none;
+  }
+
+  .page-world-history .world-history__links--mobile {
+    display: none !important;
+  }
+
+  .page-world-history .world-history--tabs {
+    display: grid;
+    grid-template-columns: 1fr minmax(300px, 38rem) 1fr;
+    grid-template-rows: 1fr;
+    gap: 0;
+    height: calc(100vh - 56px);
+    height: calc(100svh - 56px);
+    min-height: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .page-world-history .world-history__side--left {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .page-world-history .world-history__panel--history {
+    grid-column: 2;
+    grid-row: 1;
+    display: block !important;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .page-world-history .world-history__panel--history[hidden] {
+    display: block !important;
+  }
+
+  .page-world-history .world-history__side--right {
+    grid-column: 3;
+    grid-row: 1;
+    display: flex;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .page-world-history .world-history__side .world-history__frame {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .page-world-history .world-history__frame-media img {
+    max-width: 96%;
+    max-height: 100%;
+  }
+
+  .page-world-history .world-history__panel--history .world-history__center {
+    max-width: none;
+    margin: 0;
+    padding: 28px 22px 40px;
+    overflow-y: auto;
+    height: 100%;
+    min-height: inherit;
+  }
+
+}
+
+.world-history--tabs {
+  flex: 1 1 auto;
+  display: block;
+  min-height: 0;
+  height: auto;
+  max-width: none;
+  margin: 0;
+}
+
+.world-history__panel {
+  display: none;
+  min-height: 0;
+}
+
+.world-history__panel.is-active {
+  display: block;
+  min-height: calc(100vh - 110px);
+  min-height: calc(100svh - 110px);
+}
+
+.world-history__panel--history.is-active .world-history__center {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 28px 22px 40px;
+  overflow-y: auto;
+  min-height: inherit;
+}
+
+/* ----- Мобильная: фиксированная шапка + вкладки ----- */
+@media (max-width: 1100px) {
+  html.page-world-history-root {
+    scroll-padding-top: var(--world-chrome-h, 7.75rem);
+  }
+
+  .page-world-history {
+    display: block;
+  }
+
+  .page-world-history .world-history__chrome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding-top: env(safe-area-inset-top, 0);
+    background: rgba(0, 0, 0, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .page-world-history .world-history__chrome .topbar {
+    position: relative;
+    top: auto;
+    z-index: 1;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .page-world-history .world-history__chrome .world-history__tabs {
+    position: relative;
+    top: auto;
+    z-index: 1;
+    background: transparent;
+    border-bottom: none;
+  }
+
+  .page-world-history > .world-history--tabs {
+    padding-top: calc(env(safe-area-inset-top, 0px) + var(--world-chrome-h, 7.75rem));
+    flex: none;
+    min-height: 0;
+  }
+
+  .page-world-history .world-history__panel--history.is-active .world-history__center {
+    overflow: visible;
+    overflow-y: visible;
+    max-height: none;
+    min-height: 0;
+  }
+
+  .world-history--tabs[data-world-view="history"] .world-history__side {
+    display: none;
+  }
+
+  .world-history--tabs[data-world-view="duo"] .world-history__panel--history {
+    display: none !important;
+  }
+
+  .world-history--tabs[data-world-view="duo"] .world-history__side {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .world-history--tabs[data-world-view="duo"] .world-history__side--left {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .world-history--tabs[data-world-view="duo"] .world-history__side--right .world-history__frame {
+    min-height: 160px;
+  }
+
+  .world-history--tabs[data-world-view="duo"] .world-history__side .world-history__chat {
+    max-height: min(340px, 42vh);
+  }
+}
+
+.world-history__character {
+  display: flex;
+  flex-direction: column;
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: inherit;
+  height: calc(100vh - 110px);
+  height: calc(100svh - 110px);
+}
+
+.world-history__character .world-history__frame {
+  flex: 1 1 auto;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.world-history__character .world-history__chat {
+  flex: 0 0 auto;
+  min-height: 220px;
+  max-height: min(42vh, 400px);
+}
+
+.world-history__character .world-history__chat.is-expanded {
+  max-height: min(58vh, 520px);
+}
+
+.world-history__frame-media {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 8px 4px;
+  box-sizing: border-box;
+}
+
+.world-history__frame-footer {
+  flex-shrink: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.28);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.world-history__frame-footer .world-history__caption {
+  background: transparent;
+  border-top: none;
+  padding-bottom: 6px;
+}
+
+.world-history__dryad-hint {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0 16px 14px;
+  text-align: center;
+  font-family: var(--font-dream, "Philosopher", serif);
+  font-size: clamp(0.82rem, 2vw, 0.95rem);
+  line-height: 1.45;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.03em;
 }
 
 .world-history__link:hover {
@@ -67,8 +371,8 @@
 }
 
 
-/* Три колонки: симметричные боковины + центр */
-.world-history {
+/* Три колонки (legacy, если без вкладок) */
+.world-history:not(.world-history--tabs) {
   display: grid;
   grid-template-columns: 1fr minmax(300px, 38rem) 1fr;
   grid-template-rows: 1fr;
@@ -127,12 +431,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 12px 8px;
+  padding: 0;
   box-sizing: border-box;
 }
-.world-history__side .world-history__frame img {
-  max-width: 82%;
-  max-height: min(72%, calc(100% - 3.5rem));
+
+.world-history__frame-media img {
+  max-width: 96%;
+  max-height: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -270,7 +575,9 @@
 }
 
 .world-history__chat:not(.is-expanded) .chat__log {
-  max-height: min(190px, 34vh);
+  max-height: none;
+  flex: 1 1 auto;
+  min-height: 100px;
 }
 
 .world-history__chat .chat__bubble {
@@ -455,12 +762,6 @@
   overflow: hidden;
 }
 
-.world-history__frame img.world-history__img--portrait {
-  object-fit: contain;
-  object-position: center center;
-}
-
-.world-history__placeholder,
 .world-history__caption {
   flex-shrink: 0;
   padding: 12px 16px;
@@ -468,13 +769,9 @@
   font-family: var(--font-fantasy, "Cinzel", serif);
   font-size: 0.9rem;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.7);
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.world-history__placeholder {
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(0, 0, 0, 0.28);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Центр - история мира */
@@ -535,7 +832,7 @@
 
 /* Финальный абзац - точка слома мира: шрифт Weaver, жирнее */
 .world-history__text-end {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: 0.02em;
@@ -584,28 +881,88 @@
 }
 
 .world-history__links .world-history__btn--dream {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world-history__links .world-history__btn--weaver {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 
 .world-history__links a:hover,
 .world-history__links .world-history__btn:hover {
   color: #fff;
-  text-decoration: underline;
+  text-decoration: none;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-@media (max-width: 900px) {
-  .world-history {
+@media (max-width: 1100px) {
+  .world-history:not(.world-history--tabs) {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  .world-history__tabs {
+    padding: 0 8px;
+  }
+
+  .world-history__tab {
+    padding: 10px 6px;
+    font-size: clamp(0.72rem, 3.2vw, 0.85rem);
+  }
+
+  .world-history__panel.is-active {
     min-height: auto;
   }
+
+  .world-history__panel--history.is-active .world-history__center {
+    padding: 20px 16px 36px;
+  }
+
+  .world-history__character {
+    height: auto;
+    max-width: none;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .world-history__character .world-history__frame {
+    min-height: 160px;
+    padding: 16px;
+  }
+
+  .world-history__character .world-history__chat {
+    max-height: min(340px, 42vh);
+  }
+
+  .world-history__character .world-history__chat.is-expanded {
+    max-height: min(460px, 52vh);
+  }
+
+  .world-history__dryad-hint {
+    padding: 0 14px 12px;
+    font-size: 0.88rem;
+  }
+
   .world-history__side {
     position: relative;
-    min-height: 200px;
+    min-height: 0;
+    overflow: visible;
+  }
+  .world-history__center {
+    order: -1;
+    padding: 24px 18px 32px;
+  }
+  .world-history__side--left {
+    order: 1;
+  }
+  .world-history__side--right {
+    order: 2;
+  }
+  .world-history__title.world-history__reveal {
+    opacity: 1;
+    transform: none;
   }
   .world-history__frame {
     position: relative;
@@ -637,19 +994,33 @@
   .world-history__chat.is-expanded {
     max-height: min(440px, 50vh);
   }
-  .world-history__frame img,
-  .world-history__frame img.world-history__img--portrait {
-    max-width: 75%;
-    max-height: 160px;
-    height: auto;
+  .world-history__frame {
+    min-height: 220px;
   }
-  .world-history__center {
-    order: 0;
-    padding: 28px 20px 36px;
+
+  .world-history__frame-media img {
+    max-width: 88%;
+    max-height: min(52vh, 420px);
+    height: auto;
   }
 }
 
 @media (max-width: 600px) {
+  .world-history__topbar {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .world-history__nav {
+    gap: 8px;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .world-history__tabs {
+    top: 46px;
+  }
+
   .world-history__title {
     font-size: 1.4rem;
     margin-bottom: 1.2em;
@@ -678,204 +1049,113 @@
   }
 }
 
-/* ===== 1) Atmosphere layer ===== */
-.page-world-history {
-  background:
-    radial-gradient(1200px 800px at 50% 20%, rgba(255,255,255,0.06), transparent 60%),
-    radial-gradient(900px 700px at 20% 70%, rgba(120,200,255,0.05), transparent 55%),
-    radial-gradient(900px 700px at 80% 70%, rgba(255,120,200,0.035), transparent 55%),
-    linear-gradient(180deg, rgba(0,0,0,0.92), rgba(0,0,0,0.98));
+/* ===== Палитра как на страницах персонажей (серый фон сайта, без цветных акцентов) ===== */
+.page-world-history.world {
+  background: transparent;
 }
 
 .world-history {
   position: relative;
-  isolation: isolate;
 }
 
-.world-history::before {
-  content: "";
-  position: absolute;
-  inset: -40px;
-  background: radial-gradient(closest-side at 50% 50%, transparent 38%, rgba(0,0,0,0.62) 100%);
-  z-index: -2;
-  pointer-events: none;
-}
-
-.world-history::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0 1px, transparent 1px 4px);
-  opacity: 0.10;
-  mix-blend-mode: overlay;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* ===== 2) Center: glass + light sweep ===== */
-.world-history__center {
-  background: rgba(0,0,0,0.22);
-  border-left: 1px solid rgba(255,255,255,0.10);
-  border-right: 1px solid rgba(255,255,255,0.10);
-  position: relative;
-  backdrop-filter: blur(10px);
-}
-
-.world-history__center::before {
-  content: "";
-  position: absolute;
-  inset: -80px;
-  background: radial-gradient(900px 520px at 50% 0%, rgba(255,255,255,0.09), transparent 62%);
-  opacity: 0.85;
-  pointer-events: none;
-}
-
-.world-history__title {
-  text-shadow: 0 2px 24px rgba(0,0,0,0.75);
-}
-
-/* ===== 3) Side frames: ENTER hint + overlay + hover ===== */
-.world-history__frame {
-  transform: translateZ(0);
-}
-
-.world-history__frame::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.62)),
-    radial-gradient(900px 520px at 50% 10%, rgba(255,255,255,0.06), transparent 60%);
-  pointer-events: none;
-  opacity: 0.95;
-}
-
-.world-history__frame--link {
-  position: relative;
-}
-
+.world-history::before,
+.world-history::after,
+.world-history__center::before,
+.world-history__frame::before,
 .world-history__frame--link::after {
-  content: "ENTER";
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.28);
-  border: 1px solid rgba(255,255,255,0.16);
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  backdrop-filter: blur(6px);
-  pointer-events: none;
+  display: none !important;
 }
 
-.world-history__frame img {
-  filter: brightness(0.86) contrast(1.06);
-  transform: scale(1.03);
-  transition: transform 0.6s ease, filter 0.6s ease;
+.world-history__tabs {
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.world-history__frame--link:hover::after {
-  opacity: 0.92;
-  transform: translateY(0);
-}
-
-.world-history__frame--link:hover img {
-  transform: scale(1.07);
-  filter: brightness(0.95) contrast(1.10);
-}
-
-/* ===== 4) Links as doors - Dream World и Weaver World рядом ===== */
-.world-history__links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.world-history__links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  text-decoration: none;
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-}
-
-.world-history__links a::before {
-  content: "→";
-  opacity: 0.65;
-}
-
-.world-history__links a:hover {
-  transform: translateY(-2px);
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.14);
-  text-decoration: none;
-}
-
-/* ===== De-dull patch: bring clarity back ===== */
-.world-history::after { display: none; }
-.world-history::before { opacity: 0.35; }
-
-.world-history__frame::before { opacity: 0.55; }
-.world-history__side .world-history__frame img {
-  filter: brightness(1) contrast(1.08);
-  transform: none;
-}
-
-.world-history__center {
-  background: rgba(0,0,0,0.10);
-  backdrop-filter: none;
-}
-.world-history__center::before { opacity: 0.35; }
-
-/* ===== Polarity accents (Dream холодный, Weaver тёплый) ===== */
-.world-history__side--left {
-  box-shadow: inset -2px 0 0 rgba(120,200,255,0.12);
-}
-.world-history__side--right {
-  box-shadow: inset 2px 0 0 rgba(255,120,200,0.10);
-}
-
-.world-history__placeholder,
-.world-history__caption {
-  background: rgba(0,0,0,0.28);
-  border-top: 1px solid rgba(255,255,255,0.10);
-}
-
-/* ===== Center: more tension, less document ===== */
 .world-history__title {
-  letter-spacing: 0.16em;
+  font-family: var(--font-root, "Playfair Display", serif);
+  text-shadow: none;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .world-history__text {
   max-width: 56ch;
   margin: 0 auto;
+  font-family: var(--font-body, "Cormorant Garamond", serif);
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.65;
 }
 
-.world-history__links a {
-  background: rgba(255,255,255,0.045);
-}
-.world-history__links a:hover {
-  background: rgba(255,255,255,0.08);
+.world-history__panel--history.is-active .world-history__center {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  backdrop-filter: none;
 }
 
-/* ===== Living cursor: боковые порталы реагируют ===== */
-.world-history__frame--link {
-  transition: transform 0.25s ease;
+.world-history__break-line {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 70%, transparent 88%);
 }
+
+.world-history__side--left,
+.world-history__side--right {
+  box-shadow: none;
+}
+
+.world-history__frame-media img {
+  filter: none;
+  transform: none;
+}
+
+.world-history__frame-footer .world-history__dryad-hint {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.world-history__links a,
+.world-history__links .world-history__btn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.world-history__links a::before {
+  display: none;
+}
+
+.world-history__links a:hover,
+.world-history__links .world-history__btn:hover {
+  transform: none;
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.world-history__chat {
+  background: var(--bg, #5a5c64);
+}
+
+.world-history__chat .chat {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(165deg, rgba(18, 20, 28, 0.92) 0%, rgba(12, 14, 20, 0.96) 100%);
+}
+
+.world-history__chat.ai-source-roots .chat,
+.world-history__chat.ai-source-aether .chat {
+  background: linear-gradient(165deg, rgba(18, 20, 28, 0.92) 0%, rgba(12, 14, 20, 0.96) 100%);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
 .world-history__frame--link:hover {
-  transform: translateY(-6px);
+  transform: none;
+}
+
+.world-history__frame--link:hover img {
+  transform: none;
+  filter: none;
 }

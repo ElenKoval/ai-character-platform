@@ -64,12 +64,12 @@
   grid-column: 2;
   grid-row: 2;
   min-width: 0;
-  min-height: 0;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
   padding: 0;
   height: 100%;
-  max-height: 360px;
+  max-height: 420px;
   transition: max-height 0.35s ease;
 }
 .character-page--vertical .character-layout--with-lore > .character-chat.is-expanded {
@@ -228,12 +228,13 @@
 
 /* Кнопки нав: шрифты как на портале - Dream / Weaver / The Gate */
 .character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="dream-world"] {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 .character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="weaver-world"] {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
-.character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="index.html"] {
+.character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="index.html"],
+.character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="world.html"] {
   font-family: var(--font-root, "Playfair Display", serif);
 }
 
@@ -298,9 +299,9 @@
 
 /* Чат — отдельный блок под историей, прокрутка лора не заходит под чат */
 .character-page--vertical .character-layout--visual-left .character-content > .character-chat {
-  flex: 0 0 30%;
-  min-height: 160px;
-  max-height: 50%;
+  flex: 0 0 32%;
+  min-height: 220px;
+  max-height: 55%;
   transition: flex 0.25s ease, min-height 0.25s ease;
   display: flex;
   flex-direction: column;
@@ -426,11 +427,49 @@
 }
 
 .world--dream .character-lore__title {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world--weaver .character-lore__title {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
+}
+
+/* Мир Дрима: кнопки и ссылки навигации — Philosopher */
+.world--dream .character-lore__story-btn,
+.world--dream .character-mobile-tabs__btn,
+.world--dream .sound-playlist-link,
+.world--dream .character-caption__actions a,
+.world--dream .topbar__back,
+.world--dream .topbar__link,
+.world--dream .character-chat .chat__send,
+.world--dream .character-chat .chat__provider-btn,
+.world--dream .lang-switch__btn {
+  font-family: var(--font-dream, "Philosopher", Georgia, serif);
+  letter-spacing: 0.05em;
+}
+
+.world--dream .character-lore__story-btn,
+.world--dream .character-mobile-tabs__btn {
+  text-transform: none;
+}
+
+/* Мир Вивер: кнопки и ссылки навигации — Alice */
+.world--weaver .character-lore__story-btn,
+.world--weaver .character-mobile-tabs__btn,
+.world--weaver .sound-playlist-link,
+.world--weaver .character-caption__actions a,
+.world--weaver .topbar__back,
+.world--weaver .topbar__link,
+.world--weaver .character-chat .chat__send,
+.world--weaver .character-chat .chat__provider-btn,
+.world--weaver .lang-switch__btn {
+  font-family: var(--font-scary, "Alice", Palatino, serif);
+  letter-spacing: 0.03em;
+}
+
+.world--weaver .character-lore__story-btn,
+.world--weaver .character-mobile-tabs__btn {
+  text-transform: none;
 }
 
 .character-lore__text {
@@ -597,9 +636,9 @@
 
 /* Низ правой колонки: чат - 20% высоты правой колонки, при раскрытии растёт */
 .character-page--horizontal .character-chat {
-  flex: 0 0 20%;
-  min-height: 160px;
-  max-height: 50%;
+  flex: 0 0 28%;
+  min-height: 260px;
+  max-height: 55%;
   margin: 0;
   padding: 0;
   transition: flex 0.4s ease, min-height 0.4s ease;
@@ -644,11 +683,16 @@
 }
 
 .world--dream .character-caption__name {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world--weaver .character-caption__name {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
+}
+
+/* Подписи под именем (Хирург реальности, Янтарное пламя…) — скрыты на страницах персонажей */
+.character-page .character-caption__tag {
+  display: none !important;
 }
 
 .character-caption__tag {
@@ -660,11 +704,11 @@
 }
 
 .world--dream .character-caption__tag {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world--weaver .character-caption__tag {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 
 .character-caption__actions {
@@ -687,13 +731,17 @@
 /* По цели ссылки: Dream world / Weaver world / The Gate (Crystal, Weaver, все страницы персонажей) */
 .character-caption__actions a[href*="dream-world"],
 .character-caption__actions a[href*="dream.html"] {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 .character-caption__actions a[href*="weaver-world"],
 .character-caption__actions a[href*="weaver.html"] {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 .character-caption__actions a[href*="index.html"] {
+  font-family: var(--font-root, "Playfair Display", serif);
+}
+
+.character-caption__actions a[href*="world.html"] {
   font-family: var(--font-root, "Playfair Display", serif);
 }
 
@@ -701,6 +749,23 @@
   color: rgba(255, 255, 255, 0.95);
   border-color: rgba(255, 255, 255, 0.22);
   background: rgba(255, 255, 255, 0.08);
+}
+
+.character-caption__left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.character-caption__left .sound-playlist-link {
+  display: inline-block;
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+.character-topbar-world-back {
+  font-weight: 700;
 }
 
 /* ===============================
@@ -754,6 +819,31 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: rgba(255, 255, 255, 0.5);
+}
+
+.character-chat .chat__provider-badge {
+  flex-shrink: 0;
+  margin-left: 6px;
+  padding: 3px 8px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 245, 230, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.character-chat .chat__provider-badge[data-provider="gemini"] {
+  border-color: rgba(255, 220, 140, 0.35);
+  color: rgba(255, 235, 200, 0.95);
+}
+
+.character-chat .chat__provider-btn.is-active {
+  color: rgba(255, 245, 230, 0.95);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
 }
 /* Переключатель Roots / Aether: ч/б, одна гамма для Ollama и Gemini */
 .character-chat .chat__source-switcher {
@@ -898,7 +988,9 @@
 }
 
 .character-chat:not(.is-expanded) .chat__log {
-  max-height: min(190px, 34vh);
+  max-height: none;
+  flex: 1 1 auto;
+  min-height: 100px;
 }
 
 .character-chat .chat__msg {
@@ -1037,8 +1129,12 @@
   display: none;
 }
 
-/* ----- Responsive: картинка компактно, чат и ввод всегда видны ----- */
+/* ----- Responsive: крупный портрет, чат и ввод всегда видны ----- */
 @media (max-width: 900px) {
+  .world--dream .character-figure__img-wrap::before {
+    display: none;
+  }
+
   .character-layout {
     min-height: 0;
     padding-top: 6px;
@@ -1066,31 +1162,36 @@
   }
   .character-page--vertical .character-layout--with-lore > .character-figure {
     order: 1;
-    display: grid;
-    grid-template-columns: 72px 1fr;
-    grid-template-rows: auto;
-    gap: 0 12px;
-    padding: 8px 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 0 0 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   .character-page--vertical .character-layout--with-lore > .character-figure .character-figure__img-wrap {
-    grid-column: 1;
-    grid-row: 1;
-    height: 72px;
-    min-height: 72px;
-    max-height: 72px;
-    width: 72px;
-    border-radius: 12px;
+    width: min(82vw, 360px);
+    height: auto;
+    min-height: 0;
+    max-height: 58vh;
+    aspect-ratio: 3 / 4;
+    margin: 0 auto 8px;
+    border-radius: 16px;
     overflow: hidden;
+    flex: 0 0 auto;
+  }
+  .character-page--vertical .character-layout--with-lore > .character-figure .character-figure__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .character-page--vertical .character-layout--with-lore > .character-figure .character-caption {
-    grid-column: 2;
-    grid-row: 1;
-    padding: 0;
+    width: 100%;
+    padding: 0 8px 8px;
     border: none;
     background: transparent;
-    display: flex;
-    align-items: center;
+    display: block;
+    text-align: center;
   }
   .character-page--vertical .character-layout--with-lore > .character-figure .character-caption__row {
     flex-wrap: wrap;
@@ -1151,30 +1252,37 @@
   }
   .character-page--vertical .character-layout--visual-left > .character-figure {
     order: 1;
-    display: grid;
-    grid-template-columns: 72px 1fr;
-    grid-template-rows: auto;
-    gap: 0 12px;
-    padding: 8px 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 0 0 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   .character-page--vertical .character-layout--visual-left .character-figure__img-wrap {
-    grid-column: 1;
-    grid-row: 1;
-    height: 72px;
-    min-height: 72px;
-    max-height: 72px;
-    width: 72px;
-    border-radius: 12px;
+    width: min(82vw, 360px);
+    height: auto;
+    min-height: 0;
+    max-height: 58vh;
+    aspect-ratio: 3 / 4;
+    margin: 0 auto 8px;
+    border-radius: 16px;
     overflow: hidden;
+    flex: 0 0 auto;
+  }
+  .character-page--vertical .character-layout--visual-left .character-figure__img-wrap img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 58vh;
+    object-fit: cover;
   }
   .character-page--vertical .character-layout--visual-left .character-caption {
-    grid-column: 2;
-    grid-row: 1;
-    padding: 0;
+    width: 100%;
+    padding: 0 8px 8px;
     border: none;
     background: transparent;
-    align-items: center;
+    text-align: center;
   }
   .character-page--vertical .character-layout--visual-left .character-caption__name {
     font-size: 1rem;
@@ -1259,10 +1367,9 @@
   }
 
   .character-page--horizontal .character-layout--with-lore .character-figure {
-    display: grid;
-    grid-template-columns: 72px 1fr;
-    grid-template-rows: auto 1fr;
-    gap: 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     flex: 1 1 auto;
     min-height: 0;
     max-width: none;
@@ -1270,33 +1377,38 @@
   }
 
   .character-page--horizontal .character-figure__img-wrap {
-    grid-column: 1;
-    grid-row: 1;
-    height: 72px;
-    min-height: 72px;
-    max-height: 72px;
-    width: 72px;
-    border-radius: 12px;
+    order: 0;
+    width: min(82vw, 360px);
+    height: auto;
+    min-height: 0;
+    max-height: 58vh;
+    aspect-ratio: 3 / 4;
+    margin: 0 auto 10px;
+    border-radius: 16px;
     overflow: hidden;
-    flex: none;
+    flex: 0 0 auto;
+  }
+
+  .character-page--horizontal .character-figure__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .character-figure__img-wrap--placeholder .character-figure__placeholder-text {
     display: none;
   }
 
   .character-page--horizontal .character-caption {
-    grid-column: 2;
-    grid-row: 1;
+    order: -1;
     flex: 0 0 auto;
-    padding: 6px 0 8px;
-    margin-bottom: 0;
+    width: 100%;
+    padding: 0 8px 10px;
+    margin: 0 auto 8px;
     border-radius: 0;
     border: none;
     background: transparent;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px 10px;
+    display: block;
+    text-align: center;
   }
   .character-page--horizontal .character-caption__row {
     flex-direction: row;
@@ -1326,10 +1438,9 @@
   }
 
   .character-page--horizontal .character-chat {
-    grid-column: 1 / -1;
-    grid-row: 2;
+    width: 100%;
     flex: 1 1 auto;
-    min-height: 50vh;
+    min-height: 0;
     max-height: none;
   }
   .character-page--horizontal .character-chat .chat {
@@ -1376,19 +1487,12 @@
     font-size: 0.8rem;
     padding: 5px 8px;
   }
-  /* Полоса остаётся компактной (72px), чат по‑прежнему главный */
-  .character-page--vertical .character-layout--with-lore > .character-figure .character-figure__img-wrap,
-  .character-page--vertical .character-layout--visual-left .character-figure__img-wrap {
-    height: 64px;
-    min-height: 64px;
-    max-height: 64px;
-    width: 64px;
-  }
-  .character-page--horizontal .character-figure__img-wrap {
-    height: 64px;
-    min-height: 64px;
-    max-height: 64px;
-    width: 64px;
+  /* Узкий экран: портрет чуть меньше (не для вкладок — там аватар) */
+  body:not(.has-mobile-tabs) .character-page--vertical .character-layout--with-lore > .character-figure .character-figure__img-wrap,
+  body:not(.has-mobile-tabs) .character-page--vertical .character-layout--visual-left .character-figure__img-wrap,
+  body:not(.has-mobile-tabs) .character-page--horizontal .character-figure__img-wrap {
+    width: min(88vw, 340px);
+    max-height: 54vh;
   }
   /* Чат и ввод всегда видны */
   .character-page--vertical .character-layout--with-lore > .character-chat,
@@ -1419,5 +1523,779 @@
   .character-chat .chat__form {
     padding: 10px 12px 12px;
     flex-shrink: 0;
+  }
+
+  /* Чат на мобилке: лог скроллится, поле ввода всегда внизу панели */
+  .character-chat {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .character-chat .chat {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .character-chat .chat__log {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .character-chat .chat__form {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    background: rgba(12, 14, 20, 0.98);
+  }
+}
+
+/* ----- Mobile landing: portrait + «С чего начнёшь?» + CTAs — body[data-mobile-tabs] ----- */
+.character-mobile-home,
+.character-mobile-back {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  html.has-mobile-tabs-root {
+    height: 100%;
+    height: 100svh;
+    height: -webkit-fill-available;
+  }
+
+  /* iPhone SE/12: не угадывать высоту topbar — flex на весь экран (svh надёжнее dvh) */
+  body[data-mobile-tabs].has-mobile-tabs.world {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: -webkit-fill-available;
+    height: 100vh;
+    height: 100svh;
+    height: -webkit-fill-available;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .topbar {
+    flex: 0 0 auto;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-layout,
+  body[data-mobile-tabs].has-mobile-tabs .character-layout.character-layout--with-lore {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+    gap: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout > .character-figure,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout > .character-figure,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout > .character-content,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout > .character-content {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left > .character-figure,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout--visual-left > .character-figure {
+    flex: 0 0 auto;
+  }
+
+  /* Прямой .character-lore в layout скрыт, если не перенесён в figure (Weaver до mount) */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--with-lore > .character-lore:not(.character-lore--in-figure),
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout--with-lore > .character-lore:not(.character-lore--in-figure) {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-lore__title {
+    display: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-lore__stories {
+    margin-top: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-caption__actions {
+    display: none;
+  }
+
+  /* --- Back (lore / chat) --- */
+  body[data-mobile-tabs].has-mobile-tabs .character-mobile-back {
+    display: block;
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 0;
+    padding: 10px 14px;
+    font-family: var(--font-fantasy, "Cinzel", serif);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-align: left;
+    color: rgba(255, 245, 230, 0.85);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-mobile-back[hidden] {
+    display: none !important;
+  }
+
+  body.world--weaver[data-mobile-tabs].has-mobile-tabs .character-mobile-back {
+    font-family: var(--font-scary, "Alice", serif);
+  }
+
+  body.world--dream[data-mobile-tabs].has-mobile-tabs .character-mobile-back {
+    font-family: var(--font-dream, "Philosopher", serif);
+  }
+
+  /* --- Landing: large portrait, caption, prompt, buttons --- */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-mobile-home {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    width: 100%;
+    padding: 0 16px max(20px, env(safe-area-inset-bottom, 0px));
+    box-sizing: border-box;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-mobile-home__prompt {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-fantasy, "Cinzel", serif);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-align: center;
+    color: rgba(255, 245, 230, 0.75);
+  }
+
+  body.world--weaver[data-mobile-tabs].has-mobile-tabs .character-mobile-home__prompt {
+    font-family: var(--font-scary, "Alice", serif);
+  }
+
+  body.world--dream[data-mobile-tabs].has-mobile-tabs .character-mobile-home__prompt {
+    font-family: var(--font-dream, "Philosopher", serif);
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-mobile-home__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-mobile-home__btn {
+    width: 100%;
+    margin: 0;
+    padding: 14px 16px;
+    font-family: var(--font-fantasy, "Cinzel", serif);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 245, 230, 0.95);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs .character-mobile-home__btn:active {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  body.world--weaver[data-mobile-tabs].has-mobile-tabs .character-mobile-home__btn {
+    font-family: var(--font-scary, "Alice", serif);
+  }
+
+  body.world--dream[data-mobile-tabs].has-mobile-tabs .character-mobile-home__btn {
+    font-family: var(--font-dream, "Philosopher", serif);
+  }
+
+  /* Home: portrait + caption centered */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-figure {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 12px 16px 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: none;
+    border: none;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-figure__img-wrap {
+    width: min(94vw, 448px);
+    max-width: 100%;
+    min-height: 0;
+    max-height: min(61vh, 495px);
+    aspect-ratio: auto;
+    height: auto;
+    border-radius: 16px;
+    margin: 0 auto;
+    flex: 0 0 auto;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-figure__img-wrap img {
+    width: 100%;
+    height: 100%;
+    max-height: min(61vh, 495px);
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  /* CAT (заглушка вместо фото): на лендинге — крупный блок как портрет + подпись снизу */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-figure__img-wrap--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: min(48vh, 400px);
+    padding: 0;
+    background: linear-gradient(160deg, rgba(28, 26, 35, 0.97) 0%, rgba(18, 16, 24, 0.98) 40%, rgba(12, 10, 18, 0.99) 100%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-figure__img-wrap--placeholder .character-figure__placeholder-text {
+    display: block !important;
+    margin: 0;
+    padding: 1.5rem 1.25rem;
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    max-width: 16em;
+    line-height: 1.55;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home.character-page--horizontal .character-figure__img-wrap {
+    order: 0;
+    margin: 0 auto;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home.character-page--horizontal .character-caption {
+    order: -1;
+    margin: 0 auto 12px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-align: center;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-caption,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-caption--top {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: min(94vw, 448px);
+    margin: 12px auto 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-align: center;
+    border-radius: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-caption__row {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-caption__name {
+    font-size: 1.15rem;
+    margin: 0;
+    letter-spacing: 0.08em;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-caption__tag {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.85;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-caption__left .sound-playlist-link {
+    align-self: center;
+    margin-top: 8px;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left > .character-content {
+    flex: 0 0 0;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-lore,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-chat {
+    display: none !important;
+  }
+
+  /* Visual-left (гриб): одна колонка в figure — имя, картинка, кнопки (как у Weaver) */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left > .character-figure {
+    flex: 1 1 auto;
+    min-height: 0;
+    border-bottom: none;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left .character-caption--top {
+    order: -1;
+    margin: 0 auto 12px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left .character-figure__img-wrap {
+    order: 0;
+    flex: 0 0 auto;
+    border: none;
+    border-radius: 16px;
+    background: transparent;
+    padding: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left .character-figure__img-wrap img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left .character-mobile-home {
+    order: 1;
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 0 16px max(8px, env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Horizontal: home block inside figure after caption */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home.character-page--horizontal .character-mobile-home,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left .character-mobile-home {
+    flex: 0 0 auto;
+    padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  }
+
+  /* --- Lore: compact avatar + name on top, story scrolls on full screen --- */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout--visual-left > .character-figure {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-mobile-home,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-mobile-home {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left > .character-content,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout--visual-left > .character-content,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore.character-page--horizontal .character-layout,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--horizontal .character-layout {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Lore header: small round portrait + name (horizontal & visual-left) */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-figure {
+    display: grid !important;
+    flex: 0 0 auto;
+    grid-template-columns: 48px 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "avatar meta";
+    gap: 0 12px;
+    align-items: center;
+    width: 100%;
+    padding: 8px 14px;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.45);
+    box-sizing: border-box;
+    max-height: none;
+    overflow: visible;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-figure__img-wrap {
+    grid-area: avatar;
+    display: block;
+    width: 48px;
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0 !important;
+    flex: none;
+    overflow: hidden;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-figure__img-wrap::before {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-figure__img-wrap img,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-figure__img-wrap img.character-figure__img--portrait {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0;
+    padding: 0;
+    border: none;
+    object-fit: cover !important;
+    object-position: center center;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left .character-figure__img-wrap {
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 50%;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-caption,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-caption--top {
+    grid-area: meta;
+    display: block !important;
+    flex: none;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-align: left;
+    border-radius: 0;
+    order: unset;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-caption__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-caption__name {
+    font-size: 1rem;
+    margin: 0;
+    letter-spacing: 0.06em;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-caption__tag {
+    font-size: 0.72rem;
+    opacity: 0.8;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-caption__actions,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .sound-playlist-link {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left .character-caption--top {
+    order: unset;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left .character-figure__img-wrap {
+    order: unset;
+  }
+
+  /* Vertical stack (Keeper, Dryad): lore in figure under mini header */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore.character-page--vertical .character-layout--with-lore:not(.character-layout--visual-left) > .character-figure {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex !important;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+    border-bottom: none;
+    background: transparent;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore.character-page--vertical .character-layout--with-lore:not(.character-layout--visual-left) > .character-figure > .character-lore {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home.character-page--vertical .character-layout--with-lore:not(.character-layout--visual-left) > .character-figure {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home.character-page--vertical .character-layout--with-lore:not(.character-layout--visual-left) .character-caption--top {
+    order: -1;
+    margin: 0 auto 12px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--vertical .character-layout--with-lore:not(.character-layout--visual-left) > .character-figure {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--vertical .character-layout--with-lore:not(.character-layout--visual-left) > .character-lore {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--vertical .character-layout--with-lore:not(.character-layout--visual-left) > .character-chat {
+    display: flex !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Visual-left (гриб, Liora, Dream…): лор в figure под шапкой с аватаром */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left > .character-figure {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid !important;
+    grid-template-columns: 48px 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "avatar meta"
+      "lore lore";
+    gap: 0 12px;
+    padding: 8px 12px 0;
+    overflow: hidden;
+    align-items: start;
+    border-bottom: none;
+    background: transparent;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left .character-caption--top {
+    grid-area: meta;
+    order: unset;
+    margin: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left .character-figure__img-wrap {
+    grid-area: avatar;
+    order: unset;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left .character-figure > .character-lore {
+    grid-area: lore;
+    grid-column: 1 / -1;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    display: flex !important;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left > .character-content {
+    flex: 0 0 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--home .character-layout--visual-left .character-figure > .character-lore,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout--visual-left .character-figure > .character-lore {
+    display: none !important;
+  }
+
+  /* Horizontal (Weaver): lore inside figure, fills viewport below header */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore.character-page--horizontal .character-figure {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid !important;
+    grid-template-columns: 48px 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "avatar meta"
+      "lore lore";
+    gap: 0 12px;
+    padding: 8px 12px 0;
+    overflow: hidden;
+    align-items: start;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore.character-page--horizontal .character-figure > .character-lore {
+    grid-area: lore;
+    grid-column: 1 / -1;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore.character-page--horizontal .character-figure > .character-chat {
+    display: none !important;
+  }
+
+  /* Chat: hide portrait (horizontal) */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--horizontal .character-figure__img-wrap,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--horizontal .character-caption {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--horizontal .character-figure {
+    display: flex !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    border-bottom: none;
+    background: transparent;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat.character-page--horizontal .character-figure > .character-chat {
+    display: flex !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  /* Visual-left: figure = mini header, content = scrollable lore */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-layout--visual-left > .character-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Сброс общих моб. лимитов (72px / 22vh / line-clamp 2) — история на весь экран */
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-lore,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-lore.character-lore--in-figure {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-lore .character-lore__stories {
+    flex: 0 0 auto;
+    padding: 8px 14px 0;
+    margin: 0;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-lore .character-lore__text {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    -webkit-box-orient: unset !important;
+    text-overflow: unset !important;
+    padding: 10px 14px max(8px, env(safe-area-inset-bottom, 0px));
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-chat {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-layout--visual-left .character-content > .character-chat {
+    display: flex !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--lore .character-chat,
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-lore {
+    display: none !important;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-chat .chat {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 0;
+    border: none;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-chat .chat__log {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body[data-mobile-tabs].has-mobile-tabs.mobile-view--chat .character-chat .chat__form {
+    flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    background: rgba(12, 14, 20, 0.98);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 }

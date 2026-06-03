@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>The Sound of the World - SunnyChimera</title>
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/weaver.css" />
     <link rel="stylesheet" href="../assets/css/sound.css" />
 </head>
-<body class="world">
-<header class="topbar">
-    <a class="topbar__back" href="../index.html" data-i18n="sound.back">← The Gate</a>
-    <div class="topbar__right">
-        <a class="topbar__link" href="dream-world.html">Dream</a>
-        <span class="topbar__dot">·</span>
-        <a class="topbar__link" href="weaver-world.html">Weaver</a>
+<body class="world sound-hub">
+<header class="topbar sound-hub__topbar">
+    <div class="topbar__left">
+        <a class="topbar__back sound-hub__back" href="../index.html" data-i18n="mobileLanding.back">← Back</a>
+        <a class="topbar__link" href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
+        <a class="topbar__link" href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
     </div>
+    <div class="topbar__right"></div>
 </header>
 
 <main class="sound-page" id="sound">
@@ -38,7 +38,7 @@
       </ul>
     </article>
     <article class="sound-character" id="sound-weaver">
-      <h2 class="sound-character__name">Weaver</h2>
+      <h2 class="sound-character__name" data-i18n="sound.weaverName">Weaver</h2>
       <ul class="sound-character__tracks">
         <li><a target="_blank" rel="noopener noreferrer" href="#">Track one</a></li>
         <li><a target="_blank" rel="noopener noreferrer" href="#">Track two</a></li>
@@ -53,7 +53,7 @@
       </ul>
     </article>
     <article class="sound-character" id="sound-keeper">
-      <h2 class="sound-character__name">Keeper</h2>
+      <h2 class="sound-character__name" data-i18n="sound.keeperName">Kiper</h2>
       <ul class="sound-character__tracks">
         <li><a target="_blank" rel="noopener noreferrer" href="#">Track one</a></li>
       </ul>
@@ -112,5 +112,6 @@
   </div>
 </main>
 <script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/sound-page.js"></script>
 </body>
 </html>

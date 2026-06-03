@@ -60,16 +60,26 @@
   /** Map visible English UI text → translation key (for elements without data-i18n) */
   var TEXT_KEY_MAP = {
     "← The Gate": "nav.backGate",
+    "The Gate": "common.gate",
+    "Врата": "common.gate",
     "← Dream world": "nav.backDreamWorld",
     "← Weaver world": "nav.backWeaverWorld",
     "← World history": "nav.backWorldHistory",
     "← back to The Gate": "nav.backToGate",
     "Dream world": "common.dreamWorld",
+    "Dream's world": "common.dreamWorld",
+    "Dream's World": "common.dreamWorld",
+    "Dream World": "common.dreamWorld",
     "Weaver world": "common.weaverWorld",
+    "Weaver's world": "common.weaverWorld",
+    "Weaver's World": "common.weaverWorld",
+    "Weaver World": "common.weaverWorld",
     "The Gate": "common.gate",
     "Dream": "common.dream",
     "Weaver": "common.weaver",
     "Traces of Presence": "lore.tracesTitle",
+    "Stories": "lore.tracesTitle",
+    "Истории": "lore.tracesTitle",
     "Seek the truth...": "chat.seekPlaceholder",
     "Send": "chat.send",
     "DREAMS CIRCLE": "dreamWorld.title",
@@ -85,15 +95,22 @@
     "Music archive by character": "sound.lead",
     "The portal remembers.": "common.portalRemembers",
     "Dream World": "world.dreamWorldBtn",
+    "Dream's World": "world.dreamWorldBtn",
     "Weaver World": "world.weaverWorldBtn",
+    "Weaver's World": "world.weaverWorldBtn",
     "Dryad": "world.dryadPlaceholder",
+    "Kiper": "world.keeperCaption",
     "Keeper": "world.keeperCaption",
     "Searching for self on the moonlit rooftops…": "dreamWorld.catPlaceholder",
+    "Ищу себя на крышах под луной…": "dreamWorld.catPlaceholder",
     "threads · thirst · change": "index.weaverTag",
+    "thirst · change": "index.weaverTag",
+    "жажда · перемены": "index.weaverTag",
     "Track one": "sound.trackOne",
     "Track two": "sound.trackTwo",
     "Track three": "sound.trackThree",
     "Track four": "sound.trackFour",
+    "Kiper": "sound.keeperName",
     "Keeper": "sound.keeperName",
     "Dryad": "sound.dryadName",
     "Order Circle": "tags.orderCircle"
@@ -116,17 +133,22 @@
     "Talking Mushroom": "names.talkMushroom",
     "Angry Forest": "names.angryForest",
     "Dryad": "names.dryad",
-    "Keeper": "names.keeper"
+    "Kiper": "names.keeper",
+    "Кипер": "names.keeper",
+    "Keeper": "names.keeper",
+    "Хранитель": "names.keeper"
   };
 
   function applyCharacterNames(dict) {
-    if (getLang() !== "ru") return;
     var sel = ".character-caption__name, .world-team__card-name, .world-hero__name, .sound-character__name";
     document.querySelectorAll(sel).forEach(function (el) {
       if (el.hasAttribute("data-i18n")) return;
-      var raw = el.textContent.trim();
-      var key = CHARACTER_NAME_MAP[raw];
-      if (!key) return;
+      var key = el.getAttribute("data-name-key");
+      if (!key) {
+        key = CHARACTER_NAME_MAP[el.textContent.trim()];
+        if (!key) return;
+        el.setAttribute("data-name-key", key);
+      }
       var val = get(dict, key);
       if (val) el.textContent = val;
     });
@@ -139,6 +161,8 @@
     nodes.forEach(function (el) {
       if (el.closest(".lang-switch")) return;
       if (el.closest(".character-page")) return;
+      if (el.closest(".page-world-history")) return;
+      if (el.closest(".world-history__text")) return;
       if (el.hasAttribute("data-i18n") || el.hasAttribute("data-i18n-html")) return;
       var raw = el.childNodes.length === 1 && el.childNodes[0].nodeType === 3
         ? el.textContent.trim()
@@ -166,10 +190,32 @@
     });
   }
 
+  function bindSoundEntryFromPortal() {
+    document.querySelectorAll(".sound-entry").forEach(function (a) {
+      if (a.dataset.soundPortalBound) return;
+      a.dataset.soundPortalBound = "1";
+      a.addEventListener("click", function () {
+        try { sessionStorage.removeItem("sunnychimera-sound-return"); } catch (e) {}
+      });
+    });
+  }
+
   function applyInnerSoundLinks(dict) {
     var label = get(dict, "chat.innerSound");
     if (!label) return;
     document.querySelectorAll(".sound-playlist-link").forEach(function (a) {
+      a.removeAttribute("target");
+      if (!a.dataset.soundReturnBound) {
+        a.dataset.soundReturnBound = "1";
+        a.addEventListener("click", function () {
+          try {
+            var file = window.location.pathname.replace(/\\/g, "/").split("/").pop();
+            if (file && /\.html$/i.test(file)) {
+              sessionStorage.setItem("sunnychimera-sound-return", file);
+            }
+          } catch (e) {}
+        });
+      }
       if (a.hasAttribute("data-i18n")) return;
       a.textContent = label;
     });
@@ -217,6 +263,9 @@
       btn.setAttribute("aria-pressed", code === lang ? "true" : "false");
       btn.addEventListener("click", function () {
         if (code === getLang()) return;
+        if (window.SunnyCharacterMobileTabs && typeof window.SunnyCharacterMobileTabs.prepareLangReload === "function") {
+          window.SunnyCharacterMobileTabs.prepareLangReload();
+        }
         try { localStorage.setItem(STORAGE_KEY, code); } catch (e) {}
         window.location.reload();
       });
@@ -256,12 +305,6 @@
     if (!document.querySelector(".page-world-history")) return;
     var lang = getLang();
     document.title = get(dict, "world.pageTitle");
-    var title = document.querySelector(".world-history__title");
-    if (title) title.innerHTML = get(dict, "world.title");
-    var dryadG = document.querySelector(".world-history__chat--nature .chat__bubble");
-    var keeperG = document.querySelector(".world-history__chat--keeper .chat__bubble");
-    if (dryadG) dryadG.textContent = get(dict, "world.dryadGreeting");
-    if (keeperG) keeperG.textContent = get(dict, "world.keeperGreeting");
     var box = document.querySelector(".world-history__text");
     if (!box) return;
     var keepBreak = box.querySelector(".world-history__break-line");
@@ -316,6 +359,7 @@
         applyCharacterNames(dict);
         applyTextMap(dict);
         applyInnerSoundLinks(dict);
+        bindSoundEntryFromPortal();
         applyIndex(dict);
         applyWorldPage(dict);
         loadLore(dict);

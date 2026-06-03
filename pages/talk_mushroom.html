@@ -1,21 +1,21 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Talking Mushroom - SunnyChimera</title>
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/weaver.css" />
     <link rel="stylesheet" href="../assets/css/character.css" />
 </head>
-<body class="world world--weaver character-page character-page--vertical">
+<body class="world world--weaver character-page character-page--vertical" data-mobile-tabs>
 <header class="topbar">
-    <a class="topbar__back" href="weaver-world.html" data-i18n="characterNav.backWeaverWorld">← Weaver's world</a>
-    <div class="topbar__right">
-        <a class="topbar__link" href="dream-world.html" data-i18n="characterNav.dreamShort">Dream</a>
-        <span class="topbar__dot">·</span>
-        <a class="topbar__link" href="weaver-world.html" data-i18n="characterNav.weaverShort">Weaver</a>
+    <div class="topbar__left">
+        <a class="topbar__link" href="../index.html" data-i18n="common.gate">The Gate</a>
+        <a class="topbar__link" href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
+        <a class="topbar__link" href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
     </div>
+    <div class="topbar__right"></div>
 </header>
 
 <main class="character-layout character-layout--with-lore character-layout--visual-left">
@@ -25,12 +25,12 @@
                 <div class="character-caption__left">
                     <h1 class="character-caption__name">Talking Mushroom</h1>
                     <nav class="character-caption__actions" aria-label="Navigation">
-                        <a href="dream-world.html" data-i18n="characterNav.dreamWorld">Dream's world</a>
-                        <a href="weaver-world.html" data-i18n="characterNav.weaverWorld">Weaver's world</a>
+                        <a href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
+                        <a href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
                         <a href="../index.html" data-i18n="characterNav.gate">The Gate</a>
                     </nav>
                 </div>
-                <a class="sound-playlist-link" target="_blank" rel="noopener noreferrer" href="sound.html#sound-talk_mushroom" data-i18n="chat.innerSound">Inner Sound</a>
+                <a class="sound-playlist-link" href="sound.html#sound-talk_mushroom" data-i18n="chat.innerSound">Inner Sound</a>
             </div>
         </figcaption>
         <div class="character-figure__img-wrap">
@@ -39,9 +39,12 @@
     </figure>
     <div class="character-content">
         <aside class="character-lore">
-            <h2 class="character-lore__title" data-i18n="lore.tracesTitle">Traces of Presence</h2>
-            <div class="character-lore__text" data-lore-src="../content/talk_mushroom-lore.html" aria-busy="true">
-                <!-- Lore content loaded from content/talk_mushroom-lore.html -->
+            <h2 class="character-lore__title" data-i18n="lore.tracesTitle">Stories</h2>
+            <div class="character-lore__stories" data-character-lore-nav>
+                <button type="button" class="character-lore__story-btn is-active" data-story-src="../content/talk_mushroom-lore.html" data-i18n-story="lore.talkMushroomHeights">Scent of Heights</button>
+            </div>
+            <div class="character-lore__text" data-character-lore-content aria-busy="true">
+                <!-- Lore loaded from content/talk_mushroom-lore.html -->
             </div>
         </aside>
         <aside class="character-chat">
@@ -57,18 +60,18 @@
                             <svg class="chat__source-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M12 9l.8 2.4 2.4.8-2.4.8L12 15l-.8-2.4L8.8 12l2.4-.8L12 9z" fill="none" stroke="currentColor" stroke-width="1"/></svg>
                         </button>
                     </div>
-                    <button type="button" class="chat__eye-toggle" aria-label="Уменьшить или увеличить чат" title="Развернуть / свернуть чат">
+                    <button type="button" class="chat__eye-toggle" aria-label="????????? ??? ????????? ???" title="?????????? / ???????? ???">
                         <svg class="chat__eye-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path class="chat__eye-lid" d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="currentColor" stroke-width="1"/>
                             <circle class="chat__eye-pupil" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1"/>
                         </svg>
                     </button>
                 </header>
-                <button type="button" class="chat__reset" aria-label="Свернуть чат" title="Свернуть чат">−</button>
+                <button type="button" class="chat__reset" aria-label="???????? ???" title="???????? ???">-</button>
                 <div class="chat__provider" aria-label="Choose model">
                 <span class="chat__provider-label">Model</span>
                 <button type="button" class="chat__provider-btn" data-provider="gemini">Gemini</button>
-                <button type="button" class="chat__provider-btn is-active" data-provider="ollama">Ollama</button>
+                <button type="button" class="chat__provider-btn is-active" data-provider="groq">Groq</button>
             </div>
                 <div class="chat__log">
                     <div class="chat__msg chat__msg--npc">
@@ -85,6 +88,8 @@
     </div>
 </main>
 <script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/character-lore-switch.js"></script>
+<script src="../assets/js/character-mobile-tabs.js"></script>
 <script src="../assets/js/character-chat.js"></script>
 </body>
 </html>

@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dream's world - SunnyChimera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Dream's World - SunnyChimera</title>
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/world.css" />
 </head>
 <body class="world-page world--dream">
 <header class="world-page__topbar">
-    <a class="world-page__back" href="../index.html">← The Gate</a>
-    <nav>
-        <a class="world-page__topbar-link" href="dream-world.html">Dream</a>
-        <span style="color: rgba(255,255,255,0.3); margin: 0 8px;">·</span>
-        <a class="world-page__topbar-link" href="weaver-world.html">Weaver</a>
-    </nav>
+    <div class="topbar__left">
+        <a class="world-page__back" href="../index.html" data-i18n="nav.backToGate">← The Gate</a>
+        <a class="world-page__topbar-link" href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
+        <a class="world-page__topbar-link" href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
+    </div>
 </header>
 
 <main class="world-page__container">
-    <h2 class="world-team__title" data-i18n="dreamWorld.title">Dream's world</h2>
+    <h2 class="world-team__title" data-i18n="dreamWorld.title">Dream's World</h2>
     <div class="world-stage">
         <section class="world-hero">
             <a class="world-hero__frame" href="dream.html">
@@ -32,7 +31,7 @@
                 <img src="../assets/img/dr.pak.jpeg" alt="Dr. Pak" />
             </a>
             <div class="world-team__card-info">
-                <div class="world-team__card-name">Dr. Pak</div>
+                <div class="world-team__card-name" data-i18n="names.drPak">Dr. Pak</div>
             </div>
         </article>
         <article class="world-team__card world-team__card--pos-right world-team__card--w-l world-team__card--tilt-r">
@@ -40,7 +39,7 @@
                 <img src="../assets/img/liora.jpeg" alt="Liora" />
             </a>
             <div class="world-team__card-info">
-                <div class="world-team__card-name">Liora</div>
+                <div class="world-team__card-name" data-i18n="names.liora">Liora</div>
             </div>
         </article>
         <div class="world-stage__bottom">
@@ -57,12 +56,13 @@
                     <span class="world-team__card-placeholder-text" data-i18n="dreamWorld.catPlaceholder">Searching for self on the moonlit rooftops…</span>
                 </a>
                 <div class="world-team__card-info">
-                    <div class="world-team__card-name">CAT</div>
+                    <div class="world-team__card-name" data-i18n="names.cat">CAT</div>
                 </div>
             </article>
         </div>
     </div>
 </main>
 <script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/world-scroll-hint.js"></script>
 </body>
 </html>

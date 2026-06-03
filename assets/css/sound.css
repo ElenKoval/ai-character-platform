@@ -64,37 +64,111 @@
 
 .sound-archive {
   display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
-.sound-character {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 14px 16px;
-  list-style: none;
+/* Карточки персонажа — в духе about-mail */
+.sound-page .sound-character {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 18px 18px;
+  border-radius: 20px 14px 22px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255, 220, 140, 0.09), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 80% 100%, rgba(140, 180, 255, 0.07), transparent 50%),
+    rgba(12, 14, 20, 0.78);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 16px 36px rgba(0, 0, 0, 0.42);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.sound-page .sound-character::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  background: conic-gradient(
+    from 120deg,
+    transparent,
+    rgba(255, 200, 120, 0.11),
+    transparent,
+    rgba(160, 200, 255, 0.09),
+    transparent
+  );
+  animation: sound-card-glow 14s linear infinite;
+  pointer-events: none;
+}
+
+.sound-page .sound-character:nth-child(3n + 2)::before {
+  animation-delay: -5s;
+}
+
+.sound-page .sound-character:nth-child(3n)::before {
+  animation-delay: -9s;
+}
+
+@keyframes sound-card-glow {
+  to { transform: rotate(360deg); }
+}
+
+.sound-page .sound-character:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 22px 44px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(255, 200, 120, 0.06);
+  transform: translateY(-3px);
 }
 
 .sound-character__name {
-  font-family: var(--font-fantasy);
-  font-size: 0.85rem;
+  position: relative;
+  z-index: 1;
+  margin: 0 0 14px;
+  padding: 0 0 10px;
+  border-bottom: 1px solid rgba(255, 200, 120, 0.2);
+  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  margin: 0 0 10px;
-  color: rgba(255, 255, 255, 0.9);
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+#sound-dream .sound-character__name,
+#sound-cat .sound-character__name,
+#sound-crystal .sound-character__name,
+#sound-liora .sound-character__name,
+#sound-drpak .sound-character__name,
+#sound-dryad .sound-character__name {
+  font-family: var(--font-dream, "Philosopher", serif);
+  letter-spacing: 0.12em;
+  color: rgba(255, 245, 230, 0.72);
+}
+
+#sound-weaver .sound-character__name,
+#sound-shiny .sound-character__name,
+#sound-shiny_bro .sound-character__name,
+#sound-angry_forest .sound-character__name,
+#sound-talk_mushroom .sound-character__name {
+  font-family: var(--font-scary, "Alice", serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: rgba(255, 230, 240, 0.85);
 }
 
 .sound-character__tracks {
+  position: relative;
+  z-index: 1;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .sound-character__tracks li {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
 }
 
 .sound-character__tracks li:last-child {
@@ -102,14 +176,39 @@
 }
 
 .sound-character__tracks a {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  display: inline-block;
+  font-family: var(--font-root, "Playfair Display", serif);
+  font-size: 0.92rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: rgba(255, 245, 220, 0.82);
   text-decoration: none;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255, 200, 120, 0.22);
+  transition: color 0.25s ease, border-color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.sound-character__tracks a::before {
+  content: "♪ ";
+  opacity: 0.45;
+  font-size: 0.85em;
 }
 
 .sound-character__tracks a:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: #fff;
+  border-bottom-color: rgba(255, 220, 160, 0.55);
+  text-shadow: 0 0 18px rgba(255, 200, 120, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-page .sound-character::before {
+    animation: none;
+    opacity: 0.45;
+  }
+
+  .sound-page .sound-character:hover {
+    transform: none;
+  }
 }
 
 /* Страница архива: полная ширина контента */
@@ -140,5 +239,136 @@
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
   margin: 0 0 32px;
+}
+
+/* ----- Sound hub page: topbar (как у миров) ----- */
+.sound-hub__topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.sound-hub__topbar .topbar__left {
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sound-hub__topbar .topbar__left::-webkit-scrollbar {
+  display: none;
+}
+
+.sound-hub__topbar .topbar__back,
+.sound-hub__topbar .topbar__link {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+}
+
+.sound-hub__topbar .topbar__back {
+  font-family: var(--font-root, "Playfair Display", serif);
+}
+
+.sound-character--highlight {
+  border-color: rgba(255, 220, 140, 0.42) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 140, 0.12) inset,
+    0 0 48px rgba(255, 200, 120, 0.12),
+    0 22px 44px rgba(0, 0, 0, 0.5) !important;
+}
+
+@media (max-width: 900px) {
+  .sound-page {
+    max-width: none;
+    padding: 20px 14px max(28px, env(safe-area-inset-bottom, 0px));
+    padding-top: 16px;
+  }
+
+  .sound-page .sound-strip {
+    max-width: none;
+    margin-bottom: 22px;
+  }
+
+  .sound-page__title {
+    font-size: clamp(0.95rem, 4vw, 1.15rem);
+    letter-spacing: 0.14em;
+    line-height: 1.35;
+    padding: 0 4px;
+  }
+
+  .sound-page__lead {
+    font-size: 0.8rem;
+    margin-bottom: 22px;
+    padding: 0 8px;
+    line-height: 1.5;
+  }
+
+  .sound-archive {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sound-page .sound-character {
+    padding: 16px 14px 14px;
+    border-radius: 16px 14px 18px 12px;
+    scroll-margin-top: 72px;
+  }
+
+  .sound-page .sound-character:hover {
+    transform: none;
+  }
+
+  .sound-character__name {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  #sound-weaver .sound-character__name,
+  #sound-shiny .sound-character__name,
+  #sound-shiny_bro .sound-character__name,
+  #sound-angry_forest .sound-character__name,
+  #sound-talk_mushroom .sound-character__name {
+    font-size: 0.95rem;
+  }
+
+  .sound-character__tracks li {
+    margin-bottom: 6px;
+  }
+
+  .sound-character__tracks a {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 12px 12px 10px;
+    font-size: clamp(0.9rem, 3.6vw, 1rem);
+    line-height: 1.45;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.22);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .sound-character__tracks a:active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 220, 160, 0.28);
+  }
+}
+
+@media (max-width: 480px) {
+  .sound-hub__topbar {
+    padding: 10px 12px;
+  }
+
+  .sound-page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 

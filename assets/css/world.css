@@ -16,11 +16,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 18px;
+  flex-wrap: nowrap;
+  gap: 10px 12px;
+  padding: 12px 14px;
   background: rgba(0, 0, 0, 0.35);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.world-page__topbar .topbar__left {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  gap: 0;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.world-page__topbar .topbar__left::-webkit-scrollbar {
+  display: none;
+}
+
+.world-page__topbar .topbar__left > a:not(:first-child)::before {
+  content: "\00b7";
+  margin-right: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 400;
+  pointer-events: none;
 }
 
 .world-page__back,
@@ -28,30 +55,40 @@
   color: rgba(255, 255, 255, 0.78);
   text-decoration: none;
   font-weight: 700;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+  line-height: 1.2;
+  padding: 2px 0;
 }
 
 /* По цели ссылки: Dream / Weaver / The Gate */
 .world-page__back[href*="dream-world"],
 .world-page__topbar-link[href*="dream-world"],
 .world-page__topbar-link[href*="dream.html"] {
-  font-family: var(--font-body, "Cormorant Garamond", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
+}
+
+.world-page.world--dream .world-page__back,
+.world-page.world--dream .world-page__topbar-link,
+.world-page.world--dream .lang-switch__btn {
+  font-family: var(--font-dream, "Philosopher", Georgia, serif);
 }
 .world-page__back[href*="weaver-world"],
 .world-page__topbar-link[href*="weaver-world"],
 .world-page__topbar-link[href*="weaver.html"] {
-  font-family: var(--font-body, "Cormorant Garamond", serif);
+  font-family: var(--font-scary, "Alice", serif);
+}
+
+.world-page.world--weaver .world-page__back,
+.world-page.world--weaver .world-page__topbar-link,
+.world-page.world--weaver .lang-switch__btn {
+  font-family: var(--font-scary, "Alice", Palatino, serif);
 }
 .world-page__back[href*="index.html"],
 .world-page__topbar-link[href*="index.html"] {
   font-family: var(--font-root, "Playfair Display", serif);
-}
-
-/* RU: Dream World label in body font */
-html[lang="ru"] .world-page__back[href*="dream-world"],
-html[lang="ru"] .world-page__topbar-link[href*="dream-world"],
-html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
-  font-family: var(--font-body, "Cormorant Garamond", serif);
 }
 
 .world-page__back:hover,
@@ -76,26 +113,28 @@ html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
 }
 
 .world--dream .world-team__title {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world--weaver .world-team__title {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 
 /* Сцена: герой в центре, команда слева / справа / сверху / снизу - без зазора между рядами */
 .world-stage {
   display: grid;
-  grid-template-columns: 1fr minmax(400px, 760px) 1fr;
+  grid-template-columns: 1fr minmax(0, 760px) 1fr;
   grid-template-rows: auto auto auto;
   grid-template-areas:
     "top top top"
     "left hero right"
     "bottom bottom bottom";
-  column-gap: 24px;
+  column-gap: clamp(12px, 2vw, 24px);
   row-gap: 0;
   align-items: center;
   justify-items: center;
+  width: 100%;
+  max-width: 100%;
 }
 
 .world-hero {
@@ -153,11 +192,23 @@ html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
 }
 
 .world--dream .world-hero__name {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world--weaver .world-hero__name {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
+}
+
+.world--dream .world-team__card-name {
+  font-family: var(--font-dream, "Philosopher", serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+}
+
+.world--weaver .world-team__card-name {
+  font-family: var(--font-scary, "Alice", serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
 }
 
 .world-hero__tag {
@@ -167,11 +218,11 @@ html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
 }
 
 .world--dream .world-hero__tag {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world--weaver .world-hero__tag {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 
 /* Карточки команды - позиции вокруг героя */
@@ -314,11 +365,11 @@ html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
 }
 
 .world--dream .world-team__card-nav a {
-  font-family: var(--font-dream, "Cinzel Decorative", serif);
+  font-family: var(--font-dream, "Philosopher", serif);
 }
 
 .world--weaver .world-team__card-nav a {
-  font-family: var(--font-scary, "Nosifer", sans-serif);
+  font-family: var(--font-scary, "Alice", serif);
 }
 .world-team__card-nav a:hover {
   color: rgba(255, 255, 255, 0.95);
@@ -329,17 +380,30 @@ html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .world-page__container {
+    padding-bottom: 56px;
+  }
+
   .world-stage {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto auto;
-    grid-template-areas:
-      "hero"
-      "top"
-      "left"
-      "right"
-      "bottom";
+    grid-template-rows: none;
+    grid-template-areas: none;
+    grid-auto-flow: row;
     min-height: auto;
+    gap: 20px;
+    justify-items: center;
+  }
+  .world-hero,
+  .world-team__card,
+  .world-stage__bottom {
+    grid-area: auto;
+    width: 100%;
+    max-width: min(520px, 100%);
+  }
+  .world-stage__bottom {
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
   }
   .world-team__card--pos-left,
@@ -348,15 +412,236 @@ html[lang="ru"] .world-page__topbar-link[href*="dream.html"] {
   .world-team__card--pos-bottom {
     justify-self: center;
   }
+  .world-team__card--w-s,
+  .world-team__card--w-m,
+  .world-team__card--w-l {
+    width: min(520px, 100%);
+    max-width: 100%;
+  }
+  .world-hero__frame {
+    max-width: min(420px, 94vw);
+  }
+  .world-hero__frame img {
+    max-height: min(55vh, 420px);
+  }
 }
 
 @media (max-width: 700px) {
   .world-team__card--w-s,
   .world-team__card--w-m,
   .world-team__card--w-l {
-    width: 280px;
+    width: min(320px, 92vw);
   }
   .world-hero__frame {
-    max-width: 380px;
+    max-width: min(380px, 94vw);
+  }
+  .world-page__container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* ----- Mobile: подсказка прокрутки (только стрелка) ----- */
+.page-portal {
+  --world-hint-glow: rgba(255, 200, 130, 0.45);
+  --world-hint-core: rgba(255, 248, 235, 0.96);
+}
+
+.world-page.world--dream {
+  --world-hint-glow: rgba(120, 190, 255, 0.45);
+  --world-hint-core: rgba(200, 230, 255, 0.95);
+}
+
+.world-page.world--weaver {
+  --world-hint-glow: rgba(255, 120, 190, 0.4);
+  --world-hint-core: rgba(255, 220, 240, 0.95);
+}
+
+.world-scroll-hint {
+  display: none;
+  pointer-events: none;
+}
+
+@media (max-width: 1100px) {
+  .world-scroll-hint {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: auto;
+    /* низ видимого экрана, не центр и не «под» панелью Safari */
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 50;
+    padding: 0 16px 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s;
+    pointer-events: none;
+  }
+
+  .world-scroll-hint::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 120px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+    pointer-events: none;
+  }
+
+  .world-scroll-hint.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .world-scroll-hint__btn {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--world-hint-core, rgba(255, 255, 255, 0.92));
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .world-scroll-hint__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 20px var(--world-hint-glow, rgba(255, 255, 255, 0.2));
+    animation: world-scroll-hint-pulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+  }
+
+  .world-scroll-hint__icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(8, 10, 18, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+      0 6px 28px rgba(0, 0, 0, 0.55),
+      0 0 32px var(--world-hint-glow, rgba(255, 255, 255, 0.15)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    animation: world-scroll-hint-float 2.4s ease-in-out infinite;
+  }
+
+  .world-scroll-hint__svg {
+    display: block;
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0 0 6px var(--world-hint-glow, rgba(255, 255, 255, 0.35)));
+  }
+
+  .world-scroll-hint__path--a {
+    opacity: 1;
+  }
+
+  .world-scroll-hint__path--b {
+    opacity: 0.35;
+    animation: world-scroll-hint-stagger 2.4s ease-in-out infinite;
+  }
+
+  .world-scroll-hint__btn:hover .world-scroll-hint__icon,
+  .world-scroll-hint__btn:focus-visible .world-scroll-hint__icon {
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.6),
+      0 0 40px var(--world-hint-glow, rgba(255, 255, 255, 0.25)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  }
+
+  .world-scroll-hint__btn:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.4);
+    outline-offset: 6px;
+    border-radius: 50%;
+  }
+
+  .world-scroll-hint__btn:active .world-scroll-hint__icon {
+    transform: scale(0.94);
+  }
+}
+
+/* Низкие экраны: чуть компактнее */
+@media (max-width: 1100px) and (max-height: 700px) {
+  .world-scroll-hint__btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .world-scroll-hint__icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .world-scroll-hint__svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@keyframes world-scroll-hint-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes world-scroll-hint-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  65%,
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes world-scroll-hint-stagger {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-scroll-hint__icon,
+  .world-scroll-hint__ring,
+  .world-scroll-hint__path--b {
+    animation: none;
+  }
+  .world-scroll-hint {
+    transition: opacity 0.2s ease, visibility 0.2s;
   }
 }
