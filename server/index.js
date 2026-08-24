@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000;
 const apiKey = (process.env.GEMINI_API_KEY || "").trim();
 const genAI = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 const GROQ_API_KEY = (process.env.GROQ_API_KEY || "").trim();
 const GROQ_MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
 const GROQ_BASE = "https://api.groq.com/openai/v1";

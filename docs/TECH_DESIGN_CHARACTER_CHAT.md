@@ -250,7 +250,7 @@ Key CSS: `assets/css/character.css`, `assets/css/world-history.css`.
 - `.env` file in `server/.env` (referenced via `dotenv.config({ path: envPath })`).
 - Important variables:
   - `GEMINI_API_KEY` – required for Gemini.
-  - `GEMINI_MODEL` – default `"gemini-2.0-flash"`.
+  - `GEMINI_MODEL` – default `"gemini-3.6-flash"`.
   - `GROQ_API_KEY` – optional; if absent, Groq path auto‑falls back to Gemini.
   - `GROQ_MODEL` – default `"llama-3.3-70b-versatile"`.
   - `PORT` – Express server port (defaults to `3000`).
