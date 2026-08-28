@@ -384,3 +384,33 @@
     init();
   }
 })();
+
+(function initPortraitImgReveal() {
+  var SEL = ".panel__art img, .character-figure__img-wrap img, .world-history__frame-media img, .world-hero__frame img, .world-team__card-img-link img";
+
+  function reveal(img) {
+    img.classList.add("is-ready");
+  }
+
+  function wire(img) {
+    if (img.complete && img.naturalWidth > 0) return;
+    img.classList.add("portrait-img-reveal");
+    img.style.opacity = "0";
+    function onDone() {
+      img.style.opacity = "";
+      reveal(img);
+    }
+    img.addEventListener("load", onDone, { once: true });
+    img.addEventListener("error", onDone, { once: true });
+  }
+
+  function scan() {
+    document.querySelectorAll(SEL).forEach(wire);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", scan);
+  } else {
+    scan();
+  }
+})();

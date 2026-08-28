@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "fix-dryad": "node scripts/fix-dryad-orientation.js"
+    "fix-dryad": "node scripts/fix-dryad-orientation.js",
+    "start": "npm --prefix server start",
+    "dev": "npm --prefix server run dev"
   },
   "devDependencies": {
     "sharp": "^0.33.5"

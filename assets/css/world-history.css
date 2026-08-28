@@ -171,8 +171,17 @@
   }
 
   .page-world-history .world-history__side .world-history__frame {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-height: 0;
+    max-height: calc(100svh - 56px);
+  }
+
+  .page-world-history .world-history__side--right .world-history__frame {
+    max-height: calc(100svh - 56px - 240px);
+  }
+
+  .page-world-history .world-history__side--right .world-history__frame-media img {
+    max-height: min(50vh, calc(100svh - 56px - 300px));
   }
 
   .page-world-history .world-history__panel--history .world-history__center {
@@ -323,15 +332,25 @@
 }
 
 .world-history__frame-media {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
+  flex: 0 0 auto;
+  display: block;
   width: 100%;
   padding: 10px 8px 4px;
   box-sizing: border-box;
-  overflow: hidden;
+  line-height: 0;
+}
+
+.world-history__frame-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: min(58vh, 560px);
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center center;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
 .world-history__frame-footer {
@@ -385,12 +404,12 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .world-history__side .world-history__frame {
   position: relative;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-height: 0;
   left: auto;
   right: auto;
@@ -420,7 +439,7 @@
   border-radius: 0;
   overflow: hidden;
   border: none;
-  background: #000;
+  background: var(--img-frame-bg);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   text-align: center;
   display: flex;
@@ -971,7 +990,7 @@
     border-right: none;
     border-left: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: #000;
+    background: var(--img-frame-bg);
   }
   .world-history__side--right .world-history__frame {
     left: auto;
@@ -994,9 +1013,8 @@
     max-height: min(440px, 50vh);
   }
 
-  .world-history__side .world-history__frame {
-    flex: 0 1 auto;
-    min-height: min(52vh, 420px);
+  .page-world-history .world-history__side--right .world-history__frame-media img {
+    max-height: min(42vh, calc(100svh - 56px - 300px));
   }
 }
 

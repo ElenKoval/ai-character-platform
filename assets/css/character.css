@@ -116,7 +116,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: var(--img-frame-bg);
   box-sizing: border-box;
 }
 
@@ -139,7 +139,7 @@
   border-top: none;
   border-bottom: none;
   padding: 10px 14px;
-  background: #000;
+  background: var(--img-frame-bg);
   background-image: none;
 }
 
@@ -248,7 +248,7 @@
   border-radius: 0 0 16px 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: none;
-  background: #000;
+  background: var(--img-frame-bg);
   padding: 10px 14px;
   box-sizing: border-box;
 }
@@ -600,7 +600,7 @@
   border-top: none;
   width: 100%;
   padding: 12px 16px;
-  background: #000;
+  background: var(--img-frame-bg);
 }
 
 /* Заглушка вместо изображения (CAT): дымчатый фон и надпись */

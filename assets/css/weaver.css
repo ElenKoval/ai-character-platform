@@ -141,7 +141,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
   box-shadow: 0 32px 80px rgba(0,0,0,0.65);
 }
 .weaver__side{
-  background: #000;
+  background: var(--img-frame-bg);
 }
 .weaver__side img{
   display: block;
@@ -171,7 +171,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
   border-radius: 18px 38px 14px 44px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.10);
-  background: #000;
+  background: var(--img-frame-bg);
   box-shadow: 0 30px 90px rgba(0,0,0,0.7);
   display: flex;
   align-items: center;
