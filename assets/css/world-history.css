@@ -175,11 +175,6 @@
     min-height: 0;
   }
 
-  .page-world-history .world-history__frame-media img {
-    max-width: 96%;
-    max-height: 100%;
-  }
-
   .page-world-history .world-history__panel--history .world-history__center {
     max-width: none;
     margin: 0;
@@ -331,11 +326,12 @@
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
   width: 100%;
   padding: 10px 8px 4px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .world-history__frame-footer {
@@ -436,10 +432,13 @@
 }
 
 .world-history__frame-media img {
-  max-width: 96%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
   object-fit: contain;
   object-position: center center;
   border-radius: 8px;
@@ -967,8 +966,8 @@
   .world-history__frame {
     position: relative;
     width: 100%;
-    min-height: 180px;
-    padding: 16px;
+    min-height: 0;
+    padding: 0;
     border-right: none;
     border-left: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -994,14 +993,10 @@
   .world-history__chat.is-expanded {
     max-height: min(440px, 50vh);
   }
-  .world-history__frame {
-    min-height: 220px;
-  }
 
-  .world-history__frame-media img {
-    max-width: 88%;
-    max-height: min(52vh, 420px);
-    height: auto;
+  .world-history__side .world-history__frame {
+    flex: 0 1 auto;
+    min-height: min(52vh, 420px);
   }
 }
 
