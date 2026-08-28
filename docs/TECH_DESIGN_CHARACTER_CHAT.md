@@ -252,7 +252,7 @@ Key CSS: `assets/css/character.css`, `assets/css/world-history.css`.
   - `GEMINI_API_KEY` – required for Gemini.
   - `GEMINI_MODEL` – default `"gemini-3.6-flash"`.
   - `GROQ_API_KEY` – optional; if absent, Groq path auto‑falls back to Gemini.
-  - `GROQ_MODEL` – default `"llama-3.3-70b-versatile"`.
+  - `GROQ_MODEL` – default `"openai/gpt-oss-120b"`.
   - `PORT` – Express server port (defaults to `3000`).
 
 ### 9. Extensibility & Future Work

@@ -21,7 +21,7 @@ const genAI = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 const GROQ_API_KEY = (process.env.GROQ_API_KEY || "").trim();
-const GROQ_MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 const GROQ_BASE = "https://api.groq.com/openai/v1";
 
 app.use(cors());

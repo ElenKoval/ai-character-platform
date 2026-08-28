@@ -31,7 +31,7 @@
 | `GEMINI_API_KEY` | твой API-ключ Gemini | да |
 | `GROQ_API_KEY` | ключ Groq (если нужен Groq) | нет |
 | `GEMINI_MODEL` | например `gemini-3.6-flash` | нет (есть дефолт) |
-| `GROQ_MODEL` | например `llama-3.3-70b-versatile` | нет |
+| `GROQ_MODEL` | например `openai/gpt-oss-120b` | нет |
 
 `PORT` Render подставляет сам, в коде уже есть `process.env.PORT || 3000`.
 
