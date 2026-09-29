@@ -962,14 +962,14 @@
   50% { opacity: 1; }
 }
 
-/* Блок выбора модели скрыт - максимально простой чат */
-.character-chat .chat__provider {
-  display: none;
-}
-
+/* Переключатели модели / иконки ИИ скрыты */
+.character-chat .chat__provider,
 .character-chat .chat__provider-label,
-.character-chat .chat__provider-btn {
-  display: none;
+.character-chat .chat__provider-btn,
+.character-chat .chat__provider-badge,
+.character-chat .chat__source-switcher,
+.character-chat .chat__msg-provider {
+  display: none !important;
 }
 
 /* Лог: приветствие прокручивается, место внизу остаётся для ввода */

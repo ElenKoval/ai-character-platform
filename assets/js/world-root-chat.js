@@ -1,5 +1,6 @@
 /**
  * world.html: чат только у Кипера; у Дриады — подпись «обращайся к Киперу».
+ * Модель выбирается на сервере автоматически.
  */
 (function () {
   const keeperChat = document.querySelector(".world-history__chat--keeper .chat");
@@ -26,42 +27,10 @@
   const character = "keeper";
   let keeperHistory = [];
   let loading = false;
-  let aiSource = "aether";
 
   const apiBase = "https://ai-character-platform.onrender.com";
 
-  document.querySelectorAll(".world-history__chat").forEach(function (p) {
-    p.classList.add("ai-source-aether");
-  });
-
-  document.querySelectorAll(".world-history__chat .chat__source-btn--roots").forEach(function (b) {
-    b.title = "Groq";
-  });
-  document.querySelectorAll(".world-history__chat .chat__source-btn--aether").forEach(function (b) {
-    b.title = "Gemini";
-  });
-
-  function setAiSource(source) {
-    aiSource = source;
-    document.querySelectorAll(".world-history__chat").forEach(function (p) {
-      p.classList.remove("ai-source-roots", "ai-source-aether");
-      p.classList.add("ai-source-" + source);
-    });
-    document.querySelectorAll(".world-history__chat .chat__source-btn--roots").forEach(function (b) {
-      b.classList.toggle("is-active", source === "roots");
-    });
-    document.querySelectorAll(".world-history__chat .chat__source-btn--aether").forEach(function (b) {
-      b.classList.toggle("is-active", source === "aether");
-    });
-  }
-  document.querySelectorAll(".world-history__chat .chat__source-btn--roots").forEach(function (btn) {
-    btn.addEventListener("click", function () { setAiSource("roots"); });
-  });
-  document.querySelectorAll(".world-history__chat .chat__source-btn--aether").forEach(function (btn) {
-    btn.addEventListener("click", function () { setAiSource("aether"); });
-  });
-
-  function appendToLog(logEl, text, isUser, providerLabel) {
+  function appendToLog(logEl, text, isUser) {
     const wrap = document.createElement("div");
     wrap.className = "chat__msg-wrap" + (isUser ? " chat__msg-wrap--user" : "");
     const msg = document.createElement("div");
@@ -71,12 +40,6 @@
     bubble.textContent = text;
     msg.appendChild(bubble);
     wrap.appendChild(msg);
-    if (!isUser && providerLabel) {
-      const label = document.createElement("span");
-      label.className = "chat__msg-provider";
-      label.textContent = providerLabel === "groq" ? "Groq" : "Gemini";
-      wrap.appendChild(label);
-    }
     logEl.appendChild(wrap);
     logEl.scrollTop = logEl.scrollHeight;
     var chatPanel = logEl.closest(".world-history__chat");
@@ -98,15 +61,13 @@
     document.querySelectorAll(".world-history__chat").forEach(function (p) { p.classList.add("is-loading"); });
     keeperHistory.push({ role: "user", text: userText });
 
-    var providerToSend = aiSource === "roots" ? "groq" : "gemini";
-
     fetch(apiBase + "/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         message: userText,
         history: keeperHistory.slice(0, -1),
-        provider: providerToSend,
+        provider: "auto",
         character: character,
         askedInChat: "keeper",
       }),
@@ -121,23 +82,16 @@
           var errMsg = res.statusText;
           if (typeof data.error === "string") errMsg = data.error;
           else if (data.error && typeof data.error === "object") errMsg = (data.error && data.error.message) || data.error.code || String(data.error);
-          if (providerToSend === "groq") {
-            errMsg = "Groq не ответил. Проверь GROQ_API_KEY в server/.env (ключ: console.groq.com).";
-          }
-          appendToLog(keeperLog, errMsg || "Ошибка сервера (" + res.status + ")", false, null);
+          appendToLog(keeperLog, errMsg || "Ошибка сервера (" + res.status + ")", false);
           keeperHistory.pop();
           return;
         }
         var reply = (data.text || "").trim() || "…";
-        var actualProvider = data.provider || (aiSource === "roots" ? "groq" : "gemini");
-        appendToLog(keeperLog, reply, false, actualProvider);
+        appendToLog(keeperLog, reply, false);
         keeperHistory.push({ role: "model", text: reply });
       })
       .catch(function (err) {
-        var errMsg = providerToSend === "groq"
-          ? "Groq не ответил. Проверь GROQ_API_KEY в server/.env."
-          : "Network error: " + (err.message || "failed to send").trim();
-        appendToLog(keeperLog, errMsg, false, null);
+        appendToLog(keeperLog, "Network error: " + (err.message || "failed to send").trim(), false);
         keeperHistory.pop();
       })
       .finally(function () {
@@ -180,9 +134,10 @@
       chatBox.classList.remove("is-typing");
     }
   }
+
   if (keeperInput) {
+    keeperInput.addEventListener("input", function () { updateTypingState(keeperInput); });
     keeperInput.addEventListener("focus", function () { updateTypingState(keeperInput); });
     keeperInput.addEventListener("blur", function () { updateTypingState(keeperInput); });
-    keeperInput.addEventListener("input", function () { updateTypingState(keeperInput); });
   }
 })();

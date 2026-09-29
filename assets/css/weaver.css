@@ -410,18 +410,15 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
 .chat__msg-wrap--user{ margin-bottom: 8px; }
 
 .chat__msg-provider{
-  display: inline-block;
-  margin-top: 4px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  display: none !important;
 }
 
 .chat__provider,
 .chat__provider-label,
-.chat__provider-btn {
-  display: none;
+.chat__provider-btn,
+.chat__source-switcher,
+.chat__provider-badge {
+  display: none !important;
 }
 
 .chat__form {

@@ -516,13 +516,11 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Переключатель Roots / Aether: ч/б, рядом с Глазом */
-.world-history__chat .chat__source-switcher {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  flex-shrink: 0;
-  margin-right: 4px;
+/* Переключатель Roots / Aether скрыт */
+.world-history__chat .chat__source-switcher,
+.world-history__chat .chat__provider-badge,
+.world-history__chat .chat__msg-provider {
+  display: none !important;
 }
 .world-history__chat .chat__source-btn {
   width: 32px;
