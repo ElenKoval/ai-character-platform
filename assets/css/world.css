@@ -401,6 +401,9 @@
     width: 100%;
     max-width: min(520px, 100%);
   }
+  .world-hero {
+    max-width: min(560px, 100%);
+  }
   .world-stage__bottom {
     flex-direction: column;
     align-items: center;
@@ -419,10 +422,13 @@
     max-width: 100%;
   }
   .world-hero__frame {
-    max-width: min(420px, 94vw);
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 10px;
   }
   .world-hero__frame img {
-    max-height: min(55vh, 420px);
+    max-width: 100%;
+    max-height: min(68vh, 560px);
   }
 }
 
@@ -432,8 +438,14 @@
   .world-team__card--w-l {
     width: min(320px, 92vw);
   }
+  .world-hero {
+    max-width: min(380px, 96vw);
+  }
   .world-hero__frame {
-    max-width: min(380px, 94vw);
+    max-width: 100%;
+  }
+  .world-hero__frame img {
+    max-height: min(62vh, 480px);
   }
   .world-page__container {
     padding-left: 10px;
