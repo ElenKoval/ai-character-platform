@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Разговор — SunnyChimera</title>
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+  <link rel="stylesheet" href="../assets/css/talk-page.css" />
+</head>
+<body class="talk-page">
+  <a class="talk__back" href="../index.html" data-talk-back>← Вернуться</a>
+
+  <main class="talk">
+    <header class="talk__hero">
+      <div class="talk__art-wrap">
+        <img class="talk__art" data-talk-art alt="" />
+      </div>
+      <h1 class="talk__name" data-talk-name></h1>
+    </header>
+
+    <div class="talk__column">
+      <div class="talk__log" data-talk-log aria-live="polite"></div>
+      <div class="talk__thread-block" data-talk-thread hidden>
+        <p class="talk__wait" data-talk-wait></p>
+        <div class="talk__thread" aria-hidden="true"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="talk__dock">
+    <form class="talk__form" data-talk-form>
+      <input class="talk__input" type="text" autocomplete="off" data-talk-input />
+      <button class="talk__say" type="submit" data-talk-say>Сказать</button>
+    </form>
+    <div class="talk__release" data-talk-release>
+      <button type="button" class="talk__release-link" data-talk-release-btn>Отпустить разговор</button>
+    </div>
+  </footer>
+
+  <script src="../assets/js/story-meta.js"></script>
+  <script src="../assets/js/talk-nav.js"></script>
+  <script src="../assets/js/talk-page.js"></script>
+</body>
+</html>

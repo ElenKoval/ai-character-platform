@@ -12,13 +12,14 @@
     "mrDream": "Mr. Dream",
     "weaver": "Weaver",
     "theWeaver": "Weaver",
+    "pak": "Pak",
     "drPak": "Dr. Pak",
     "crystal": "Crystal",
-    "cat": "CAT",
+    "cat": "Cat",
     "liora": "Liora",
     "shiny": "Shiny",
     "shinyBro": "Shiny's Brother",
-    "talkMushroom": "Talking Mushroom",
+    "talkMushroom": "Mushroom",
     "angryForest": "Angry Forest",
     "dryad": "Dryad",
     "keeper": "Kiper"
@@ -39,7 +40,7 @@
     "backDreamWorld": "← Dream's World",
     "backWeaverWorld": "← Weaver's World",
     "backWorldHistory": "← World history",
-    "backToGate": "← The Gate"
+    "backToGate": "The Gate"
   },
   "index": {
     "dreamName": "Mr. Dream",
@@ -59,7 +60,7 @@
   },
   "dreamWorld": {
     "title": "Dream's World",
-    "heroTag": "observation · protection",
+    "heroTag": "order · growth",
     "catPlaceholder": "Searching for self on the moonlit rooftops…",
     "scrollHint": "More characters below"
   },

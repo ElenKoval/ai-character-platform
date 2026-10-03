@@ -68,7 +68,7 @@
     var el = document.querySelector(id);
     if (!el) return;
     requestAnimationFrame(function () {
-      var topbar = document.querySelector(".sound-hub__topbar");
+      var topbar = document.querySelector(".site-header") || document.querySelector(".sound-hub__topbar");
       var offset = topbar ? topbar.getBoundingClientRect().height + 12 : 64;
       var y = el.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });

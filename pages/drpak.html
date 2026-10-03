@@ -1,83 +1,66 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Dr. Pak - SunnyChimera</title>
+    <title>Пак - SunnyChimera</title>
     <link rel="stylesheet" href="../assets/css/base.css" />
-    <link rel="stylesheet" href="../assets/css/weaver.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="../assets/css/site-shell.css" />
     <link rel="stylesheet" href="../assets/css/character.css" />
 </head>
-<body class="world world--dream character-page character-page--vertical" data-mobile-tabs>
-<header class="topbar">
-    <div class="topbar__left">
-        <a class="topbar__link" href="../index.html" data-i18n="common.gate">The Gate</a>
-        <a class="topbar__link" href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
-        <a class="topbar__link" href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
+<body class="world world--dream character-page character-page--dossier">
+<main class="dossier" data-dossier="pak">
+  <div class="dossier__art">
+    <div class="notebook-page">
+      <div class="notebook-page__spiral" aria-hidden="true"></div>
+      <img class="notebook-page__img" src="../assets/img/dr.pak.jpeg" alt="Пак" />
     </div>
-    <div class="topbar__right"></div>
-</header>
-
-<main class="character-layout character-layout--with-lore character-layout--visual-left">
-    <figure class="character-figure">
-        <figcaption class="character-caption character-caption--top">
-            <div class="character-caption__row">
-                <div class="character-caption__left">
-                    <h1 class="character-caption__name">Dr. Pak</h1>
-                    <p class="character-caption__tag" data-i18n="characterTags.drPak">Reality Surgeon</p>
-                    <nav class="character-caption__actions" aria-label="Navigation">
-                        <a href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
-                        <a href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
-                        <a href="../index.html" data-i18n="characterNav.gate">The Gate</a>
-                    </nav>
-                </div>
-                <a class="sound-playlist-link" href="sound.html#sound-drpak" data-i18n="chat.innerSound">Inner Sound</a>
-            </div>
-        </figcaption>
-        <div class="character-figure__img-wrap">
-            <img src="../assets/img/dr.pak.jpeg" alt="Dr. Pak" />
+  </div>
+  <div class="dossier__name-block">
+    <h1 class="dossier__name">Пак</h1>
+    <p class="dossier__essence">Пак — хирург реальности</p>
+    <p class="dossier__blurb">Режет точно и без жалости к тому, что считает патологией. Жажда для него — опухоль.</p>
+    <p class="dossier__quote">«Не трать моё время на красивые объяснения. Покажи, где болит».</p>
+  </div>
+  <div class="dossier__meta">
+    <section>
+      <h2>Появляется в главах</h2>
+      <div data-dossier-chapters></div>
+    </section>
+    <section>
+      <h2>Звук мира</h2>
+      <div data-dossier-tracks></div>
+    </section>
+  </div>
+  <div class="dossier__chat">
+    <aside class="character-chat is-expanded">
+      <div class="chat" data-character="drpak">
+        <header class="chat__header">
+          <span class="chat__header-title"></span>
+        </header>
+        <div class="chat__log">
+          <div class="chat__msg chat__msg--npc">
+            <div class="chat__bubble" data-i18n="drpak.greeting">Don't waste my time on pretty explanations. Show me where it hurts. I'll cut away the rest.</div>
+          </div>
         </div>
-    </figure>
-    <div class="character-content">
-        <aside class="character-lore">
-            <h2 class="character-lore__title" data-i18n="lore.tracesTitle">Stories</h2>
-            <div class="character-lore__stories" data-character-lore-nav>
-                <button type="button" class="character-lore__story-btn is-active" data-story-src="../content/drpak-lore.html" data-i18n-story="lore.drpakOperation">The Operation</button>
-            </div>
-            <div class="character-lore__text" data-character-lore-content aria-busy="true">
-                <!-- Lore loaded from content/drpak-lore.html -->
-            </div>
-        </aside>
-        <aside class="character-chat">
-            <div class="chat" data-character="drpak">
-                <header class="chat__header">
-                    <span class="chat__header-title"></span>
-<button type="button" class="chat__eye-toggle" aria-label="????????? ??? ????????? ???" title="?????????? / ???????? ???">
-                        <svg class="chat__eye-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path class="chat__eye-lid" d="M12 3 L21 12 L12 21 L3 12 Z" fill="none" stroke="currentColor" stroke-width="1"/>
-                            <circle class="chat__eye-pupil" cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1"/>
-                        </svg>
-                    </button>
-                </header>
-                <button type="button" class="chat__reset" aria-label="???????? ???" title="???????? ???">-</button>
-<div class="chat__log">
-                    <div class="chat__msg chat__msg--npc">
-                        <div class="chat__bubble" data-i18n="drpak.greeting">Don't waste my time on pretty explanations. Show me where it hurts. I'll cut away the rest.</div>
-                    </div>
-                </div>
-            <form class="chat__form">
-                <input class="chat__input" type="text" placeholder="Seek the truth..." autocomplete="off">
-                <button class="chat__send" type="submit">Send</button>
-            </form>
-            <p class="chat__hint" aria-live="polite"></p>
-        </div>
+        <form class="chat__form">
+          <input class="chat__input" type="text" placeholder="Спроси…" autocomplete="off">
+          <button class="chat__send" type="submit">Отправить</button>
+        </form>
+        <p class="chat__hint" aria-live="polite"></p>
+      </div>
     </aside>
-    </div>
+  </div>
 </main>
 <script src="../assets/js/atmosphere.js"></script>
+<script src="../assets/js/homepage-story.js"></script>
+<script src="../assets/js/story-meta.js"></script>
+<script src="../assets/js/talk-nav.js"></script>
+<script src="../assets/js/site-shell.js"></script>
 <script src="../assets/js/i18n.js"></script>
-<script src="../assets/js/character-lore-switch.js"></script>
-<script src="../assets/js/character-mobile-tabs.js"></script>
+<script src="../assets/js/character-page.js"></script>
 <script src="../assets/js/character-chat.js"></script>
 </body>
 </html>

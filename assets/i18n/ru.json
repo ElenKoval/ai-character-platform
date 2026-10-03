@@ -14,13 +14,13 @@
     "theWeaver": "Вивер",
     "pak": "Пак",
     "drPak": "доктор Пак",
-    "crystal": "Кристал",
+    "crystal": "Кристалл",
     "cat": "Кот",
     "liora": "Лиора",
     "shiny": "Шайни",
     "shinyBro": "Брат Шайни",
-    "talkMushroom": "Говорящий гриб",
-    "angryForest": "Злой лес",
+    "talkMushroom": "Гриб",
+    "angryForest": "Злой Лес",
     "dryad": "Дриада",
     "keeper": "Кипер",
     "elias": "Элиас"
@@ -41,7 +41,7 @@
     "backDreamWorld": "← Мир Дрима",
     "backWeaverWorld": "← Мир Вивер",
     "backWorldHistory": "← История мира",
-    "backToGate": "← Врата"
+    "backToGate": "Врата"
   },
   "index": {
     "dreamName": "Мистер Дрим",
@@ -61,7 +61,7 @@
   },
   "dreamWorld": {
     "title": "Мир Дрима",
-    "heroTag": "наблюдение · защита",
+    "heroTag": "порядок · рост",
     "catPlaceholder": "Ищу себя на крышах под луной…",
     "scrollHint": "Ещё персонажи ниже"
   },

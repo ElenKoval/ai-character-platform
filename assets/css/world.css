@@ -36,6 +36,7 @@
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  padding-left: 4px;
 }
 
 .world-page__topbar .topbar__left::-webkit-scrollbar {
@@ -657,3 +658,716 @@
     transition: opacity 0.2s ease, visibility 0.2s;
   }
 }
+
+/* ===============================
+   Weaver / Dream worlds: homepage ink + gold threads
+   =============================== */
+body.world-page.world-page--ink {
+  --thread: #d5b77c;
+  background: #0b0b0b !important;
+  background-color: #0b0b0b !important;
+  color: #e6e6e6;
+}
+
+body.world-page.world-page--ink::before,
+body.world-page.world-page--ink .portal-ambient,
+body.world-page.world-page--ink .smoke-layer,
+body.world-page.world-page--ink .sunbeam-layer {
+  display: none !important;
+}
+
+.world-page--ink .world-page__topbar {
+  position: relative;
+  background: rgba(11, 11, 11, 0.72);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  padding-left: clamp(18px, 3vw, 36px);
+  padding-right: clamp(18px, 3vw, 36px);
+}
+
+.world-page--ink .world-page__container {
+  z-index: 2;
+  max-width: none;
+  width: 100%;
+  padding: 28px 0 48px;
+}
+
+.world-page--ink .world-team__title {
+  color: rgba(196, 196, 196, 0.78);
+  letter-spacing: 0.18em;
+  padding-left: clamp(18px, 3vw, 36px);
+  padding-right: clamp(18px, 3vw, 36px);
+  margin: 0 0 28px;
+  position: relative;
+  z-index: 3;
+  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.world-page--ink .world-stage {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 100%;
+  padding-left: clamp(12px, 2vw, 28px);
+  padding-right: clamp(12px, 2vw, 28px);
+  box-sizing: border-box;
+  grid-template-columns: 1fr minmax(0, 880px) 1fr;
+}
+
+.world-page--ink .world-threads {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.world-page--ink .world-threads path {
+  fill: none;
+  stroke: var(--thread, #d5b77c);
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.world-page--ink .world-threads__glow {
+  stroke-width: 8;
+  opacity: 0.1;
+  filter: blur(5px);
+}
+
+.world-page--ink .world-threads__core {
+  stroke-width: 1.15;
+  opacity: 0.42;
+  animation: world-thread-breathe 13s ease-in-out infinite;
+}
+
+.world-page--ink .world-threads__flow {
+  stroke: #e6cfa0;
+  stroke-width: 1.7;
+  opacity: 0.32;
+  stroke-dasharray: 16 240 7 360;
+  stroke-dashoffset: var(--thread-offset, 0);
+  filter: drop-shadow(0 0 3px rgba(213, 183, 124, 0.22));
+  animation: world-thread-pulse 8s ease-in-out infinite;
+}
+
+.world-page--ink .world-threads[data-thread-mode="thirst"] .world-threads__glow {
+  stroke-width: 10;
+  opacity: 0.12;
+  filter: blur(6px);
+}
+
+.world-page--ink .world-threads[data-thread-mode="thirst"] .world-threads__core {
+  stroke-width: 1.25;
+  opacity: 0.5;
+}
+
+.world-page--ink .world-threads[data-thread-mode="thirst"] .world-threads__flow {
+  stroke-width: 2;
+  opacity: 0.38;
+  stroke-dasharray: 10 90 4 140 18 220;
+}
+
+.world-page--ink .world-threads[data-thread-mode="calm"] .world-threads__glow {
+  stroke-width: 7;
+  opacity: 0.09;
+}
+
+.world-page--ink .world-threads[data-thread-mode="calm"] .world-threads__core {
+  stroke-width: 1.05;
+  opacity: 0.4;
+}
+
+.world-page--ink .world-threads[data-thread-mode="calm"] .world-threads__flow {
+  stroke-width: 1.4;
+  opacity: 0.26;
+  stroke-dasharray: 22 280 6 400;
+}
+
+.world-page--ink .world-threads__flow--slow {
+  animation-duration: 11s;
+  opacity: 0.26;
+}
+
+.world-page--ink .world-threads__flow--soft {
+  stroke-dasharray: 10 300 4 420;
+  opacity: 0.22;
+  animation-duration: 10s;
+}
+
+@keyframes world-thread-pulse {
+  0%, 100% { opacity: 0.22; }
+  45% { opacity: 0.4; }
+  70% { opacity: 0.28; }
+}
+
+@keyframes world-thread-breathe {
+  0%, 100% { opacity: 0.36; }
+  50% { opacity: 0.52; }
+}
+
+.world-page--ink .world-hero,
+.world-page--ink .world-team__card,
+.world-page--ink .world-stage__bottom {
+  position: relative;
+  z-index: 3;
+}
+
+.world-page--ink .world-hero {
+  z-index: 4;
+}
+
+.world-page--ink .world-hero__frame {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  overflow: visible;
+  max-width: min(640px, 78vw);
+  width: 100%;
+}
+
+.world-page--ink .world-hero__frame:hover {
+  border: 0;
+  box-shadow: none;
+}
+
+.world-page--ink .world-hero__frame img {
+  max-width: 100%;
+  max-height: min(56vh, 520px);
+  width: auto;
+  height: auto;
+  filter: grayscale(1) sepia(0.2) brightness(0.72) contrast(1.05);
+  mask-image: radial-gradient(ellipse at 50% 46%, #000 38%, #000 54%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 46%, #000 38%, #000 54%, transparent 78%);
+  opacity: 0.82;
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+
+.world-page--ink .world-hero__frame:hover img {
+  opacity: 0.92;
+  filter: grayscale(1) sepia(0.16) brightness(0.8) contrast(1.05);
+}
+
+.world-page--ink .world-hero__name,
+.world-page--ink .world-team__card-name {
+  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #e2e2e2;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.85);
+}
+
+.world-page--ink .world-hero__name {
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  margin: 14px 0 4px;
+  font-style: italic;
+}
+
+.world-page--ink .world-hero__tag {
+  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: rgba(184, 184, 184, 0.9);
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.85);
+}
+
+.world-page--ink .world-team__card {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.world-page--ink .world-team__card:hover {
+  border: 0;
+  box-shadow: none;
+}
+
+.world-page--ink .world-team__card--w-s { width: min(280px, 100%); }
+.world-page--ink .world-team__card--w-m { width: min(320px, 100%); }
+.world-page--ink .world-team__card--w-l { width: min(360px, 100%); }
+
+.world-page--ink .world-team__card-img-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  padding: 0;
+  min-height: 0;
+}
+
+.world-page--ink .world-team__card img {
+  max-width: 100%;
+  max-height: min(32vh, 260px);
+  filter: grayscale(1) sepia(0.2) brightness(0.7) contrast(1.05);
+  mask-image: radial-gradient(ellipse at 50% 48%, #000 36%, #000 52%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 48%, #000 36%, #000 52%, transparent 76%);
+  opacity: 0.76;
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+
+.world-page--ink .world-team__card:hover img {
+  opacity: 0.88;
+  filter: grayscale(1) sepia(0.16) brightness(0.78) contrast(1.05);
+}
+
+.world-page--ink .world-team__card-info {
+  padding: 10px 4px 0;
+  text-align: center;
+  width: 100%;
+}
+
+.world-page--ink .world-team__card-name {
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  font-style: italic;
+  color: rgba(230, 230, 230, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  display: inline-block;
+  padding-bottom: 3px;
+  margin: 0;
+}
+
+.world-page--ink .world-quote {
+  margin: 10px auto 0;
+  max-width: 18em;
+  font: italic clamp(0.92rem, 1.2vw, 1.1rem) / 1.4 var(--font-body, "Cormorant Garamond", Georgia, serif);
+  color: #c2c2c2;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.28s ease, max-height 0.28s ease, transform 0.28s ease;
+  text-wrap: pretty;
+}
+
+.world-page--ink .world-hero__frame:hover .world-quote,
+.world-page--ink .world-hero__frame:focus-visible .world-quote,
+.world-page--ink .world-hero__frame:focus-within .world-quote,
+.world-page--ink .world-team__card:hover .world-quote,
+.world-page--ink .world-team__card:focus-within .world-quote {
+  opacity: 1;
+  max-height: 6.5em;
+  transform: translateY(0);
+}
+
+/* Cat: intentional absence — rooftops, not a broken image */
+.world-page--ink .world-team__card-img-link--placeholder {
+  aspect-ratio: 4 / 3;
+  min-height: 0;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #0b0b0b;
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  mask-image: radial-gradient(ellipse at 50% 55%, #000 42%, #000 62%, transparent 86%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 55%, #000 42%, #000 62%, transparent 86%);
+}
+
+.world-page--ink .world-void-roofs {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.9;
+}
+
+.world-page--ink .world-void-window {
+  fill: #d5b77c;
+  opacity: 0.55;
+}
+
+.world-page--ink .world-void-window--dim {
+  opacity: 0.28;
+}
+
+.world-page--ink .world-team__card-img-link--placeholder .world-team__card-placeholder-text {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  margin-bottom: 18%;
+  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  color: rgba(180, 180, 180, 0.55);
+  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  max-width: 14em;
+}
+
+.world-page--ink .world-team__card--void .world-team__card-info {
+  position: relative;
+  z-index: 1;
+}
+
+.world-page--ink .world-team__card--pos-top {
+  margin-top: 8px;
+}
+
+@media (max-width: 1100px) {
+  .world-page--ink .world-stage {
+    row-gap: 18px;
+  }
+  .world-page--ink .world-hero {
+    max-width: min(480px, 92vw);
+    order: -1;
+  }
+  .world-page--ink .world-hero__frame {
+    max-width: 100%;
+  }
+  .world-page--ink .world-hero__frame img {
+    max-height: min(46vh, 420px);
+    max-width: min(100%, 440px);
+  }
+  .world-page--ink .world-team__card,
+  .world-page--ink .world-team__card--w-s,
+  .world-page--ink .world-team__card--w-m,
+  .world-page--ink .world-team__card--w-l {
+    width: min(220px, 58vw) !important;
+    max-width: min(220px, 58vw);
+  }
+  .world-page--ink .world-team__card img {
+    max-height: min(22vh, 180px);
+    max-width: 100%;
+  }
+  .world-page--ink .world-team__card-img-link--placeholder {
+    max-height: min(22vh, 180px);
+  }
+  .world-page--ink .world-stage__bottom {
+    gap: 16px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .world-page--ink .world-hero {
+    max-width: min(400px, 90vw);
+  }
+  .world-page--ink .world-hero__frame img {
+    max-height: min(40vh, 360px);
+  }
+  .world-page--ink .world-team__card,
+  .world-page--ink .world-team__card--w-s,
+  .world-page--ink .world-team__card--w-m,
+  .world-page--ink .world-team__card--w-l {
+    width: min(180px, 52vw) !important;
+    max-width: min(180px, 52vw);
+  }
+  .world-page--ink .world-team__card img {
+    max-height: min(18vh, 150px);
+  }
+  .world-page--ink .world-team__card-img-link--placeholder {
+    max-height: min(18vh, 150px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-page--ink .world-threads__core,
+  .world-page--ink .world-threads__flow {
+    animation: none !important;
+  }
+  .world-page--ink .world-quote {
+    transition: none;
+  }
+}
+
+/* ===============================
+   Dream care composition: Thread at center, guardians around
+   =============================== */
+.world--dream .world-care-heading {
+  text-align: center;
+  margin: 0 0 18px;
+  padding: 0 clamp(18px, 3vw, 36px);
+  position: relative;
+  z-index: 3;
+}
+
+.world--dream .world-care-heading .world-team__title {
+  margin-bottom: 8px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.world--dream .world-care-heading__tag {
+  margin: 0;
+  font: 0.95rem/1.4 var(--font-body, "Cormorant Garamond", Georgia, serif);
+  letter-spacing: 0.14em;
+  color: rgba(184, 184, 184, 0.9);
+}
+
+.world--dream .world-stage--care {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: min(86vh, 900px);
+  padding: 8px clamp(12px, 2vw, 28px) 36px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.world--dream .world-stage--care .world-threads {
+  z-index: 0;
+}
+
+.world--dream .care-thread {
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  bottom: 4%;
+  width: clamp(36px, 4vw, 56px);
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.world--dream .care-thread__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.world--dream .care-thread__svg path {
+  fill: none;
+  stroke: var(--thread, #d5b77c);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.world--dream .care-thread__glow {
+  stroke-width: 14;
+  opacity: 0.18;
+  filter: blur(7px);
+  animation: care-thread-breathe 10s ease-in-out infinite;
+}
+
+.world--dream .care-thread__core {
+  stroke-width: 2.2;
+  opacity: 0.88;
+  animation: care-thread-breathe 10s ease-in-out infinite;
+}
+
+.world--dream .care-thread__flow {
+  stroke: #e8d4a4;
+  stroke-width: 2.8;
+  opacity: 0.45;
+  stroke-dasharray: 18 220 8 300;
+  animation: care-thread-flow 14s linear infinite, care-thread-breathe 10s ease-in-out infinite;
+}
+
+@keyframes care-thread-breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes care-thread-flow {
+  to { stroke-dashoffset: -540; }
+}
+
+.world--dream .care-thread__glow {
+  animation-name: care-thread-glow;
+}
+
+@keyframes care-thread-glow {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.24; }
+}
+
+.world--dream .care-cat,
+.world--dream .care-dream,
+.world--dream .care-guard {
+  position: absolute;
+  z-index: 3;
+}
+
+.world--dream .care-cat {
+  top: 2%;
+  right: clamp(4%, 6vw, 10%);
+  width: min(200px, 22vw);
+  z-index: 4;
+}
+
+.world--dream .care-dream {
+  left: 50%;
+  top: 48%;
+  transform: translate(-58%, -50%);
+  width: min(420px, 38vw);
+  z-index: 5;
+}
+
+.world--dream .care-dream .world-hero__frame {
+  max-width: 100%;
+}
+
+.world--dream .care-dream .world-hero__frame img {
+  max-height: min(48vh, 460px);
+}
+
+.world--dream .care-guard {
+  width: min(240px, 22vw);
+}
+
+.world--dream .care-guard img {
+  max-height: min(28vh, 230px);
+}
+
+.world--dream .care-guard--pak {
+  left: clamp(2%, 4vw, 8%);
+  top: 28%;
+  transform: rotate(-2deg);
+}
+
+.world--dream .care-guard--liora {
+  right: clamp(2%, 3vw, 7%);
+  top: 34%;
+  transform: rotate(2.2deg);
+}
+
+.world--dream .care-guard--crystal {
+  left: 58%;
+  bottom: 5%;
+  transform: translateX(-10%) rotate(-1.4deg);
+  width: min(220px, 20vw);
+}
+
+.world--dream .world-stage--care .world-team__card {
+  width: auto;
+}
+
+.world--dream .world-stage--care .care-cat .world-team__card-img-link--placeholder {
+  max-height: none;
+  aspect-ratio: 5 / 3;
+}
+
+@media (max-width: 1100px) {
+  .world--dream .world-stage--care {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(48px, 10vw) minmax(0, 1fr);
+    grid-auto-rows: auto;
+    column-gap: 10px;
+    row-gap: 22px;
+    min-height: 0;
+    overflow: visible;
+    justify-items: center;
+    align-items: start;
+  }
+
+  .world--dream .world-stage--care .world-threads {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+  }
+
+  .world--dream .care-cat {
+    position: relative;
+    top: auto;
+    right: auto;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: min(220px, 56vw);
+    justify-self: center;
+  }
+
+  .world--dream .care-thread {
+    position: relative;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    transform: none;
+    grid-column: 2;
+    grid-row: 2 / 5;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    align-self: stretch;
+  }
+
+  .world--dream .care-guard--pak {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: rotate(-1.5deg);
+    grid-column: 1;
+    grid-row: 2;
+    width: min(200px, 42vw);
+    justify-self: end;
+  }
+
+  .world--dream .care-guard--liora {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: rotate(1.5deg);
+    grid-column: 3;
+    grid-row: 2;
+    width: min(200px, 42vw);
+    justify-self: start;
+  }
+
+  .world--dream .care-dream {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    grid-column: 1 / -1;
+    grid-row: 3;
+    width: min(320px, 72vw);
+    justify-self: center;
+    z-index: 5;
+  }
+
+  .world--dream .care-dream .world-hero__frame img {
+    max-height: min(36vh, 320px);
+  }
+
+  .world--dream .care-guard--crystal {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: rotate(-1deg);
+    grid-column: 3;
+    grid-row: 4;
+    width: min(190px, 40vw);
+    justify-self: start;
+  }
+
+  .world--dream .care-guard img {
+    max-height: min(22vh, 190px);
+  }
+}
+
+@media (max-width: 700px) {
+  .world--dream .care-cat {
+    width: min(180px, 62vw);
+  }
+  .world--dream .care-dream {
+    width: min(280px, 78vw);
+  }
+  .world--dream .care-dream .world-hero__frame img {
+    max-height: min(32vh, 280px);
+  }
+  .world--dream .care-guard--pak,
+  .world--dream .care-guard--liora,
+  .world--dream .care-guard--crystal {
+    width: min(160px, 44vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world--dream .care-thread__glow,
+  .world--dream .care-thread__core,
+  .world--dream .care-thread__flow {
+    animation: none !important;
+  }
+}
+

@@ -1,0 +1,461 @@
+/* Scene — fullscreen black-and-white character talk */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: #e8e8e8;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  overflow: hidden;
+}
+.scene::backdrop {
+  background: #000;
+  opacity: 1;
+}
+/* Solid underlay so nothing from the page bleeds through */
+.scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 0;
+}
+.scene > * {
+  position: relative;
+  z-index: 1;
+}
+.scene[hidden] {
+  display: none !important;
+}
+
+.scene__back {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(16px, env(safe-area-inset-left));
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #bdbdbd;
+  font: 400 16px/1.3 "Cormorant Garamond", serif;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.scene__back:hover {
+  color: #fff;
+}
+
+/* Centered cluster: art + name + line + thread */
+.scene__stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: max(64px, calc(env(safe-area-inset-top) + 48px)) 24px
+    max(150px, calc(env(safe-area-inset-bottom) + 130px));
+  box-sizing: border-box;
+  text-align: center;
+  pointer-events: none;
+}
+.scene__cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: min(36rem, 92vw);
+  pointer-events: auto;
+}
+
+/* Crop to the sheet first (cut spiral / table), then invert */
+.scene__art-wrap {
+  height: 45vh;
+  width: calc(45vh * 0.76);
+  max-width: min(72vw, 400px);
+  max-height: 45vh;
+  margin: 0 auto 2px;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+.scene__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+  filter: grayscale(1) invert(1) contrast(1.45) brightness(1.04);
+  opacity: 1;
+}
+.scene__art--soft {
+  filter: grayscale(1) invert(1) contrast(1.3) brightness(1.02);
+}
+.scene__art--hard {
+  filter: grayscale(1) invert(1) contrast(1.6) brightness(1.06);
+}
+.scene__art--face {
+  filter: grayscale(1) invert(1) contrast(1.65) brightness(1.08);
+}
+
+.scene__name {
+  margin: 0;
+  font: 400 clamp(28px, 4vw, 38px) / 1.1 "Cormorant Garamond", serif;
+  color: #f2f2f2;
+  letter-spacing: -0.01em;
+}
+
+.scene__lines {
+  position: relative;
+  width: 100%;
+  min-height: 2.8em;
+  margin: 2px 0 0;
+}
+.scene__prev,
+.scene__current {
+  margin: 0;
+  font-style: italic;
+  font-family: "Cormorant Garamond", serif;
+  text-wrap: pretty;
+}
+.scene__prev {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1.35em;
+  font-size: clamp(15px, 2vw, 17px);
+  line-height: 1.35;
+  color: #5a5a5a;
+  opacity: 0;
+  transition: opacity 1.1s ease, transform 1.1s ease;
+  transform: translateY(0);
+  pointer-events: none;
+}
+.scene__prev.is-visible {
+  opacity: 0.55;
+}
+.scene__prev.is-fading {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.scene__current {
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.35;
+  color: #eaeaea;
+  min-height: 1.35em;
+}
+
+.scene__thread-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: min(18rem, 70vw);
+  margin: 4px 0 0;
+}
+.scene__wait {
+  margin: 0;
+  min-height: 1.2em;
+  font: italic 15px/1.3 "Cormorant Garamond", serif;
+  color: #8a8a8a;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.scene.is-thinking .scene__wait {
+  opacity: 1;
+}
+.scene__thread {
+  width: 100%;
+  height: 1px;
+  background: #d5b77c;
+  transform-origin: center;
+  box-shadow: 0 0 8px rgba(213, 183, 124, 0.35);
+  opacity: 0.55;
+}
+.scene.is-thinking .scene__thread {
+  animation: scene-thread-pulse 1.4s ease-in-out infinite;
+}
+@keyframes scene-thread-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.72);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.scene__user-echo {
+  position: absolute;
+  left: 50%;
+  bottom: calc(138px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(36rem, 92vw);
+  margin: 0;
+  text-align: center;
+  font: italic 17px/1.35 "Cormorant Garamond", serif;
+  color: #6e6e6e;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+.scene__user-echo.is-visible {
+  opacity: 0.85;
+}
+.scene__user-echo.is-fading {
+  opacity: 0;
+}
+
+.scene__form {
+  position: absolute;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  width: min(36rem, 92vw);
+  margin: 0;
+  padding: 0 0 8px;
+  border-bottom: 1px solid #3a3a3a;
+  box-sizing: border-box;
+  background: #000;
+}
+.scene__input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: #e8e8e8;
+  font: italic 18px/1.35 "Cormorant Garamond", serif;
+  outline: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.scene__input::placeholder {
+  color: #555;
+  font-style: italic;
+}
+.scene__say {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #cfcfcf;
+  font: 400 16px/1.3 "Cormorant Garamond", serif;
+  cursor: pointer;
+}
+.scene__say:hover {
+  color: #fff;
+}
+.scene__say:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Away from the input, readable */
+.scene__all {
+  position: absolute;
+  left: 50%;
+  bottom: calc(max(24px, env(safe-area-inset-bottom)) + 96px);
+  transform: translateX(-50%);
+  z-index: 3;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #8a8a8a;
+  font: 400 20px/1.3 "Cormorant Garamond", serif;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  letter-spacing: 0.01em;
+}
+.scene__all:hover {
+  color: #ccc;
+}
+.scene.is-transcript .scene__all {
+  visibility: hidden;
+}
+
+/* Transcript as a layer over the Scene */
+.scene__transcript {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  overflow: hidden;
+}
+.scene__transcript[hidden] {
+  display: none !important;
+}
+.scene__transcript-fold {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(16px, env(safe-area-inset-left));
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #bdbdbd;
+  font: 400 16px/1.3 "Cormorant Garamond", serif;
+  cursor: pointer;
+}
+.scene__transcript-fold:hover {
+  color: #fff;
+}
+.scene__transcript-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: max(72px, calc(env(safe-area-inset-top) + 56px)) 20px
+    max(40px, env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+.scene__transcript-inner {
+  width: min(600px, 100%);
+  margin: 0 auto;
+  text-align: left;
+}
+.scene__transcript-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 28px;
+  text-align: center;
+}
+.scene__transcript-art-wrap {
+  width: 72px;
+  height: 96px;
+  overflow: hidden;
+  background: #000;
+}
+.scene__transcript-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: grayscale(1) invert(1) contrast(1.35) brightness(1.05);
+}
+.scene__transcript-name {
+  margin: 0;
+  font: 400 26px/1.15 "Cormorant Garamond", serif;
+  color: #f0f0f0;
+}
+.scene__transcript-log {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.scene__transcript-item {
+  margin: 0;
+  font: 400 18px/1.5 "Cormorant Garamond", serif;
+}
+.scene__transcript-item--user {
+  color: #6a6a6a;
+  font-style: normal;
+}
+.scene__transcript-item--npc {
+  color: #e4e4e4;
+  font-style: italic;
+}
+.scene__transcript-empty {
+  color: #555;
+  font: italic 17px/1.4 "Cormorant Garamond", serif;
+  text-align: center;
+}
+.scene__release {
+  margin: 40px 0 16px;
+  padding-top: 24px;
+  border-top: 1px solid #222;
+  text-align: center;
+}
+.scene__release-ask {
+  margin: 0 0 14px;
+  font: italic 17px/1.4 "Cormorant Garamond", serif;
+  color: #8a8a8a;
+}
+.scene__release-row {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+.scene__release-btn {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #666;
+  font: italic 16px/1.3 "Cormorant Garamond", serif;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.scene__release-btn:hover {
+  color: #bbb;
+}
+.scene__release-btn--yes {
+  color: #9a9a9a;
+}
+.scene__release-btn--yes:hover {
+  color: #eee;
+}
+
+@media (max-width: 720px) {
+  .scene__art-wrap {
+    height: 38vh;
+    width: calc(38vh * 0.7);
+  }
+  .scene__name {
+    font-size: 26px;
+  }
+  .scene__current {
+    font-size: clamp(20px, 5.4vw, 26px);
+  }
+  .scene__form {
+    width: calc(100% - 28px);
+  }
+  .scene__user-echo {
+    width: calc(100% - 28px);
+    bottom: calc(124px + env(safe-area-inset-bottom));
+  }
+  .scene__all {
+    bottom: calc(max(24px, env(safe-area-inset-bottom)) + 88px);
+    font-size: 17px;
+  }
+}
+
+.scene.is-keyboard .scene__form {
+  bottom: calc(var(--scene-keyboard-inset, 0px) + 12px);
+}
+.scene.is-keyboard .scene__user-echo {
+  bottom: calc(var(--scene-keyboard-inset, 0px) + 96px);
+}
+.scene.is-keyboard .scene__all {
+  opacity: 0;
+  pointer-events: none;
+}
+.scene.is-keyboard .scene__art-wrap {
+  height: 28vh;
+  width: calc(28vh * 0.7);
+}

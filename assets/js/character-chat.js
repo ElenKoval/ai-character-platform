@@ -1,163 +1,61 @@
 /**
- * Чат персонажа (один чат на странице).
- * Модель выбирается на сервере автоматически (по языку + fallback).
+ * Character page → dedicated talk page.
  */
 (function () {
-  const chatContainer = document.querySelector(".chat");
-  const form = document.querySelector(".chat__form");
-  const input = document.querySelector(".chat__input");
-  const sendBtn = document.querySelector(".chat__send");
-  const log = document.querySelector(".chat__log");
-  const hint = document.querySelector(".chat__hint");
+  const chatContainer = document.querySelector(".chat[data-character]");
+  if (!chatContainer) return;
 
-  if (!form || !input || !log) return;
+  const character =
+    chatContainer.getAttribute("data-character") ||
+    document.querySelector("[data-dossier]")?.getAttribute("data-dossier") ||
+    "weaver";
 
-  const character = (chatContainer && chatContainer.getAttribute("data-character")) || "weaver";
+  const panel = chatContainer.closest(".character-chat") || chatContainer.closest(".dossier__chat");
+  const meta = window.storyMeta?.characters || {};
+  const c =
+    meta[character] ||
+    Object.values(meta).find((x) => x.apiId === character || x.id === character);
 
-  function applyChatLabels() {
-    const t = window.SunnyI18n && window.SunnyI18n.t;
-    const headerTitle = document.querySelector(".chat__header-title");
-    const headerKey = character === "keeper" ? "chat.askKeeper" : "chat.askSomething";
-    if (headerTitle) {
-      headerTitle.textContent = t ? t(headerKey) : (character === "keeper" ? "ASK KIPER ABOUT YOUR ESSENCE" : "ASK ME SOMETHING...");
+  function goTalk(seed) {
+    if (window.SunnyTalk?.go) {
+      window.SunnyTalk.go(character, { seed: seed || "" });
+      return;
     }
-    if (input) {
-      input.placeholder = t ? t("chat.seekPlaceholder") : "Seek the truth...";
-    }
-    if (sendBtn && t) sendBtn.textContent = t("chat.send");
-    if (hint && !loading) hint.textContent = "";
+    const base = /\/pages\//.test(location.pathname) ? "../" : "";
+    window.location.href = `${base}pages/talk.html?c=${encodeURIComponent(character)}`;
   }
-  applyChatLabels();
-  document.addEventListener("sunnychimera:i18n-ready", applyChatLabels);
 
-  let history = [];
-  let loading = false;
+  function talkLabel() {
+    if (!c) return "Поговорить";
+    const form = c.nameWith || c.name;
+    const prep = /^[сзшжСЗШЖ][^аеёиоуыэюяАЕЁИОУЫЭЮЯ]/.test(form) ? "со" : "с";
+    return `Поговорить ${prep} ${form}`;
+  }
 
-  function appendMessage(text, isUser) {
-    const wrap = document.createElement("div");
-    wrap.className = "chat__msg-wrap" + (isUser ? " chat__msg-wrap--user" : "");
-    const msg = document.createElement("div");
-    msg.className = "chat__msg" + (isUser ? " chat__msg--user" : " chat__msg--npc");
-    const bubble = document.createElement("div");
-    bubble.className = "chat__bubble";
-    bubble.textContent = text;
-    msg.appendChild(bubble);
-    wrap.appendChild(msg);
-    log.appendChild(wrap);
-    var chatPanel = log.closest(".character-chat");
-    if (chatPanel) chatPanel.classList.add("is-expanded");
-    requestAnimationFrame(function () {
-      log.scrollTop = log.scrollHeight;
-      var lastBubble = wrap.querySelector(".chat__bubble");
-      if (lastBubble) lastBubble.scrollIntoView({ block: "end", behavior: "smooth" });
+  if (panel) {
+    panel.classList.add("character-chat--scene-entry");
+    panel.innerHTML = "";
+    const link = document.createElement("a");
+    link.className = "dossier__scene-talk";
+    link.href = window.SunnyTalk?.talkUrl?.(character) || `talk.html?c=${encodeURIComponent(character)}`;
+    link.textContent = talkLabel();
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      goTalk();
     });
-    setTimeout(function () {
-      log.scrollTop = log.scrollHeight;
-    }, 450);
-  }
-
-  function getApiBase() {
-    var host = window.location.hostname;
-    if (host === "localhost" || host === "127.0.0.1") {
-      return window.location.origin;
-    }
-    if (window.location.protocol === "file:") {
-      return "https://ai-character-platform.onrender.com";
-    }
-    return window.location.origin;
-  }
-
-  function setLoading(on) {
-    loading = on;
-    input.disabled = on;
-    if (sendBtn) {
-      sendBtn.disabled = on;
-      sendBtn.textContent = on ? "…" : "Send";
-    }
-    if (hint) {
-      hint.textContent = on ? "…" : "";
-    }
-    var panel = chatContainer && chatContainer.closest(".character-chat");
-    if (panel) {
-      if (on) panel.classList.add("is-loading");
-      else panel.classList.remove("is-loading");
+    panel.appendChild(link);
+    if (c?.askHint) {
+      const hint = document.createElement("p");
+      hint.className = "dossier__scene-hint";
+      hint.textContent = c.askHint;
+      panel.appendChild(hint);
     }
   }
 
-  form.addEventListener("submit", async function (e) {
+  document.addEventListener("click", (e) => {
+    const talk = e.target.closest("[data-talk]");
+    if (!talk || !document.contains(talk)) return;
     e.preventDefault();
-    if (loading) return;
-    const text = input.value.trim();
-    if (!text) return;
-    setLoading(true);
-    input.value = "";
-    appendMessage(text, true);
-    history.push({ role: "user", text });
-
-    try {
-      const res = await fetch(getApiBase() + "/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: text,
-          history: history.slice(0, -1),
-          provider: "auto",
-          character: character
-        }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        let errMsg = res.statusText;
-        if (typeof data.error === "string") {
-          errMsg = data.error;
-        } else if (data.error && typeof data.error === "object") {
-          errMsg = data.error.message || data.error.code || JSON.stringify(data.error);
-        }
-        if (typeof errMsg === "string" && errMsg.startsWith("{")) {
-          try {
-            const parsed = JSON.parse(errMsg);
-            errMsg = parsed.error?.message || parsed.message || errMsg;
-          } catch (_) {}
-        }
-        appendMessage(errMsg ? "Ошибка: " + errMsg : "Ошибка сервера (" + res.status + ")", false);
-        history.pop();
-        setLoading(false);
-        input.focus();
-        return;
-      }
-
-      const reply = (data.text || "").trim() || "…";
-      appendMessage(reply, false);
-      history.push({ role: "model", text: reply });
-    } catch (err) {
-      appendMessage("Ошибка сети: " + (err.message || "не удалось отправить").trim(), false);
-      history.pop();
-    } finally {
-      setLoading(false);
-      input.focus();
-    }
-  });
-
-  input.disabled = false;
-  if (sendBtn) {
-    sendBtn.disabled = false;
-    sendBtn.type = "submit";
-  }
-  if (hint) hint.textContent = "";
-
-  document.querySelectorAll(".chat__reset").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var chatPanel = btn.closest(".character-chat");
-      if (chatPanel) chatPanel.classList.remove("is-expanded");
-    });
-  });
-
-  document.querySelectorAll(".character-chat .chat__eye-toggle").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var chatPanel = btn.closest(".character-chat");
-      if (chatPanel) chatPanel.classList.toggle("is-expanded");
-    });
+    goTalk();
   });
 })();

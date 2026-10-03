@@ -485,6 +485,12 @@
   margin: 0 0 12px;
 }
 
+.character-lore__text .lore-excerpt__more {
+  margin-top: 14px;
+  color: rgba(230, 220, 190, 0.95);
+  border-bottom-color: rgba(213, 183, 124, 0.45);
+}
+
 .character-lore__text p:last-child {
   margin-bottom: 0;
 }

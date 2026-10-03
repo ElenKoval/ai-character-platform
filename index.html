@@ -1,104 +1,207 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>SunnyChimera</title>
-
-    <!-- Main styles -->
-    <link rel="stylesheet" href="assets/css/base.css" />
-    <link rel="stylesheet" href="assets/css/sound.css" />
-    <link rel="stylesheet" href="assets/css/world.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>SunnyChimera — Мир Дриады</title>
+  <meta name="description" content="Куда уходит то, чего ты хочешь слишком сильно? В Саду знают. В Лесу помнят. Истории и рисунки мира Дриады.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23101010'/%3E%3Cpath d='M16 3C2 13 30 19 16 29M16 3C30 13 2 19 16 29' fill='none' stroke='%23c4c4c4' stroke-width='1.5'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/homepage.css">
+  <link rel="stylesheet" href="assets/css/site-shell.css">
 </head>
-
-<body class="page-portal">
-<header class="portal-topbar">
-    <a href="pages/about.html" class="portal-topbar__brand">SunnyChimera</a>
-    <div class="portal-topbar__lang" data-lang-switch-host></div>
-</header>
-<div class="portal-ambient" aria-hidden="true"></div>
-<div class="smoke-layer" aria-hidden="true">
-  <div class="smoke-cloud smoke-cloud--1"></div>
-  <div class="smoke-cloud smoke-cloud--2"></div>
-  <div class="smoke-cloud smoke-cloud--3"></div>
-  <div class="smoke-cloud smoke-cloud--4"></div>
-  <div class="smoke-cloud smoke-cloud--5"></div>
-  <div class="smoke-cloud smoke-cloud--6"></div>
-</div>
-<div class="sunbeam-layer" aria-hidden="true">
-  <div class="sunbeam sunbeam--main"></div>
-</div>
-<main class="portal" aria-label="SunnyChimera portal">
-
-    <!-- ================= LEFT: MR. DREAM ================= -->
-    <section class="panel panel--dream" aria-label="Mr. Dream">
-        <div class="panel__top">
-            <div class="panel__top-heading">
-                <div class="panel__name" data-i18n="index.dreamName">Mr. Dream</div>
-                <div class="panel__tag" data-i18n="index.dreamTag">observation · protection</div>
-            </div>
-        </div>
-        <div class="panel__whisper panel__whisper--dream">
-            <p data-i18n="index.dreamWhisper1">Not every growth leads to life.</p>
-            <p data-i18n="index.dreamWhisper2">Dream sees where the Thread began to pull astray.</p>
-        </div>
-
-        <figure class="panel__art">
-            <a href="pages/dream-world.html">
-                <img src="assets/img/dream.jpeg" alt="Mr. Dream" loading="eager" />
-            </a>
-        </figure>
+<body>
+  <a class="skip-link" href="#main">К содержанию</a>
+  <main id="main">
+    <section class="hero" id="dryad" aria-labelledby="hero-title">
+      <div class="hero-art"><img src="assets/img/dryad.jpeg" alt="Дриада спит, сросшись с древним деревом" width="1125" height="1500" fetchpriority="high"></div>
+      <svg class="thread hero-thread" viewBox="0 0 1440 1000" preserveAspectRatio="none" aria-hidden="true">
+        <path class="thread-shadow" d="M-40 840 C230 930 425 710 760 770 S1195 920 1190 575 S1040 255 1470 345"/>
+        <path d="M-40 840 C230 930 425 710 760 770 S1195 920 1190 575 S1040 255 1470 345"/>
+      </svg>
+      <div class="hero-copy">
+        <p class="world-name">Мир Дриады</p>
+        <h1 id="hero-title"><span>Куда уходит то,</span> <span>чего ты хочешь</span> <em>слишком сильно?</em></h1>
+        <p class="intro">В Саду знают. В Лесу помнят.</p>
+        <button class="primary" data-read="beginning">Перед первым криком</button>
+      </div>
     </section>
-
-    <!-- ================= CENTER: WORLD (click → world history) ================= -->
-    <section class="core" aria-label="World center">
-        <a href="pages/world.html" class="core__inner">
-            <h1 class="core__title" data-i18n="index.coreTitle">SunnyChimera World</h1>
-            <p class="core__text" data-i18n-html="index.coreText">Not the first story.<br>Not the last.</p>
+    <section class="contents" id="contents" aria-labelledby="contents-title">
+      <div class="contents-spread">
+        <div class="contents-verso" id="keeper">
+          <button type="button" id="keeper-murmur" class="keeper-drawing" aria-label="Другая мысль Кипера">
+            <img src="assets/img/keeper.jpeg" alt="Кипер — хранитель у корней Дриады" width="795" height="1000" loading="lazy">
+            <span>Коснись Кипера</span>
+          </button>
+          <p class="contents-epigraph">«Сложно держать порядок, когда память складывается не по времени, а по боли».</p>
+          <p id="keeper-quote" class="keeper-whisper" aria-live="polite"></p>
+        </div>
+        <div class="contents-spine" aria-hidden="true"></div>
+        <div class="contents-recto">
+          <p class="contents-label">История</p>
+          <h2 id="contents-title">Часть <em>первая</em></h2>
+          <ol class="contents-list">
+            <li>
+              <button type="button" data-read="prologue">
+                <span class="contents-name">Перед первым криком</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">—</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch1">
+                <span class="contents-name">Мир стал меньше</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">1</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch2">
+                <span class="contents-name">Возможно, жук</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">2</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch3">
+                <span class="contents-name">Янтарная тишина</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">3</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch4">
+                <span class="contents-name">Встреча</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">4</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch5">
+                <span class="contents-name">Бег</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">5</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch6">
+                <span class="contents-name">Просто скажи «нет»</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">6</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch7">
+                <span class="contents-name">Операция</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">7</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch8">
+                <span class="contents-name">Крыша</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">8</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch9">
+                <span class="contents-name">Прикосновение</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">9</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch10">
+                <span class="contents-name">Запах высоты</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">10</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch11">
+                <span class="contents-name">Свет, который не продаётся</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">11</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch12">
+                <span class="contents-name">Ноктюрн</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">12</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch13">
+                <span class="contents-name">Цена</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">13</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" data-read="ch14">
+                <span class="contents-name">Шипы</span>
+                <span class="contents-dots" aria-hidden="true"></span>
+                <span class="contents-page">14</span>
+              </button>
+            </li>
+          </ol>
+          <p class="contents-cont">Оно только начинается.</p>
+        </div>
+      </div>
+    </section>
+    <section class="world-scene" id="world" aria-labelledby="world-title">
+      <div class="scene-intro">
+        <h2 id="world-title">Дрим не даст Нити порваться.<br><em>Вивер не даст ей остаться прежней.</em></h2>
+        <p>Оба называют это спасением.</p>
+      </div>
+      <div class="thread-crossing">
+        <a class="apparition dream-apparition" href="pages/dream-world.html" aria-label="Открыть мир Дрима">
+          <img src="assets/img/dream-home.jpeg" alt="Дрим" width="2544" height="3500" loading="lazy">
+          <span class="apparition-name">Мир Дрима</span>
         </a>
+        <a class="apparition weaver-apparition" href="pages/weaver-world.html" aria-label="Открыть мир Вивер">
+          <img src="assets/img/weaver-home.jpeg" alt="Вивер" width="3219" height="2548" loading="lazy">
+          <span class="apparition-name">Мир Вивер</span>
+        </a>
+        <svg class="living-thread" viewBox="0 0 1440 660" preserveAspectRatio="none" role="img" aria-labelledby="thread-title thread-description">
+          <title id="thread-title">Одна Нить. Дрим и Вивер.</title>
+          <desc id="thread-description">Слева Нить начинается ровно, затем в ней поднимается Жажда. Проходя через Дрима, она снова становится ровным светом, коротко остаётся спокойной и входит в Вивер. После Вивер Жажда вплетается в Нить волнами до правого края.</desc>
+          <path class="thread-aura" data-strand="aura" d="M0 315 C40 260 60 380 90 300 S125 245 155 325 S210 365 240 310 S300 275 340 306 S395 312 450 310 C650 310 870 310 1020 310 C1090 310 1090 235 1140 305 S1210 375 1250 305 S1320 245 1360 310 S1400 370 1440 310"/>
+          <path class="thread-filament" data-strand="echo" d="M0 335 C80 270 110 380 180 295 S270 335 330 310 S390 310 450 310 L1020 310 C1100 310 1100 270 1160 320 S1250 350 1300 290 S1380 350 1440 315"/>
+          <path class="thread-core" data-strand="core" d="M0 315 C40 260 60 380 90 300 S125 245 155 325 S210 365 240 310 S300 275 340 306 S395 312 450 310 C650 310 870 310 1020 310 C1090 310 1090 235 1140 305 S1210 375 1250 305 S1320 245 1360 310 S1400 370 1440 310"/>
+          <path class="thread-current" data-strand="current" pathLength="1000" d="M0 315 C40 260 60 380 90 300 S125 245 155 325 S210 365 240 310 S300 275 340 306 S395 312 450 310 C650 310 870 310 1020 310 C1090 310 1090 235 1140 305 S1210 375 1250 305 S1320 245 1360 310 S1400 370 1440 310"/>
+        </svg>
+      </div>
     </section>
-
-    <!-- ================= RIGHT: weaver ================= -->
-    <section class="panel panel--weaver" aria-label="weaver">
-        <div class="panel__top">
-            <div class="panel__top-heading">
-                <div class="panel__name" data-i18n="index.weaverName">The weaver</div>
-                <div class="panel__tag" data-i18n="index.weaverTag">thirst · change</div>
-            </div>
-        </div>
-        <div class="panel__whisper panel__whisper--weaver">
-            <p data-i18n="index.weaverWhisper1">Wake up.</p>
-            <p data-i18n="index.weaverWhisper2">Feel the Thirst.</p>
-            <p data-i18n="index.weaverWhisper3">Leap into the abyss — or you may never feel alive.</p>
-        </div>
-
-        <figure class="panel__art">
-            <a href="pages/weaver-world.html">
-                <img src="assets/img/Weaver_Symbol.jpeg" alt="Weaver world" loading="eager" />
-            </a>
-        </figure>
+    <section class="forest" id="forest">
+      <img src="assets/img/angry_forest.jpeg" alt="Злой Лес, принимающий отвергнутую Жажду" loading="lazy">
+      <div class="forest-content">
+        <p class="eyebrow">ЗА ПРЕДЕЛАМИ САДА</p>
+        <h2>«Спроси их, куда они<br>девают <em>твою боль</em>».</h2>
+        <p>Жажда не исчезает, когда её вырезают из Нити.<br>Кто-то остаётся с ней жить.</p>
+        <a class="text-link forest-link" href="pages/angry_forest.html">Услышать Лес</a>
+      </div>
+      <span class="forest-note">ЗДЕСЬ У КОРНЕЙ ЕСТЬ ГОЛОС.</span>
     </section>
-
-</main>
-
-<section class="sound-of-the-world" aria-label="The Sound of the World">
-  <div class="sound-strip" aria-hidden="true"></div>
-  <a class="sound-entry" href="pages/sound.html" data-i18n="common.soundOfWorld">The Sound of the World</a>
-</section>
-
-<footer class="site-footer">
-  <div class="footer__whisper" data-i18n="common.portalRemembers">The portal remembers.</div>
-  <nav class="footer__nav">
-    <a href="index.html" data-i18n="common.gate">The Gate</a> ·
-    <a href="pages/dream-world.html" data-i18n="common.dream">Dream</a> ·
-    <a href="pages/weaver-world.html" data-i18n="common.weaver">Weaver</a>
-  </nav>
-  <div class="footer__mark"><a href="pages/about.html" class="footer__mark-link">SunnyChimera</a></div>
-</footer>
-
-<script src="assets/js/atmosphere.js"></script>
-<script src="assets/js/i18n.js"></script>
-<script src="assets/js/world-scroll-hint.js"></script>
-<script src="assets/js/app.js"></script>
+  </main>
+  <footer>
+    <a class="brand" href="index.html">sunny<span>Chimera</span></a>
+    <a href="pages/about.html">Об авторе и мире</a>
+    <button id="beetle-toggle" aria-pressed="false" hidden>Усыпить жука</button>
+  </footer>
+  <dialog id="reader" class="site-reader" aria-labelledby="reader-title"></dialog>
+  <div id="wandering-beetle" aria-hidden="true" hidden><div class="beetle-sprite"></div></div>
+  <script src="assets/js/homepage-story.js"></script>
+  <script src="assets/js/story-meta.js"></script>
+  <script src="assets/js/talk-nav.js"></script>
+  <script src="assets/js/site-shell.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/homepage.js"></script>
+  <script src="assets/js/homepage-thread.js" defer></script>
+  <script src="assets/js/homepage-beetle.js" defer></script>
 </body>
 </html>

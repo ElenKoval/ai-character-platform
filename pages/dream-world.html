@@ -6,64 +6,103 @@
     <title>Dream's World - SunnyChimera</title>
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/world.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="../assets/css/site-shell.css" />
 </head>
-<body class="world-page world--dream">
-<header class="world-page__topbar">
-    <div class="topbar__left">
-        <a class="world-page__back" href="../index.html" data-i18n="nav.backToGate">← The Gate</a>
-        <a class="world-page__topbar-link" href="dream-world.html" data-i18n="common.dreamWorld">Dream's World</a>
-        <a class="world-page__topbar-link" href="weaver-world.html" data-i18n="common.weaverWorld">Weaver's World</a>
-    </div>
-</header>
-
+<body class="world-page world--dream world-page--ink">
 <main class="world-page__container">
-    <h2 class="world-team__title" data-i18n="dreamWorld.title">Dream's World</h2>
-    <div class="world-stage">
-        <section class="world-hero">
+    <header class="world-care-heading">
+        <h2 class="world-team__title" data-i18n="dreamWorld.title">Dream's World</h2>
+        <p class="world-care-heading__tag" data-i18n="dreamWorld.heroTag">order · growth</p>
+    </header>
+
+    <div class="world-stage world-stage--care">
+        <svg class="world-threads" data-thread-mode="calm" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true"></svg>
+
+        <article class="care-cat world-team__card world-team__card--void">
+            <a href="cat.html" class="world-team__card-img-link world-team__card-img-link--placeholder" aria-label="Cat">
+                <svg class="world-void-roofs" viewBox="0 0 320 200" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+                    <rect width="320" height="200" fill="#0c0c0c"/>
+                    <path d="M0 148 L48 110 L96 148 L96 200 L0 200 Z" fill="#141414"/>
+                    <path d="M80 160 L140 96 L210 160 L210 200 L80 200 Z" fill="#121212"/>
+                    <path d="M190 150 L250 108 L320 150 L320 200 L190 200 Z" fill="#151515"/>
+                    <path d="M0 148 L48 110 L96 148" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+                    <path d="M80 160 L140 96 L210 160" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+                    <path d="M190 150 L250 108 L320 150" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+                    <rect class="world-void-window" x="28" y="150" width="7" height="9" rx="0.5"/>
+                    <rect class="world-void-window" x="52" y="158" width="6" height="8" rx="0.5"/>
+                    <rect class="world-void-window" x="118" y="140" width="8" height="10" rx="0.5"/>
+                    <rect class="world-void-window world-void-window--dim" x="148" y="152" width="6" height="8" rx="0.5"/>
+                    <rect class="world-void-window" x="172" y="146" width="7" height="9" rx="0.5"/>
+                    <rect class="world-void-window" x="236" y="138" width="7" height="9" rx="0.5"/>
+                    <rect class="world-void-window world-void-window--dim" x="268" y="152" width="6" height="8" rx="0.5"/>
+                    <circle cx="248" cy="42" r="14" fill="none" stroke="#3a3a3a" stroke-width="1" opacity="0.55"/>
+                    <g class="world-void-scratches" fill="none" stroke="#5a5a5a" stroke-width="1" opacity="0.55">
+                        <path d="M12 24 l18 -6 M16 30 l22 -7 M20 36 l14 -4"/>
+                        <path d="M286 168 l16 8 M290 176 l14 6 M294 184 l12 5"/>
+                    </g>
+                </svg>
+                <span class="world-team__card-placeholder-text" data-i18n="dreamWorld.catPlaceholder">Searching for self on the moonlit rooftops…</span>
+            </a>
+            <div class="world-team__card-info">
+                <div class="world-team__card-name" data-i18n="names.cat">Cat</div>
+                <p class="world-quote">«Страшно даже признать, насколько тебе кто-то дорог».</p>
+            </div>
+        </article>
+
+        <div class="care-thread" aria-hidden="true">
+            <svg class="care-thread__svg" viewBox="0 0 60 900" preserveAspectRatio="none">
+                <path class="care-thread__glow" d="M30 20 C26 140 34 260 28 380 S36 560 30 700 S24 820 30 880"/>
+                <path class="care-thread__core" d="M30 20 C26 140 34 260 28 380 S36 560 30 700 S24 820 30 880"/>
+                <path class="care-thread__flow" pathLength="1000" d="M30 20 C26 140 34 260 28 380 S36 560 30 700 S24 820 30 880"/>
+            </svg>
+        </div>
+
+        <section class="care-dream">
             <a class="world-hero__frame" href="dream.html">
-                <img src="../assets/img/dream2.jpeg" alt="Mr. Dream" />
-                <h1 class="world-hero__name">Mr. Dream</h1>
-                <p class="world-hero__tag" data-i18n="dreamWorld.heroTag">observation · protection</p>
+                <img src="../assets/img/dream2.jpeg" alt="Dream" />
+                <h1 class="world-hero__name" data-i18n="names.dream">Dream</h1>
+                <p class="world-quote">«Я здесь. Я тебя держу».</p>
             </a>
         </section>
-        <article class="world-team__card world-team__card--pos-left world-team__card--w-l world-team__card--tilt-l">
+
+        <article class="care-guard care-guard--pak world-team__card">
             <a href="drpak.html" class="world-team__card-img-link">
-                <img src="../assets/img/dr.pak.jpeg" alt="Dr. Pak" />
+                <img src="../assets/img/dr.pak.jpeg" alt="Pak" />
+                <div class="world-team__card-info">
+                    <div class="world-team__card-name" data-i18n="names.pak">Pak</div>
+                    <p class="world-quote">«Вы хотите не свободы. Вы хотите пожара».</p>
+                </div>
             </a>
-            <div class="world-team__card-info">
-                <div class="world-team__card-name" data-i18n="names.drPak">Dr. Pak</div>
-            </div>
         </article>
-        <article class="world-team__card world-team__card--pos-right world-team__card--w-l world-team__card--tilt-r">
+
+        <article class="care-guard care-guard--liora world-team__card">
             <a href="liora.html" class="world-team__card-img-link">
                 <img src="../assets/img/liora.jpeg" alt="Liora" />
+                <div class="world-team__card-info">
+                    <div class="world-team__card-name" data-i18n="names.liora">Liora</div>
+                    <p class="world-quote">«Я тебя слышу».</p>
+                </div>
             </a>
-            <div class="world-team__card-info">
-                <div class="world-team__card-name" data-i18n="names.liora">Liora</div>
-            </div>
         </article>
-        <div class="world-stage__bottom">
-            <article class="world-team__card world-team__card--horizontal world-team__card--w-l world-team__card--tilt-l">
-                <a href="crystal.html" class="world-team__card-img-link">
-                    <img src="../assets/img/Crystal.jpeg" alt="Crystal" />
-                </a>
+
+        <article class="care-guard care-guard--crystal world-team__card">
+            <a href="crystal.html" class="world-team__card-img-link">
+                <img src="../assets/img/Crystal.jpeg" alt="Crystal" />
                 <div class="world-team__card-info">
-                    <div class="world-team__card-name">Crystal</div>
+                    <div class="world-team__card-name" data-i18n="names.crystal">Crystal</div>
+                    <p class="world-quote">«Вы так стараетесь убежать друг от друга, что забыли, как звучите вместе».</p>
                 </div>
-            </article>
-            <article class="world-team__card world-team__card--horizontal world-team__card--w-l world-team__card--tilt-r">
-                <a href="cat.html" class="world-team__card-img-link world-team__card-img-link--placeholder">
-                    <span class="world-team__card-placeholder-text" data-i18n="dreamWorld.catPlaceholder">Searching for self on the moonlit rooftops…</span>
-                </a>
-                <div class="world-team__card-info">
-                    <div class="world-team__card-name" data-i18n="names.cat">CAT</div>
-                </div>
-            </article>
-        </div>
+            </a>
+        </article>
     </div>
 </main>
-<script src="../assets/js/atmosphere.js"></script>
+<script src="../assets/js/homepage-story.js"></script>
+<script src="../assets/js/story-meta.js"></script>
+<script src="../assets/js/site-shell.js"></script>
 <script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/world-threads.js" defer></script>
 <script src="../assets/js/world-scroll-hint.js"></script>
 </body>
 </html>
