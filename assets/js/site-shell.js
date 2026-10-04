@@ -62,9 +62,13 @@
     const section = currentSection();
     const header = document.createElement("header");
     header.className = "site-header";
+    const homeLink = isHome
+      ? ""
+      : `<a href="${home}" class="site-nav__home">На главную</a>`;
     header.innerHTML = `
       <a class="site-header__brand" href="${home}" aria-label="SunnyChimera — главная">sunny<span>Chimera</span></a>
       <nav class="site-nav site-nav--desktop" aria-label="Основная навигация">
+        ${homeLink}
         <button type="button" class="site-nav__read${section === "home" ? " is-current" : ""}" data-nav-read>Читать</button>
         <button type="button" class="site-nav__continue" data-nav-continue hidden>Продолжить</button>
         <a href="${base}pages/your-thread.html" class="${section === "thread" ? "is-current" : ""}">Твоя Нить</a>
@@ -85,6 +89,7 @@
     mobile.setAttribute("hidden", "");
     mobile.innerHTML = `
       <button type="button" class="site-nav-mobile__close" data-nav-close aria-label="Закрыть">×</button>
+      ${homeLink}
       <button type="button" data-nav-read>Читать</button>
       <button type="button" class="site-nav__continue" data-nav-continue hidden>Продолжить</button>
       <a href="${base}pages/your-thread.html">Твоя Нить</a>
@@ -161,23 +166,8 @@
     closeBtn?.addEventListener("click", closeMobile);
     mobile.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMobile));
 
-    let lastY = window.scrollY;
-    let ticking = false;
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          const y = window.scrollY;
-          if (y > lastY && y > 80) header.classList.add("is-hidden");
-          else header.classList.remove("is-hidden");
-          lastY = y;
-          ticking = false;
-        });
-      },
-      { passive: true }
-    );
+    /* Header stays pinned — no hide-on-scroll. */
+    header.classList.remove("is-hidden");
 
     updateContinueButtons();
   }

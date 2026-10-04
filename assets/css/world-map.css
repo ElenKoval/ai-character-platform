@@ -46,6 +46,9 @@
 .world-map__clip--garden {
   clip-path: inset(0% 27% 40% 6%);
 }
+.world-map__clip--tree {
+  clip-path: inset(0% 42% 68% 18%);
+}
 .world-map__clip--wasteland {
   clip-path: inset(12% 0% 45% 73%);
 }
@@ -53,13 +56,14 @@
   clip-path: inset(58% 0% 0% 0%);
 }
 .world-map.is-focus-garden .world-map__clip--garden,
+.world-map.is-focus-tree .world-map__clip--tree,
 .world-map.is-focus-wasteland .world-map__clip--wasteland,
 .world-map.is-focus-forest .world-map__clip--forest {
   opacity: 1;
 }
 .world-map__hit {
   position: absolute;
-  z-index: 4;
+  z-index: 5;
   margin: 0;
   padding: 0;
   border: 0;
@@ -71,6 +75,13 @@
   top: 0;
   width: 67%;
   height: 60%;
+}
+.world-map__hit--tree {
+  left: 18%;
+  top: 0;
+  width: 40%;
+  height: 30%;
+  z-index: 6;
 }
 .world-map__hit--wasteland {
   left: 73%;
@@ -90,7 +101,7 @@
 }
 .world-map__label {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   margin: 0;
   font: italic 400 clamp(15px, 1.8vw, 26px) / 1.2 var(--wm-serif);
   color: #f0f0f0;
@@ -209,21 +220,73 @@
   cursor: pointer;
   text-align: left;
 }
+/* Panel notebooks: gray/black only — no warm gold */
+.world-map .notebook-page {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 42%),
+    #2e2e2e;
+  border: 1px solid rgba(160, 160, 160, 0.28);
+  box-shadow: 0 14px 36px #000a;
+}
+.world-map .notebook-page__spiral {
+  background:
+    radial-gradient(circle at 50% 10px, #141414 3px, transparent 3.5px) 0 0 / 14px 18px,
+    linear-gradient(90deg, transparent 5px, rgba(150, 150, 150, 0.55) 5px, rgba(150, 150, 150, 0.55) 7px, transparent 7px);
+}
+.world-map .notebook-page__spiral::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 11px,
+    rgba(150, 150, 150, 0.7) 11px 13px,
+    transparent 13px 18px
+  );
+}
+.world-map .notebook-page__img {
+  filter: grayscale(1) contrast(1.06) brightness(0.96);
+  background: #3a3a3a;
+  border-color: rgba(0, 0, 0, 0.35);
+}
 .world-map__page .notebook-page {
   margin: 0 0 8px;
   padding: 8px 8px 8px 18px;
   transform: rotate(-0.3deg);
 }
 .world-map__page .notebook-page__img {
-  filter: none;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  background: #111;
 }
 .world-map__page-name {
   display: block;
   font: italic 15px/1.3 var(--wm-serif);
   color: #cfcfcf;
+}
+.world-map__page-note {
+  display: block;
+  margin-top: 4px;
+  font: italic 13px/1.35 var(--wm-serif);
+  color: #9a9a9a;
+  text-wrap: pretty;
+}
+.world-map__page-note a {
+  color: #ddd;
+  border-bottom: 1px solid #666;
+  text-decoration: none;
+}
+.world-map__page-note a:hover {
+  color: #fff;
+  border-color: #eee;
+}
+.world-map__page-talk {
+  display: inline-block;
+  margin-top: 6px;
+  font: 14px/1.3 var(--wm-serif);
+  color: #ddd;
+  border-bottom: 1px solid #666;
+  text-decoration: none;
+}
+.world-map__page-talk:hover {
+  color: #fff;
+  border-color: #eee;
 }
 .world-map__page:hover .world-map__page-name,
 .world-map__page:focus-visible .world-map__page-name {
@@ -237,7 +300,6 @@
   padding: 12px 12px 12px 26px;
 }
 .world-map__wasteland-art .notebook-page__img {
-  filter: none;
   width: 100%;
   height: auto;
 }

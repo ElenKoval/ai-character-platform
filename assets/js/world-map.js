@@ -10,7 +10,7 @@
   let locked = "";
   let hover = "";
 
-  /* Hanging Threads: left 10–36%, right 65–71%; height 20–64% of map. */
+  /* Hanging Threads: left 10–36%; height 20–64% of map. */
   function threadPath(x0, x1, seed) {
     const top = 0.2;
     const bot = 0.64;
@@ -33,8 +33,6 @@
     threadPath(0.17, 0.2, 1.1),
     threadPath(0.23, 0.26, 2.2),
     threadPath(0.29, 0.33, 0.8),
-    threadPath(0.655, 0.668, 1.5),
-    threadPath(0.68, 0.695, 2.8),
   ];
 
   function paintThreads() {
@@ -55,13 +53,38 @@
   }
 
   const regions = {
+    tree: {
+      line: "Дриада спит у корней мира.",
+      pages: [
+        {
+          id: "dryad",
+          noteHtml:
+            'Дриада спит. <a href="' +
+            `${base}pages/talk.html?c=keeper` +
+            '">Спроси Кипера</a>.',
+        },
+        { id: "keeper", talk: true },
+      ],
+    },
     garden: {
       line: "Нить не была судьбой, она просто росла.",
-      pages: ["dream", "pak", "liora", "crystal", "cat"],
+      pages: [
+        { id: "dream", talk: true },
+        { id: "pak", talk: true },
+        { id: "liora", talk: true },
+        { id: "crystal", talk: true },
+        { id: "cat", talk: true },
+      ],
     },
     forest: {
-      line: "Всё, от чего тебя спасли, до сих пор живёт во мне.",
-      pages: ["weaver", "shiny", "shinyBro", "mushroom", "forest"],
+      line: "Всё, от чего тебя спасли, до сих пор живёт во мне...",
+      pages: [
+        { id: "weaver", talk: true },
+        { id: "shiny", talk: true },
+        { id: "shinyBro", talk: true },
+        { id: "mushroom", talk: true },
+        { id: "forest", talk: true },
+      ],
       enter: { href: `${base}pages/angry_forest.html`, label: "Войти в Лес" },
     },
     wasteland: {
@@ -75,23 +98,50 @@
     return `${base}pages/album.html#${encodeURIComponent(id)}`;
   }
 
-  function pageCard(id) {
+  function talkHref(id) {
+    const entry = (window.storyMeta?.album || []).find((a) => a.id === id);
+    const talkId = entry?.talkId || id;
+    return `${base}pages/talk.html?c=${encodeURIComponent(talkId)}`;
+  }
+
+  function pageCard(spec) {
+    const id = typeof spec === "string" ? spec : spec.id;
+    const opts = typeof spec === "string" ? {} : spec;
     const album = window.storyMeta?.album || [];
     const entry = album.find((a) => a.id === id);
     const ch = window.storyMeta?.characters?.[id];
     const name = entry?.name || ch?.name || id;
     const img = entry?.img || ch?.img || "";
-    const a = document.createElement("a");
-    a.className = "world-map__page";
-    a.href = albumHref(id);
-    a.innerHTML = `
+
+    const card = document.createElement("div");
+    card.className = "world-map__page";
+
+    const artLink = document.createElement("a");
+    artLink.href = albumHref(id);
+    artLink.setAttribute("aria-label", name);
+    artLink.innerHTML = `
       <div class="notebook-page">
         <div class="notebook-page__spiral" aria-hidden="true"></div>
         <img class="notebook-page__img" src="${img}" alt="${name}" loading="lazy" width="200" height="260">
       </div>
       <span class="world-map__page-name">${name}</span>
     `;
-    return a;
+    card.appendChild(artLink);
+
+    if (opts.noteHtml) {
+      const note = document.createElement("span");
+      note.className = "world-map__page-note";
+      note.innerHTML = opts.noteHtml;
+      card.appendChild(note);
+    } else if (opts.talk && (entry?.talkId || ch)) {
+      const talk = document.createElement("a");
+      talk.className = "world-map__page-talk";
+      talk.href = talkHref(id);
+      talk.textContent = "Поговорить";
+      card.appendChild(talk);
+    }
+
+    return card;
   }
 
   function renderPanel(key) {
@@ -113,7 +163,7 @@
     if (data.pages) {
       const row = document.createElement("div");
       row.className = "world-map__pages";
-      data.pages.forEach((id) => row.appendChild(pageCard(id)));
+      data.pages.forEach((spec) => row.appendChild(pageCard(spec)));
       inner.appendChild(row);
     }
     if (data.enter) {
@@ -140,6 +190,7 @@
   function setFocus(key) {
     root.classList.toggle("is-focusing", Boolean(key));
     root.classList.toggle("is-focus-garden", key === "garden");
+    root.classList.toggle("is-focus-tree", key === "tree");
     root.classList.toggle("is-focus-wasteland", key === "wasteland");
     root.classList.toggle("is-focus-forest", key === "forest");
   }

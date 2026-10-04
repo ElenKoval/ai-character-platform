@@ -50,7 +50,7 @@ footer a {
   --album-paper: #e6e6e6;
   max-width: 820px;
   margin: 0 auto;
-  padding: 120px clamp(20px, 5vw, 48px) 90px;
+  padding: 100px clamp(20px, 5vw, 48px) 90px;
   color: var(--album-paper);
 }
 .album__title {
@@ -76,17 +76,36 @@ footer a {
   padding: 16px 16px 16px 32px;
   max-width: 560px;
   transform: rotate(-0.35deg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 42%),
+    #2e2e2e;
+  border: 1px solid rgba(160, 160, 160, 0.28);
+  box-shadow: 0 14px 36px #000a;
+}
+.album__page .notebook-page__spiral {
+  background:
+    radial-gradient(circle at 50% 10px, #141414 3px, transparent 3.5px) 0 0 / 14px 18px,
+    linear-gradient(90deg, transparent 5px, rgba(150, 150, 150, 0.55) 5px, rgba(150, 150, 150, 0.55) 7px, transparent 7px);
+}
+.album__page .notebook-page__spiral::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 11px,
+    rgba(150, 150, 150, 0.7) 11px 13px,
+    transparent 13px 18px
+  );
 }
 .album__page:nth-child(even) .notebook-page {
   transform: rotate(0.4deg);
 }
 .album__page .notebook-page__img {
-  filter: none;
+  filter: grayscale(1) contrast(1.06) brightness(0.96);
   width: 100%;
   height: auto;
   aspect-ratio: auto;
   object-fit: contain;
-  background: #0e0e0e;
+  background: #3a3a3a;
+  border-color: rgba(0, 0, 0, 0.35);
 }
 .album__meta {
   max-width: 560px;
@@ -123,37 +142,6 @@ footer a {
 .album__link:focus-visible {
   color: #fff;
   border-color: #eee;
-}
-.album__chapters {
-  margin: 4px 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 6px;
-}
-.album__chapters[hidden] {
-  display: none !important;
-}
-.album__chapters a,
-.album__chapters button {
-  display: inline-block;
-  font: 17px/1.4 var(--album-serif);
-  color: #b8b8b8;
-  background: none;
-  border: 0;
-  border-bottom: 1px dotted #555;
-  padding: 2px 0;
-  cursor: pointer;
-  text-align: left;
-}
-.album__chapters a:hover,
-.album__chapters button:hover {
-  color: #fff;
-  border-bottom-color: #aaa;
-}
-.album__empty {
-  font: italic 16px/1.4 var(--album-serif);
-  color: #888;
 }
 @media (max-width: 700px) {
   .album {
