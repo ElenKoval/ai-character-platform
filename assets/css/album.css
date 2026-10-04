@@ -1,0 +1,169 @@
+/* Album: notebook pages in a vertical ribbon */
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: #e6e6e6;
+  font: 16px/1.6 Manrope, Arial, sans-serif;
+}
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 20px;
+  z-index: 60;
+  padding: 10px 18px;
+  background: #eee;
+  color: #111;
+  clip-path: inset(100%);
+  white-space: nowrap;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  clip-path: none;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 35px clamp(20px, 5vw, 48px);
+  border-top: 1px solid #ffffff15;
+  gap: 25px;
+  font-size: 14px;
+  color: #b8b8b8;
+}
+footer .brand {
+  font: italic 25px/1 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: -0.04em;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+footer .brand span {
+  font-style: normal;
+}
+footer a {
+  color: inherit;
+  text-decoration: none;
+}
+.album {
+  --album-serif: "Cormorant Garamond", Georgia, serif;
+  --album-ink: #0b0b0b;
+  --album-paper: #e6e6e6;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 120px clamp(20px, 5vw, 48px) 90px;
+  color: var(--album-paper);
+}
+.album__title {
+  margin: 0 0 12px;
+  font: 400 clamp(42px, 7vw, 72px) / 1.05 var(--album-serif);
+  letter-spacing: -0.025em;
+}
+.album__lead {
+  margin: 0 0 48px;
+  font: italic 400 clamp(20px, 2.2vw, 26px) / 1.4 var(--album-serif);
+  color: #bdbdbd;
+  max-width: 22em;
+}
+.album__ribbon {
+  display: grid;
+  gap: 72px;
+}
+.album__page {
+  scroll-margin-top: 100px;
+}
+.album__page .notebook-page {
+  margin: 0 0 22px;
+  padding: 16px 16px 16px 32px;
+  max-width: 560px;
+  transform: rotate(-0.35deg);
+}
+.album__page:nth-child(even) .notebook-page {
+  transform: rotate(0.4deg);
+}
+.album__page .notebook-page__img {
+  filter: none;
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: #0e0e0e;
+}
+.album__meta {
+  max-width: 560px;
+  display: grid;
+  gap: 12px;
+}
+.album__name {
+  margin: 0;
+  font: 400 clamp(28px, 4vw, 40px) / 1.1 var(--album-serif);
+  letter-spacing: -0.02em;
+}
+.album__quote {
+  margin: 0;
+  font: italic 400 clamp(18px, 2vw, 23px) / 1.45 var(--album-serif);
+  color: #c8c8c8;
+  text-wrap: pretty;
+}
+.album__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 6px;
+}
+.album__link {
+  font: 18px/1.4 var(--album-serif);
+  color: #ddd;
+  border-bottom: 1px solid #666;
+  padding: 4px 0;
+  background: none;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+.album__link:hover,
+.album__link:focus-visible {
+  color: #fff;
+  border-color: #eee;
+}
+.album__chapters {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.album__chapters[hidden] {
+  display: none !important;
+}
+.album__chapters a,
+.album__chapters button {
+  display: inline-block;
+  font: 17px/1.4 var(--album-serif);
+  color: #b8b8b8;
+  background: none;
+  border: 0;
+  border-bottom: 1px dotted #555;
+  padding: 2px 0;
+  cursor: pointer;
+  text-align: left;
+}
+.album__chapters a:hover,
+.album__chapters button:hover {
+  color: #fff;
+  border-bottom-color: #aaa;
+}
+.album__empty {
+  font: italic 16px/1.4 var(--album-serif);
+  color: #888;
+}
+@media (max-width: 700px) {
+  .album {
+    padding-top: 100px;
+    padding-bottom: 70px;
+  }
+  .album__ribbon {
+    gap: 56px;
+  }
+  .album__page .notebook-page {
+    max-width: none;
+  }
+}
