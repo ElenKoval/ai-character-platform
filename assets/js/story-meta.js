@@ -323,5 +323,113 @@
     "keeper.html": "keeper",
   };
 
-  window.storyMeta = { characters, chapters, loreToChapter, pageToCharacter, base };
+  /** Album order: notebook pages (plain art, not negative). */
+  const album = [
+    {
+      id: "dryad",
+      name: "Дриада",
+      img: `${base}assets/img/dryad.jpeg`,
+      quote: "Дриада была первой.",
+      talkId: null,
+      chapterIds: ["prologue", "ch1"],
+    },
+    {
+      id: "keeper",
+      name: "Кипер",
+      img: characters.keeper.img,
+      quote: characters.keeper.quote,
+      talkId: "keeper",
+      chapterIds: null,
+    },
+    {
+      id: "dream",
+      name: "Дрим",
+      img: characters.dream.img,
+      quote: characters.dream.quote,
+      talkId: "dream",
+      chapterIds: null,
+    },
+    {
+      id: "pak",
+      name: "Пак",
+      img: characters.pak.img,
+      quote: characters.pak.quote,
+      talkId: "pak",
+      chapterIds: null,
+    },
+    {
+      id: "liora",
+      name: "Лиора",
+      img: characters.liora.img,
+      quote: characters.liora.quote,
+      talkId: "liora",
+      chapterIds: null,
+    },
+    {
+      id: "crystal",
+      name: "Кристалл",
+      img: characters.crystal.img,
+      quote: characters.crystal.quote,
+      talkId: "crystal",
+      chapterIds: null,
+    },
+    {
+      id: "cat",
+      name: "Кот",
+      img: characters.cat.img,
+      quote: characters.cat.quote,
+      talkId: "cat",
+      chapterIds: null,
+    },
+    {
+      id: "weaver",
+      name: "Вивер",
+      img: characters.weaver.img,
+      quote: characters.weaver.quote,
+      talkId: "weaver",
+      chapterIds: null,
+    },
+    {
+      id: "shiny",
+      name: "Шайни",
+      img: characters.shiny.img,
+      quote: characters.shiny.quote,
+      talkId: "shiny",
+      chapterIds: null,
+    },
+    {
+      id: "shinyBro",
+      name: "Брат",
+      img: characters.shinyBro.img,
+      quote: characters.shinyBro.quote,
+      talkId: "shinyBro",
+      chapterIds: null,
+    },
+    {
+      id: "mushroom",
+      name: "Гриб",
+      img: characters.mushroom.img,
+      quote: characters.mushroom.quote,
+      talkId: "mushroom",
+      chapterIds: null,
+    },
+    {
+      id: "forest",
+      name: "Злой Лес",
+      img: characters.forest.img,
+      quote: characters.forest.quote,
+      talkId: "forest",
+      chapterIds: null,
+    },
+    {
+      id: "fallow",
+      name: "Пустошь",
+      img: `${base}assets/img/The_fallow.jpeg`,
+      quote: "«Там не было ничего.»",
+      talkId: null,
+      chapterIds: ["prologue"],
+    },
+  ];
+
+  window.storyMeta = { characters, chapters, loreToChapter, pageToCharacter, album, base };
 })();

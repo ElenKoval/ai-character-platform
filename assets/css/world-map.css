@@ -1,0 +1,279 @@
+/* Interactive world map: Garden / Wasteland / Angry Forest */
+.world-map {
+  --wm-serif: "Cormorant Garamond", Georgia, serif;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #e6e6e6;
+}
+.world-map__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2400 / 1500;
+  overflow: hidden;
+  background: #0a0a0a;
+  isolation: isolate;
+}
+.world-map__base {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) brightness(0.92) contrast(1.05);
+  transition: filter 0.35s ease;
+}
+.world-map.is-focusing .world-map__base {
+  filter: grayscale(1) brightness(0.42) contrast(1.05);
+}
+.world-map__clip {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+.world-map__clip img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) brightness(1.12) contrast(1.08);
+}
+.world-map__clip--garden {
+  clip-path: inset(0% 27% 40% 6%);
+}
+.world-map__clip--wasteland {
+  clip-path: inset(12% 0% 45% 73%);
+}
+.world-map__clip--forest {
+  clip-path: inset(58% 0% 0% 0%);
+}
+.world-map.is-focus-garden .world-map__clip--garden,
+.world-map.is-focus-wasteland .world-map__clip--wasteland,
+.world-map.is-focus-forest .world-map__clip--forest {
+  opacity: 1;
+}
+.world-map__hit {
+  position: absolute;
+  z-index: 4;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.world-map__hit--garden {
+  left: 6%;
+  top: 0;
+  width: 67%;
+  height: 60%;
+}
+.world-map__hit--wasteland {
+  left: 73%;
+  top: 12%;
+  width: 27%;
+  height: 43%;
+}
+.world-map__hit--forest {
+  left: 0;
+  top: 58%;
+  width: 100%;
+  height: 42%;
+}
+.world-map__hit:focus-visible {
+  outline: 2px solid #ddd;
+  outline-offset: -4px;
+}
+.world-map__label {
+  position: absolute;
+  z-index: 3;
+  margin: 0;
+  font: italic 400 clamp(15px, 1.8vw, 26px) / 1.2 var(--wm-serif);
+  color: #f0f0f0;
+  text-shadow: 0 1px 10px #000, 0 0 2px #000;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.world-map__label--tree {
+  left: 30%;
+  top: 8%;
+  transform: translateX(-50%);
+}
+.world-map__label--garden {
+  left: 23%;
+  top: 17%;
+  transform: translateX(-50%);
+}
+.world-map__label--wasteland {
+  left: 83%;
+  top: 14%;
+  transform: translateX(-50%);
+}
+.world-map__label--forest {
+  left: 12%;
+  top: 75%;
+  transform: translateX(-50%);
+}
+.world-map__threads {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.world-map__threads path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.world-map__threads .thread-aura {
+  stroke-width: 10;
+  opacity: 0.32;
+  filter: blur(5px);
+  stroke: #a8a8a8;
+}
+.world-map__threads .thread-shadow {
+  stroke-width: 5;
+  opacity: 0.85;
+  stroke: #000;
+}
+.world-map__threads .thread-body {
+  stroke-width: 3.4;
+  opacity: 1;
+  stroke: url(#map-thread-metal);
+  filter: url(#map-thread-depth) drop-shadow(0 0 2px rgba(220, 220, 220, 0.25));
+}
+.world-map__threads .thread-core {
+  stroke-width: 2;
+  opacity: 1;
+  stroke: url(#map-thread-metal);
+}
+.world-map__threads .thread-shine {
+  stroke-width: 1.1;
+  opacity: 1;
+  stroke: url(#map-thread-shine);
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.45));
+}
+.world-map__panel {
+  margin-top: 28px;
+  min-height: 0;
+  padding: 0;
+}
+.world-map__panel[hidden] {
+  display: none !important;
+}
+.world-map__panel-inner {
+  display: grid;
+  gap: 22px;
+  padding: 8px 0 10px;
+  animation: world-map-panel-in 0.4s ease;
+}
+@keyframes world-map-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.world-map__line {
+  margin: 0;
+  font: italic 400 clamp(22px, 2.4vw, 32px) / 1.35 var(--wm-serif);
+  color: #d8d8d8;
+  text-wrap: pretty;
+  max-width: 28em;
+}
+.world-map__pages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 16px;
+  align-items: stretch;
+}
+.world-map__page {
+  display: block;
+  width: clamp(72px, 12vw, 110px);
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.world-map__page .notebook-page {
+  margin: 0 0 8px;
+  padding: 8px 8px 8px 18px;
+  transform: rotate(-0.3deg);
+}
+.world-map__page .notebook-page__img {
+  filter: none;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: #111;
+}
+.world-map__page-name {
+  display: block;
+  font: italic 15px/1.3 var(--wm-serif);
+  color: #cfcfcf;
+}
+.world-map__page:hover .world-map__page-name,
+.world-map__page:focus-visible .world-map__page-name {
+  color: #fff;
+}
+.world-map__wasteland-art {
+  max-width: min(420px, 100%);
+}
+.world-map__wasteland-art .notebook-page {
+  margin: 0;
+  padding: 12px 12px 12px 26px;
+}
+.world-map__wasteland-art .notebook-page__img {
+  filter: none;
+  width: 100%;
+  height: auto;
+}
+.world-map__enter {
+  display: inline-block;
+  margin-top: 4px;
+  font: 19px/1.4 var(--wm-serif);
+  color: #ddd;
+  border-bottom: 1px solid #777;
+  padding: 7px 0;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+.world-map__enter:hover {
+  color: #fff;
+  border-color: #eee;
+}
+@media (max-width: 700px) {
+  .world-map {
+    max-width: none;
+  }
+  .world-map__label {
+    font-size: clamp(13px, 3.4vw, 18px);
+  }
+  .world-map__page {
+    width: clamp(64px, 22vw, 96px);
+  }
+  .world-map__line {
+    font-size: clamp(20px, 5.2vw, 26px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .world-map__base,
+  .world-map__clip,
+  .world-map__panel-inner {
+    transition: none !important;
+    animation: none !important;
+  }
+}

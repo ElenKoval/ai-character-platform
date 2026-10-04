@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="assets/css/homepage.css">
   <link rel="stylesheet" href="assets/css/site-shell.css">
+  <link rel="stylesheet" href="assets/css/world-map.css">
 </head>
 <body>
   <a class="skip-link" href="#main">К содержанию</a>
@@ -210,37 +211,55 @@
         <h2 id="world-title">Дрим не даст Нити порваться.<br><em>Вивер не даст ей остаться прежней.</em></h2>
         <p>Оба называют это спасением.</p>
       </div>
-      <div class="thread-crossing">
-        <svg class="living-thread living-thread--back" viewBox="0 0 1440 660" preserveAspectRatio="none" aria-hidden="true">
-          <path class="thread-aura" data-strand="aura" d="M0 330 L1440 294"/>
-          <path class="thread-shadow" data-strand="shadow" d="M0 330 L1440 294"/>
-          <path class="thread-body" data-strand="body" d="M0 330 L1440 294"/>
-          <path class="thread-filament" data-strand="echo" d="M0 330 L1440 294"/>
-          <path class="thread-core" data-strand="core" d="M0 330 L1440 294"/>
-          <path class="thread-shine" data-strand="shine" d="M0 330 L1440 294"/>
-          <path class="thread-gleam" data-strand="gleam" d="M0 330 L1440 294"/>
-          <path class="thread-current" data-strand="current" pathLength="1000" d="M0 330 L1440 294"/>
-        </svg>
-        <a class="apparition dream-apparition" href="pages/dream-world.html" aria-label="Открыть мир Дрима">
-          <img src="assets/img/dream-home.jpeg" alt="Дрим" width="2544" height="3500" loading="lazy">
-          <span class="apparition-name">Мир Дрима</span>
-        </a>
-        <a class="apparition weaver-apparition" href="pages/weaver-world.html" aria-label="Открыть мир Вивер">
-          <img src="assets/img/weaver-home.jpeg" alt="Вивер" width="3219" height="2548" loading="lazy">
-          <span class="apparition-name">Мир Вивер</span>
-        </a>
-        <svg class="living-thread living-thread--front" viewBox="0 0 1440 660" preserveAspectRatio="none" role="img" aria-labelledby="thread-title thread-description">
-          <title id="thread-title">Одна Нить. Дрим и Вивер.</title>
-          <desc id="thread-description">До середины рисунка Дрима Нить идёт с Жаждой, дальше — прямая линия к Вивер. Вивер снова отдаёт Жажду.</desc>
-          <path class="thread-aura" data-strand="aura" d="M0 330 L1440 294"/>
-          <path class="thread-shadow" data-strand="shadow" d="M0 330 L1440 294"/>
-          <path class="thread-body" data-strand="body" d="M0 330 L1440 294"/>
-          <path class="thread-filament" data-strand="echo" d="M0 330 L1440 294"/>
-          <path class="thread-core" data-strand="core" d="M0 330 L1440 294"/>
-          <path class="thread-shine" data-strand="shine" d="M0 330 L1440 294"/>
-          <path class="thread-gleam" data-strand="gleam" d="M0 330 L1440 294"/>
-          <path class="thread-current" data-strand="current" pathLength="1000" d="M0 330 L1440 294"/>
-        </svg>
+      <div class="world-map" data-world-map>
+        <div class="world-map__stage" data-world-map-stage>
+          <img class="world-map__base" src="assets/img/world_map.png" alt="Карта мира Дриады" width="2400" height="1500">
+          <div class="world-map__clip world-map__clip--garden" aria-hidden="true"><img src="assets/img/world_map.png" alt="" width="2400" height="1500"></div>
+          <div class="world-map__clip world-map__clip--wasteland" aria-hidden="true"><img src="assets/img/world_map.png" alt="" width="2400" height="1500"></div>
+          <div class="world-map__clip world-map__clip--forest" aria-hidden="true"><img src="assets/img/world_map.png" alt="" width="2400" height="1500"></div>
+          <svg class="world-map__threads" viewBox="0 0 2400 1500" preserveAspectRatio="none" aria-hidden="true" data-world-map-threads>
+            <defs>
+              <filter id="map-thread-depth" x="-20%" y="-40%" width="140%" height="180%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="1.8" result="blur"/>
+                <feOffset dy="2" result="off"/>
+                <feFlood flood-color="#000" flood-opacity="0.6"/>
+                <feComposite in2="off" operator="in" result="shadow"/>
+                <feMerge>
+                  <feMergeNode in="shadow"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <linearGradient id="map-thread-metal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1500">
+                <stop offset="0%" stop-color="#0a0a0a"/>
+                <stop offset="18%" stop-color="#8a8a8a"/>
+                <stop offset="36%" stop-color="#f0f0f0"/>
+                <stop offset="52%" stop-color="#2a2a2a"/>
+                <stop offset="70%" stop-color="#c8c8c8"/>
+                <stop offset="100%" stop-color="#111"/>
+                <animate attributeName="y1" values="0;-1500" dur="14s" repeatCount="indefinite"/>
+                <animate attributeName="y2" values="1500;0" dur="14s" repeatCount="indefinite"/>
+              </linearGradient>
+              <linearGradient id="map-thread-shine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400">
+                <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+                <stop offset="45%" stop-color="#fff" stop-opacity="0.35"/>
+                <stop offset="50%" stop-color="#fff" stop-opacity="1"/>
+                <stop offset="55%" stop-color="#fff" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+                <animate attributeName="y1" values="-400;1600" dur="8s" repeatCount="indefinite"/>
+                <animate attributeName="y2" values="0;2000" dur="8s" repeatCount="indefinite"/>
+              </linearGradient>
+            </defs>
+            <g data-world-map-strand-root></g>
+          </svg>
+          <p class="world-map__label world-map__label--tree">Дерево Дриады</p>
+          <p class="world-map__label world-map__label--garden">Сад</p>
+          <p class="world-map__label world-map__label--wasteland">Пустошь</p>
+          <p class="world-map__label world-map__label--forest">Злой Лес</p>
+          <button type="button" class="world-map__hit world-map__hit--garden" data-region="garden" aria-label="Сад" aria-pressed="false"></button>
+          <button type="button" class="world-map__hit world-map__hit--wasteland" data-region="wasteland" aria-label="Пустошь" aria-pressed="false"></button>
+          <button type="button" class="world-map__hit world-map__hit--forest" data-region="forest" aria-label="Злой Лес" aria-pressed="false"></button>
+        </div>
+        <div class="world-map__panel" data-world-map-panel hidden></div>
       </div>
     </section>
     <section class="forest" id="forest">
@@ -267,7 +286,7 @@
   <script src="assets/js/site-shell.js"></script>
   <script src="assets/js/i18n.js"></script>
   <script src="assets/js/homepage.js"></script>
-  <script src="assets/js/homepage-thread.js" defer></script>
+  <script src="assets/js/world-map.js" defer></script>
   <script src="assets/js/homepage-beetle.js" defer></script>
 </body>
 </html>
