@@ -64,9 +64,9 @@
 
 
   function worldBackHref(body) {
-
-    return body.classList.contains("world--dream") ? "dream-world.html" : "weaver-world.html";
-
+    var dossier = body.querySelector("[data-dossier]");
+    var id = dossier && dossier.getAttribute("data-dossier");
+    return id ? "album.html#" + encodeURIComponent(id) : "album.html";
   }
 
 

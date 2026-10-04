@@ -47,8 +47,8 @@
   function currentSection() {
     const path = window.location.pathname.replace(/\\/g, "/");
     if (path.includes("sound.html")) return "listen";
-    if (path.includes("dream-world") || path.includes("weaver-world")) return "worlds";
-    if (path.includes("/pages/") && !path.includes("about")) return "worlds";
+    if (path.includes("album.html")) return "album";
+    if (path.includes("your-thread")) return "thread";
     if (isHome) return "home";
     return "";
   }
@@ -67,13 +67,8 @@
       <nav class="site-nav site-nav--desktop" aria-label="Основная навигация">
         <button type="button" class="site-nav__read${section === "home" ? " is-current" : ""}" data-nav-read>Читать</button>
         <button type="button" class="site-nav__continue" data-nav-continue hidden>Продолжить</button>
-        <div class="site-nav__worlds">
-          <button type="button" class="${section === "worlds" ? "is-current" : ""}">Миры</button>
-          <div class="site-nav__worlds-panel">
-            <a href="${base}pages/dream-world.html">Сад Дрима</a>
-            <a href="${base}pages/weaver-world.html">Лес Вивер</a>
-          </div>
-        </div>
+        <a href="${base}pages/your-thread.html" class="${section === "thread" ? "is-current" : ""}">Твоя Нить</a>
+        <a href="${base}pages/album.html" class="${section === "album" ? "is-current" : ""}">Альбом</a>
         <a href="${base}pages/sound.html" class="${section === "listen" ? "is-current" : ""}">Послушать</a>
         <div data-lang-switch-host></div>
       </nav>
@@ -92,11 +87,8 @@
       <button type="button" class="site-nav-mobile__close" data-nav-close aria-label="Закрыть">×</button>
       <button type="button" data-nav-read>Читать</button>
       <button type="button" class="site-nav__continue" data-nav-continue hidden>Продолжить</button>
-      <div class="site-nav-mobile__group">
-        <span class="site-nav-mobile__label">Миры</span>
-        <a href="${base}pages/dream-world.html">Сад Дрима</a>
-        <a href="${base}pages/weaver-world.html">Лес Вивер</a>
-      </div>
+      <a href="${base}pages/your-thread.html">Твоя Нить</a>
+      <a href="${base}pages/album.html">Альбом</a>
       <a href="${base}pages/sound.html">Послушать</a>
     `;
     document.body.appendChild(mobile);
