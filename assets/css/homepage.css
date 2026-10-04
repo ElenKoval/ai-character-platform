@@ -58,8 +58,8 @@ h1 span,h1 em{display:block}h1 em{color:#c9c9c9}
 /* A continuous Thread crosses both worlds, with both drawings on one horizon. */
 .world-scene{position:relative;isolation:isolate;max-width:none;margin:0;padding:55px var(--gutter) 85px;overflow-x:clip}
 .world-scene .world-map{margin-top:10px}
-.scene-intro{position:relative;text-align:center;z-index:3;margin:0 auto 25px;padding:0 24px;max-width:720px}
-h2{font:400 clamp(43px,5vw,72px)/1.03 var(--serif);letter-spacing:-.025em}.scene-intro h2 em{color:#bcbcbc}.scene-intro p{font:21px/1.5 var(--serif);color:var(--muted);margin-top:20px}.scene-intro .dark-button{margin-top:15px}
+.scene-intro{position:relative;text-align:center;z-index:3;margin:0 auto 28px;padding:0 24px;max-width:820px}
+h2{font:400 clamp(43px,5vw,72px)/1.03 var(--serif);letter-spacing:-.025em}.scene-intro h2{font-size:clamp(32px,4.2vw,56px);line-height:1.15}.scene-intro h2 em{color:#bcbcbc}.scene-intro p{font:21px/1.5 var(--serif);color:var(--muted);margin-top:20px}.scene-intro .dark-button{margin-top:15px}
 /* Full page width: Thread from left edge to right edge; Dream & Weaver sit inset. */
 .thread-crossing{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(24px,.18fr) minmax(0,1fr) minmax(0,1.25fr) minmax(24px,.18fr);align-items:center;aspect-ratio:1440/660;width:100%;max-width:100%}
 .dream-apparition{grid-column:2}
@@ -96,13 +96,17 @@ h2{font:400 clamp(43px,5vw,72px)/1.03 var(--serif);letter-spacing:-.025em}.scene
   mask-image:linear-gradient(90deg,#000 0%,#000 11%,transparent 17%,transparent 39%,#000 46%,#000 53%,transparent 60%,transparent 83%,#000 90%,#000 100%);
 }
 .hero-thread{z-index:1;animation:thread-breath 10s ease-in-out infinite;-webkit-mask-image:none;mask-image:none}
-/* The Forest: preserve its existing blended drawing, spacing and composition. */
-.forest{position:relative;isolation:isolate;overflow:hidden;min-height:510px;display:flex;align-items:center;padding:75px 8.5%;background:#080808}
-.forest>img{position:absolute;inset:0 0 0 auto;height:100%;width:60%;object-fit:cover;filter:grayscale(1) invert(1);mix-blend-mode:screen;opacity:.18;z-index:-2;mask-image:linear-gradient(90deg,transparent,#000000 50%)}
-.eyebrow{font-size:12px;letter-spacing:.22em;font-weight:600;line-height:1.7}.forest .eyebrow{color:#9e9e9e;margin-bottom:27px}.forest h2{font-size:clamp(43px,5vw,72px)}.forest h2 em{color:#ccc}
-.forest p:not(.eyebrow){font:clamp(22px,2vw,29px)/1.5 var(--serif);color:#c2c2c2;margin-top:23px}
-.forest-link{margin-top:28px;font-size:19px}
-.forest-note{position:absolute;bottom:30px;right:5%;font-size:10px;letter-spacing:.17em;color:#a0a0a0}
+/* Album strip on the homepage */
+.album-strip{padding:20px var(--gutter) 90px;max-width:1180px;margin:0 auto}
+.album-strip__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px 28px;margin-bottom:28px}
+.album-strip__head h2{font:400 clamp(32px,4vw,48px)/1.1 var(--serif);letter-spacing:-.02em}
+.album-strip__row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 20px}
+.album-strip__page{display:block;color:inherit;text-decoration:none;min-width:0}
+.album-strip__page .notebook-page{margin:0 0 10px;padding:10px 10px 10px 22px}
+.album-strip__page .notebook-page__img{filter:none;aspect-ratio:3/4;object-fit:cover;width:100%;background:#111}
+.album-strip__page span{font:italic 17px/1.3 var(--serif);color:#cfcfcf}
+.album-strip__page:hover span{color:#fff}
+.eyebrow{font-size:12px;letter-spacing:.22em;font-weight:600;line-height:1.7}
 footer{display:flex;justify-content:space-between;align-items:center;padding:35px var(--gutter);border-top:1px solid #ffffff15;gap:25px;font-size:14px;color:var(--muted)}footer .brand{font-size:25px}
 /* Reading stays part of the site. */
 dialog{border:0;padding:0;background:#1c1c1c;color:#e1e1e1;width:min(860px,95vw);max-height:92svh}
@@ -112,13 +116,12 @@ dialog::backdrop{background:#0d0d0ddb;backdrop-filter:blur(8px)}
 dialog article{padding:40px 10% 60px}dialog h2{margin:12px 0 30px}#reader-text{font:22px/1.7 var(--serif)}#reader-text p{margin:0 0 20px}
 .reader-bottom{border-top:1px solid #ffffff28;margin-top:35px;display:flex;flex-direction:column;align-items:start;gap:24px;padding-top:20px}.reader-bottom a{font-size:14px;border-bottom:1px solid #ffffff60}
 @media(min-width:1800px){.hero{grid-template-columns:.9fr 1.1fr;gap:5vw}.hero-art{max-width:820px;justify-self:center}}
-@media(max-width:1050px){nav{gap:22px}.hero{gap:24px;padding-top:115px}.hero-copy{padding:25px 0}h1{font-size:clamp(45px,6vw,64px)}.contents{padding-bottom:70px}.scene-intro h2{font-size:60px}.scene-intro p{font-size:20px}.forest{padding-left:6%;padding-right:6%}}
+@media(max-width:1050px){nav{gap:22px}.hero{gap:24px;padding-top:115px}.hero-copy{padding:25px 0}h1{font-size:clamp(45px,6vw,64px)}.contents{padding-bottom:70px}.scene-intro h2{font-size:clamp(34px,4.5vw,48px)}.album-strip__row{gap:14px}}
 @media(max-width:700px){
  .hero{grid-template-columns:1fr;gap:35px;min-height:0;padding:170px var(--gutter) 75px}.hero-copy{grid-column:1;grid-row:1;padding:0}.world-name{font-size:14px;letter-spacing:.18em;margin-bottom:25px}h1{font-size:clamp(43px,9.4vw,66px);line-height:1.08;letter-spacing:-.025em}.intro{font-size:23px;margin-top:25px}.primary{font-size:19px;margin-top:29px}
  .hero-art{grid-column:1;grid-row:2;max-width:500px;justify-self:center}.hero-art img{opacity:.3}.hero-thread{top:18%;height:82%;opacity:.5}.scroll-note{bottom:25px;font-size:16px}
  .contents{padding:0 24px 55px}.contents h2{font-size:40px}.contents-list li{font-size:21px}.contents-epigraph{font-size:20px}.contents-cont{font-size:19px}.keeper-drawing span{font-size:14px}.keeper-whisper{font-size:17px}
- .world-scene{padding:20px 0 65px}.scene-intro{padding:0 15px;margin-bottom:28px}.scene-intro h2{font-size:48px}.scene-intro p{font-size:20px}.scene-intro .dark-button{font-size:18px}.thread-crossing{grid-template-columns:minmax(10px,.08fr) minmax(0,1fr) minmax(0,1.2fr) minmax(10px,.08fr);aspect-ratio:1.65}.apparition{padding:0 0 55px}.apparition-name{font-size:clamp(21px,5vw,28px);bottom:5px}.living-thread .thread-aura{stroke-width:10;filter:blur(5px)}.living-thread .thread-shadow{stroke-width:5}.living-thread .thread-body{stroke-width:4}.living-thread .thread-core{stroke-width:2.5}.living-thread .thread-shine{stroke-width:1}
- .forest{min-height:480px;padding-top:60px;padding-bottom:65px}.forest>img{width:100%;opacity:.15}.forest h2{font-size:48px}.forest p:not(.eyebrow){font-size:23px}.forest-note{left:6%;right:auto;font-size:9px}
+ .world-scene{padding:20px var(--gutter) 55px}.scene-intro{padding:0;margin-bottom:22px}.scene-intro h2{font-size:clamp(28px,7vw,40px)}.album-strip{padding-bottom:65px}.album-strip__row{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 14px}
  footer{flex-wrap:wrap;justify-content:start;padding-top:28px;padding-bottom:28px;gap:23px}footer .brand{width:100%;font-size:25px}footer>a:not(.brand){font-size:13px}
  dialog article{padding:30px 7% 40px}dialog h2{font-size:43px}#reader-text{font-size:21px}.reader-bar{padding:17px 7%}
 }

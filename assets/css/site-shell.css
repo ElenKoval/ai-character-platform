@@ -314,7 +314,8 @@ html.reader-open .hero-art,
 html.reader-open .hero-thread,
 html.reader-open .thread,
 html.reader-open .living-thread,
-html.reader-open .forest > img,
+html.reader-open .album-strip,
+html.reader-open .world-map,
 html.reader-open #wandering-beetle {
   visibility: hidden !important;
   pointer-events: none !important;
