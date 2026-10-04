@@ -248,7 +248,7 @@
       nameWith: "Злым Лесом",
       gender: "m",
       page: `${base}pages/angry_forest.html`,
-      img: `${base}assets/img/angry_forest.jpeg`,
+      img: `${base}assets/img/angry_forest1.jpeg`,
       world: "weaver",
       essence: "Злой Лес — боль, которой некуда деться",
       blurb: "В него стекает вырезанная Жажда. Он помнит каждую Тень и каждую несправедливость Сада.",
@@ -277,7 +277,7 @@
     ch3: { num: 3, cast: ["liora"], image: `${base}assets/img/liora.jpeg` },
     ch4: { num: 4, cast: ["pak", "cat", "weaver"], image: `${base}assets/img/cat-roofs.svg` },
     ch5: { num: 5, cast: ["weaver", "forest"], image: `${base}assets/img/weaver-home.jpeg` },
-    ch6: { num: 6, cast: ["dream", "pak", "weaver", "forest"], image: `${base}assets/img/angry_forest.jpeg` },
+    ch6: { num: 6, cast: ["dream", "pak", "weaver", "forest"], image: `${base}assets/img/angry_forest1.jpeg` },
     ch7: { num: 7, cast: ["pak", "dream", "weaver"], image: `${base}assets/img/dr.pak.jpeg` },
     ch8: { num: 8, cast: ["cat", "weaver"], image: `${base}assets/img/cat-roofs.svg` },
     ch9: { num: 9, cast: ["cat", "weaver", "pak"], image: `${base}assets/img/weaver.jpeg` },
@@ -289,7 +289,7 @@
       cast: ["shiny", "shinyBro", "mushroom", "weaver", "liora", "dream", "pak", "cat", "forest"],
       image: `${base}assets/img/weaver-home.jpeg`,
     },
-    ch14: { num: 14, cast: ["weaver", "shinyBro", "cat", "forest", "keeper"], image: `${base}assets/img/angry_forest.jpeg` },
+    ch14: { num: 14, cast: ["weaver", "shinyBro", "cat", "forest", "keeper"], image: `${base}assets/img/angry_forest1.jpeg` },
   };
 
   const loreToChapter = {
