@@ -162,7 +162,7 @@ app.get("/api/health", (req, res) => {
 
 app.post("/api/chat", async (req, res) => {
   try {
-  const { message, history = [], character = "weaver", provider = "gemini" } = req.body;
+  const { message, history = [], character = "weaver", provider = "gemini", systemExtra = "" } = req.body;
 
   if (!message || typeof message !== "string") {
     return res.status(400).json({ error: "Message required" });
@@ -194,7 +194,11 @@ app.post("/api/chat", async (req, res) => {
       ? "Reply ONLY in English.\n\n"
       : "Отвечай ТОЛЬКО на русском.\n\n";
 
-  const systemPrompt = identityLock + languageInstruction + characterPrompt;
+  const extra =
+    typeof systemExtra === "string" && systemExtra.trim()
+      ? `\n\n[SCENE INSTRUCTION]\n${systemExtra.trim()}\n`
+      : "";
+  const systemPrompt = identityLock + languageInstruction + characterPrompt + extra;
 
   /* === ГЕНДЕРНАЯ ЛОГИКА === */
   const characterId = (character || "").toLowerCase().trim().replace(/\s+/g, "_");

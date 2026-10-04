@@ -1,0 +1,327 @@
+/* Your Thread — ask → steel cord → Dream & Weaver */
+body {
+  margin: 0;
+  background: #0b0b0b;
+  color: #e6e6e6;
+  font: 16px/1.6 Manrope, Arial, sans-serif;
+}
+.yt {
+  --yt-serif: "Cormorant Garamond", Georgia, serif;
+  min-height: calc(100svh - 76px);
+  display: flex;
+  flex-direction: column;
+  padding: 40px clamp(20px, 5vw, 56px) 70px;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.yt-ask {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 36px;
+  padding: 40px 0 60px;
+}
+.yt-ask[hidden],
+.yt-reveal[hidden] {
+  display: none !important;
+}
+.yt-ask__title {
+  margin: 0;
+  font: 400 clamp(36px, 6.5vw, 72px) / 1.08 var(--yt-serif);
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+  max-width: 14em;
+}
+.yt-form {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  width: min(520px, 100%);
+}
+.yt-form__input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid #666;
+  padding: 10px 0;
+  color: #eee;
+  font: 400 clamp(18px, 2.2vw, 24px) / 1.4 var(--yt-serif);
+  outline: none;
+}
+.yt-form__input::placeholder {
+  color: #777;
+  font-style: italic;
+}
+.yt-form__input:focus {
+  border-bottom-color: #ccc;
+}
+.yt-form__say {
+  flex: 0 0 auto;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid #777;
+  padding: 10px 0;
+  color: #ddd;
+  font: 400 19px/1.4 var(--yt-serif);
+  cursor: pointer;
+}
+.yt-form__say:hover {
+  color: #fff;
+  border-bottom-color: #eee;
+}
+.yt-form__say:disabled {
+  opacity: 0.45;
+  cursor: wait;
+}
+
+.yt-reveal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 20px 0 40px;
+}
+.yt-stage {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(48px, 72px) minmax(0, 1fr);
+  gap: 18px 20px;
+  align-items: start;
+}
+.yt-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.yt-side__art {
+  width: min(100%, 280px);
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  filter: grayscale(1) invert(1) contrast(1.2) brightness(1.02);
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(ellipse at 50% 48%, #000 42%, #000 62%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 48%, #000 42%, #000 62%, transparent 82%);
+}
+.yt-side__name {
+  margin: 0;
+  font: italic 400 clamp(22px, 2.4vw, 30px) / 1.2 var(--yt-serif);
+  color: #e8e8e8;
+}
+.yt-side__reply {
+  margin: 0;
+  min-height: 4.5em;
+  font: italic 400 clamp(17px, 1.7vw, 21px) / 1.5 var(--yt-serif);
+  color: #c8c8c8;
+  text-align: center;
+  text-wrap: pretty;
+  max-width: 28em;
+}
+.yt-side__continue {
+  margin-top: 4px;
+  font: 17px/1.4 var(--yt-serif);
+  color: #ddd;
+  border-bottom: 1px solid #666;
+  text-decoration: none;
+  padding: 4px 0;
+}
+.yt-side__continue[hidden] {
+  display: none !important;
+}
+.yt-side__continue:hover {
+  color: #fff;
+  border-color: #eee;
+}
+
+.yt-cord {
+  position: relative;
+  align-self: stretch;
+  min-height: 220px;
+  display: flex;
+  justify-content: center;
+}
+.yt-cord svg {
+  width: 40px;
+  height: 100%;
+  min-height: 220px;
+  overflow: visible;
+  animation: yt-tremble 2.8s ease-in-out infinite;
+}
+.yt-cord path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.yt-cord .thread-aura {
+  stroke-width: 12;
+  opacity: 0.3;
+  filter: blur(5px);
+  stroke: #a8a8a8;
+}
+.yt-cord .thread-shadow {
+  stroke-width: 5.5;
+  opacity: 0.85;
+  stroke: #000;
+}
+.yt-cord .thread-body {
+  stroke-width: 3.6;
+  stroke: url(#yt-thread-metal);
+  filter: url(#yt-thread-depth) drop-shadow(0 0 3px rgba(220, 220, 220, 0.28));
+}
+.yt-cord .thread-core {
+  stroke-width: 2.1;
+  stroke: url(#yt-thread-metal);
+}
+.yt-cord .thread-shine {
+  stroke-width: 1.15;
+  stroke: url(#yt-thread-shine);
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.45));
+}
+@keyframes yt-tremble {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-0.6px);
+  }
+  40% {
+    transform: translateX(0.7px);
+  }
+  60% {
+    transform: translateX(-0.4px);
+  }
+  80% {
+    transform: translateX(0.5px);
+  }
+}
+
+.yt-desire {
+  margin: 8px 0 0;
+  font: italic 400 clamp(17px, 1.8vw, 22px) / 1.45 var(--yt-serif);
+  color: #8a8a8a;
+  text-align: center;
+  max-width: 28em;
+  text-wrap: pretty;
+}
+.yt-help {
+  margin: 0;
+  font: 400 15px/1.5 var(--yt-serif);
+  color: #9a9a9a;
+  text-align: center;
+  max-width: 32em;
+}
+.yt-help[hidden] {
+  display: none !important;
+}
+.yt-help a {
+  color: #ccc;
+  border-bottom: 1px solid #666;
+  text-decoration: none;
+}
+.yt-help a:hover {
+  color: #fff;
+  border-color: #eee;
+}
+.yt-again {
+  background: none;
+  border: 0;
+  padding: 6px 0;
+  font: italic 400 17px/1.4 var(--yt-serif);
+  color: #777;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+}
+.yt-again:hover {
+  color: #bbb;
+  border-bottom-color: #555;
+}
+
+.yt-cast {
+  margin-top: auto;
+  padding-top: 48px;
+  border-top: 1px solid #ffffff12;
+  font: italic 400 clamp(16px, 1.6vw, 19px) / 1.7 var(--yt-serif);
+  color: #8a8a8a;
+  text-align: center;
+  text-wrap: pretty;
+}
+.yt-cast__label {
+  display: block;
+  margin-bottom: 8px;
+  font-style: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: #666;
+}
+.yt-cast a {
+  color: #b8b8b8;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.yt-cast a:hover {
+  color: #fff;
+  border-bottom-color: #777;
+}
+.yt-cast__dot {
+  margin: 0 0.35em;
+  color: #555;
+}
+
+@media (max-width: 760px) {
+  .yt-stage {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .yt-cord {
+    order: 2;
+    min-height: 0;
+    width: 100%;
+    height: 36px;
+    margin: 4px 0;
+  }
+  .yt-side--dream {
+    order: 1;
+  }
+  .yt-side--weaver {
+    order: 3;
+  }
+  .yt-cord svg {
+    width: 100%;
+    height: 36px;
+    min-height: 0;
+    animation-name: yt-tremble-y;
+  }
+  @keyframes yt-tremble-y {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(-0.5px);
+    }
+    50% {
+      transform: translateY(0.6px);
+    }
+    75% {
+      transform: translateY(-0.4px);
+    }
+  }
+  .yt-side__art {
+    width: min(70%, 240px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yt-cord svg {
+    animation: none !important;
+  }
+}
