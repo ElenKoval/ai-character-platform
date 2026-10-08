@@ -6,25 +6,19 @@ import { isHybrid as weaverHybrid } from "./weaver.js";
 import { isHybrid as pakHybrid } from "./pak.js";
 import { isHybrid as lioraHybrid } from "./liora.js";
 import { isHybrid as catHybrid } from "./cat.js";
-import { getSystemPrompt as getCrystal } from "./crystal.js";
-import { getSystemPrompt as getShiny } from "./shiny.js";
-import { getSystemPrompt as getShinyBro } from "./shiny_bro.js";
-import { getSystemPrompt as getAngryForest } from "./angry_forest.js";
-import { getSystemPrompt as getTalkMushroom } from "./talk_mushroom.js";
+import { isHybrid as crystalHybrid } from "./crystal.js";
+import { isHybrid as shinyHybrid } from "./shiny.js";
+import { isHybrid as shinyBroHybrid } from "./shiny_bro.js";
+import { isHybrid as talkMushroomHybrid } from "./talk_mushroom.js";
+import { isHybrid as angryForestHybrid } from "./angry_forest.js";
+import { isHybrid as keeperHybrid } from "./keeper.js";
 import { getSystemPrompt as getDryad } from "./dryad.js";
-import { getSystemPrompt as getKeeper } from "./keeper.js";
 import { isHybridCharacter, resolveHybridId } from "./shared.js";
 import { buildHybridPrompt } from "./assemble.js";
 
 const legacyPrompts = {
-  crystal: getCrystal,
-  shiny: getShiny,
-  shiny_bro: getShinyBro,
-  angry_forest: getAngryForest,
-  talk_mushroom: getTalkMushroom,
   nature: getDryad,
   dryad: getDryad,
-  keeper: getKeeper,
 };
 
 /**
@@ -59,6 +53,12 @@ export function usesHybridPrompt(characterId) {
     Boolean(weaverHybrid && canon === "weaver") ||
     Boolean(pakHybrid && canon === "pak") ||
     Boolean(lioraHybrid && canon === "liora") ||
-    Boolean(catHybrid && canon === "cat")
+    Boolean(catHybrid && canon === "cat") ||
+    Boolean(crystalHybrid && canon === "crystal") ||
+    Boolean(shinyHybrid && canon === "shiny") ||
+    Boolean(shinyBroHybrid && canon === "shiny_bro") ||
+    Boolean(talkMushroomHybrid && canon === "talk_mushroom") ||
+    Boolean(angryForestHybrid && canon === "angry_forest") ||
+    Boolean(keeperHybrid && canon === "keeper")
   );
 }

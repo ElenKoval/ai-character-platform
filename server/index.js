@@ -78,6 +78,41 @@ function shouldLogRawProvider(characterId, message) {
   return id === "weaver" && (msg === "привет" || msg === "hello");
 }
 
+/** Per-character sampling. Living Weaver/Dream: open variety, no penalties. */
+function samplingForCharacter(characterId) {
+  const id = String(characterId || "").toLowerCase().trim().replace(/\s+/g, "_");
+  if (
+    id === "weaver" ||
+    id === "dream" ||
+    id === "pak" ||
+    id === "drpak" ||
+    id === "liora" ||
+    id === "crystal" ||
+    id === "cat" ||
+    id === "shiny" ||
+    id === "shiny_bro" ||
+    id === "talk_mushroom" ||
+    id === "mushroom" ||
+    id === "angry_forest" ||
+    id === "forest" ||
+    id === "keeper" ||
+    id === "kiper"
+  ) {
+    return {
+      temperature: 1.0,
+      topP: 0.95,
+      frequencyPenalty: null,
+      presencePenalty: null,
+    };
+  }
+  return {
+    temperature: 1.0,
+    topP: 0.9,
+    frequencyPenalty: null,
+    presencePenalty: null,
+  };
+}
+
 function logRawProvider(label, payload) {
   console.log(`\n========== [RAW ${label}] ==========`);
   console.log(JSON.stringify(payload, null, 2));
@@ -111,15 +146,18 @@ async function tryGroq(fullPrompt, recentHistory, trimmed, assembled, logCtx = {
     messages.push({ role: "user", content: trimmed });
 
     const url = `${GROQ_BASE}/chat/completions`;
+    const sample = samplingForCharacter(logCtx.characterId);
     const body = {
       model: GROQ_MODEL,
       messages,
       stream: false,
-      temperature: 1.0,
-      top_p: 0.9,
+      temperature: sample.temperature,
+      top_p: sample.topP,
       max_completion_tokens: 8192,
       reasoning_effort: "low",
     };
+    if (sample.frequencyPenalty != null) body.frequency_penalty = sample.frequencyPenalty;
+    if (sample.presencePenalty != null) body.presence_penalty = sample.presencePenalty;
 
     if (shouldLogRawProvider(logCtx.characterId, trimmed)) {
       logRawProvider("GROQ REQUEST", {
@@ -240,10 +278,12 @@ async function tryGemini(fullPrompt, recentHistory, trimmed, opts = {}) {
 
     const { assembled, characterId } = opts;
     let cacheName = null;
+    const sample = samplingForCharacter(characterId);
     // maxOutputTokens includes thinking tokens on Gemini 3.x. A low cap
     // (e.g. 1024) often cuts the visible reply mid-sentence (MAX_TOKENS).
     const config = {
-      temperature: 1.0,
+      temperature: sample.temperature,
+      topP: sample.topP,
       maxOutputTokens: 8192,
       thinkingConfig: { thinkingLevel: "low" },
       safetySettings: [
@@ -253,6 +293,8 @@ async function tryGemini(fullPrompt, recentHistory, trimmed, opts = {}) {
         { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
       ],
     };
+    if (sample.frequencyPenalty != null) config.frequencyPenalty = sample.frequencyPenalty;
+    if (sample.presencePenalty != null) config.presencePenalty = sample.presencePenalty;
 
     // coreOnly / empty variable: always put prompt in systemInstruction (no cache).
     const useCache = Boolean(assembled?.constant && characterId && assembled.variable);
@@ -326,10 +368,23 @@ async function tryGemini(fullPrompt, recentHistory, trimmed, opts = {}) {
         config,
       });
     } catch (thinkErr) {
+      const msg = String(thinkErr?.message || thinkErr);
       // Older SDK / model mismatch: retry without thinkingConfig.
-      if (config.thinkingConfig && /thinking|ThinkingLevel|unknown/i.test(String(thinkErr?.message || thinkErr))) {
+      if (config.thinkingConfig && /thinking|ThinkingLevel|unknown/i.test(msg)) {
         console.warn("[Gemini] thinkingConfig rejected, retrying without it:", thinkErr.message);
         delete config.thinkingConfig;
+        result = await genAI.models.generateContent({
+          model: GEMINI_MODEL,
+          contents,
+          config,
+        });
+      } else if (
+        (config.frequencyPenalty != null || config.presencePenalty != null) &&
+        /frequencyPenalty|presencePenalty|Unknown name|invalid/i.test(msg)
+      ) {
+        console.warn("[Gemini] penalties rejected, retrying without them:", thinkErr.message);
+        delete config.frequencyPenalty;
+        delete config.presencePenalty;
         result = await genAI.models.generateContent({
           model: GEMINI_MODEL,
           contents,
@@ -401,6 +456,8 @@ app.post("/api/chat", async (req, res) => {
       conversationKey,
       conversationSummary,
       conversationSummaryAt,
+      moodNow = null,
+      moodNowIndex = null,
       debugPrompt = false,
     } = req.body;
 
@@ -436,7 +493,11 @@ app.post("/api/chat", async (req, res) => {
       conversationKey: conversationKey || `${character}`,
       clientSummary: conversationSummary,
       clientSummaryAt: conversationSummaryAt,
+      moodNow,
+      moodNowIndex,
     });
+
+    const resolvedMoodNow = prepared.meta?.moodNow || null;
 
     const {
       fullPrompt,
@@ -467,16 +528,21 @@ app.post("/api/chat", async (req, res) => {
 
     const groqLog = { characterId: geminiOpts.characterId };
 
+    const withMood = (payload) =>
+      resolvedMoodNow ? { ...payload, moodNow: resolvedMoodNow } : payload;
+
     if (activeProvider === "gemini") {
       const geminiResult = await tryGemini(fullPrompt, recentHistory, trimmed, geminiOpts);
       if (geminiResult.ok) {
-        return res.json({
-          text: geminiResult.text,
-          provider: "gemini",
-          requestedProvider,
-          usage: geminiResult.usage,
-          promptMeta: debugPrompt ? meta : undefined,
-        });
+        return res.json(
+          withMood({
+            text: geminiResult.text,
+            provider: "gemini",
+            requestedProvider,
+            usage: geminiResult.usage,
+            promptMeta: debugPrompt ? meta : undefined,
+          })
+        );
       }
 
       if (!genAI && !GROQ_API_KEY) {
@@ -495,14 +561,16 @@ app.post("/api/chat", async (req, res) => {
         groqLog
       );
       if (groqResult.ok) {
-        return res.json({
-          text: groqResult.text,
-          provider: "groq",
-          requestedProvider,
-          usage: groqResult.usage,
-          fallbackFrom: "gemini",
-          promptMeta: debugPrompt ? meta : undefined,
-        });
+        return res.json(
+          withMood({
+            text: groqResult.text,
+            provider: "groq",
+            requestedProvider,
+            usage: groqResult.usage,
+            fallbackFrom: "gemini",
+            promptMeta: debugPrompt ? meta : undefined,
+          })
+        );
       }
 
       if (!genAI && !GROQ_API_KEY) {
@@ -519,13 +587,15 @@ app.post("/api/chat", async (req, res) => {
       groqLog
     );
     if (groqResult.ok) {
-      return res.json({
-        text: groqResult.text,
-        provider: "groq",
-        requestedProvider,
-        usage: groqResult.usage,
-        promptMeta: debugPrompt ? meta : undefined,
-      });
+      return res.json(
+        withMood({
+          text: groqResult.text,
+          provider: "groq",
+          requestedProvider,
+          usage: groqResult.usage,
+          promptMeta: debugPrompt ? meta : undefined,
+        })
+      );
     }
 
     if (!GROQ_API_KEY) console.warn("[Groq] GROQ_API_KEY not set → fallback to Gemini");
@@ -533,14 +603,16 @@ app.post("/api/chat", async (req, res) => {
 
     const geminiResult = await tryGemini(fullPrompt, recentHistory, trimmed, geminiOpts);
     if (geminiResult.ok) {
-      return res.json({
-        text: geminiResult.text,
-        provider: "gemini",
-        requestedProvider,
-        usage: geminiResult.usage,
-        fallbackFrom: "groq",
-        promptMeta: debugPrompt ? meta : undefined,
-      });
+      return res.json(
+        withMood({
+          text: geminiResult.text,
+          provider: "gemini",
+          requestedProvider,
+          usage: geminiResult.usage,
+          fallbackFrom: "groq",
+          promptMeta: debugPrompt ? meta : undefined,
+        })
+      );
     }
 
     if (!genAI && !GROQ_API_KEY) {

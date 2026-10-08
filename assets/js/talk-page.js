@@ -88,34 +88,55 @@
       .map((m) => ({ role: m.role, text: m.text }));
   }
 
+  function unpackSavedEntry(raw) {
+    if (Array.isArray(raw)) return { messages: normalizeChatList(raw), moodNow: null };
+    if (raw && typeof raw === "object") {
+      return {
+        messages: normalizeChatList(raw.messages || raw.history || []),
+        moodNow:
+          typeof raw.moodNow === "string" && raw.moodNow.trim()
+            ? raw.moodNow.trim()
+            : null,
+      };
+    }
+    return { messages: [], moodNow: null };
+  }
+
   function loadSavedChat(id) {
-    if (!id) return [];
+    if (!id) return { messages: [], moodNow: null };
     try {
       const scoped = JSON.parse(localStorage.getItem(storageKey()) || "{}");
-      const fromScoped = normalizeChatList(scoped[id]);
-      if (fromScoped.length) return fromScoped;
+      const fromScoped = unpackSavedEntry(scoped[id]);
+      if (fromScoped.messages.length || fromScoped.moodNow) return fromScoped;
 
       // Legacy key used by older Your Thread builds (no :lang suffix).
       const legacy = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      const fromLegacy = normalizeChatList(legacy[id]);
-      if (fromLegacy.length) {
-        scoped[id] = fromLegacy.slice(-HISTORY_CAP);
+      const fromLegacy = unpackSavedEntry(legacy[id]);
+      if (fromLegacy.messages.length) {
+        scoped[id] = {
+          messages: fromLegacy.messages.slice(-HISTORY_CAP),
+          moodNow: fromLegacy.moodNow,
+        };
         localStorage.setItem(storageKey(), JSON.stringify(scoped));
         delete legacy[id];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(legacy));
         return fromLegacy;
       }
-      return [];
+      return { messages: [], moodNow: null };
     } catch (e) {
-      return [];
+      return { messages: [], moodNow: null };
     }
   }
 
-  function saveChat(id, list) {
+  function saveChat(id, list, moodNow) {
     if (!id) return;
     try {
       const all = JSON.parse(localStorage.getItem(storageKey()) || "{}");
-      all[id] = (list || []).slice(-HISTORY_CAP);
+      const entry = { messages: (list || []).slice(-HISTORY_CAP) };
+      if (typeof moodNow === "string" && moodNow.trim()) {
+        entry.moodNow = moodNow.trim();
+      }
+      all[id] = entry;
       localStorage.setItem(storageKey(), JSON.stringify(all));
     } catch (e) {}
   }
@@ -156,6 +177,7 @@
   };
 
   let history = [];
+  let moodNow = null;
   let loading = false;
   let typeTimer = 0;
   let releaseArmed = false;
@@ -212,7 +234,7 @@
   });
 
   function persist() {
-    saveChat(chatId, history);
+    saveChat(chatId, history, moodNow);
   }
 
   function setThinking(on) {
@@ -318,6 +340,7 @@
       const returning = hasTalkedBefore(chatId);
       clearChat(chatId);
       history = [];
+      moodNow = null; // new talk → new «Сейчас» for Weaver
       const opening = openingFor(character, { returning });
       if (opening) {
         history.push({ role: "model", text: opening });
@@ -404,16 +427,19 @@
         readChapter: 0,
         currentChapter: 0,
       };
+      const apiId = character.apiId || character.id;
+      const body = {
+        message: msg,
+        history: history.slice(0, -1),
+        provider: "auto",
+        character: apiId,
+        ...ctx,
+      };
+      if (moodNow) body.moodNow = moodNow;
       const res = await fetch(apiBase() + "/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: msg,
-          history: history.slice(0, -1),
-          provider: "auto",
-          character: character.apiId || character.id,
-          ...ctx,
-        }),
+        body: JSON.stringify(body),
       });
       const data = await res.json().catch(() => ({}));
       setThinking(false);
@@ -439,6 +465,9 @@
         return;
       }
 
+      if (typeof data.moodNow === "string" && data.moodNow.trim()) {
+        moodNow = data.moodNow.trim();
+      }
       const reply = (data.text || "").trim() || "…";
       history.push({ role: "model", text: reply });
       persist();
@@ -468,8 +497,9 @@
   // Boot conversation
   const saved = loadSavedChat(chatId);
   const opening = openingFor(character, { returning: hasTalkedBefore(chatId) });
-  if (saved.length) {
-    history = saved.slice();
+  moodNow = saved.moodNow || null;
+  if (saved.messages.length) {
+    history = saved.messages.slice();
   } else if (opening) {
     history = [{ role: "model", text: opening }];
     persist();

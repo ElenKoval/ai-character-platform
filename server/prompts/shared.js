@@ -2,11 +2,27 @@
  * Shared prompt blocks (v3 hybrid), split for token-efficient assembly + prefix cache.
  */
 
-export const HYBRID_IDS = new Set(["dream", "weaver", "pak", "liora", "cat"]);
+export const HYBRID_IDS = new Set([
+  "dream",
+  "weaver",
+  "pak",
+  "liora",
+  "cat",
+  "crystal",
+  "shiny",
+  "shiny_bro",
+  "talk_mushroom",
+  "angry_forest",
+  "keeper",
+]);
 
 /** Client/API aliases → canonical hybrid id (story-meta uses apiId "drpak"). */
 export const HYBRID_ALIASES = {
   drpak: "pak",
+  shinybro: "shiny_bro",
+  mushroom: "talk_mushroom",
+  forest: "angry_forest",
+  kiper: "keeper",
 };
 
 export function resolveHybridId(characterId) {
@@ -22,7 +38,15 @@ export function normalizeCtx(raw = {}) {
       : clampInt(raw.currentChapter, 0, 13, readChapter);
   const mode = normalizeMode(raw.mode);
   const language = raw.language === "en" ? "en" : "ru";
-  return { readChapter, currentChapter, mode, language };
+  const moodNow =
+    typeof raw.moodNow === "string" && raw.moodNow.trim()
+      ? raw.moodNow.trim()
+      : typeof raw.moodNow === "number" && Number.isFinite(raw.moodNow)
+        ? raw.moodNow
+        : typeof raw.moodNowIndex === "number" && Number.isFinite(raw.moodNowIndex)
+          ? raw.moodNowIndex
+          : null;
+  return { readChapter, currentChapter, mode, language, moodNow };
 }
 
 export function isHybridCharacter(characterId) {

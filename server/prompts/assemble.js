@@ -14,11 +14,72 @@ import {
   normalizeCtx,
   resolveHybridId,
 } from "./shared.js";
-import { DREAM_CORE, pickDreamState } from "./dream.js";
-import { WEAVER_CORE, pickWeaverState } from "./weaver.js";
-import { PAK_CORE, pickPakState } from "./pak.js";
-import { LIORA_CORE, pickLioraState } from "./liora.js";
-import { CAT_CORE, pickCatState } from "./cat.js";
+import {
+  DREAM_CORE,
+  pickDreamState,
+  pickDreamNow,
+  applyDreamNow,
+} from "./dream.js";
+import {
+  WEAVER_CORE,
+  pickWeaverState,
+  pickWeaverNow,
+  applyWeaverNow,
+} from "./weaver.js";
+import {
+  PAK_CORE,
+  pickPakState,
+  pickPakNow,
+  applyPakNow,
+} from "./pak.js";
+import {
+  LIORA_CORE,
+  pickLioraState,
+  pickLioraNow,
+  applyLioraNow,
+} from "./liora.js";
+import {
+  CAT_CORE,
+  pickCatState,
+  pickCatNow,
+  applyCatNow,
+} from "./cat.js";
+import {
+  CRYSTAL_CORE,
+  pickCrystalState,
+  pickCrystalNow,
+  applyCrystalNow,
+} from "./crystal.js";
+import {
+  SHINY_CORE,
+  pickShinyState,
+  pickShinyNow,
+  applyShinyNow,
+} from "./shiny.js";
+import {
+  SHINY_BRO_CORE,
+  pickShinyBroState,
+  pickShinyBroNow,
+  applyShinyBroNow,
+} from "./shiny_bro.js";
+import {
+  TALK_MUSHROOM_CORE,
+  pickTalkMushroomState,
+  pickTalkMushroomNow,
+  applyTalkMushroomNow,
+} from "./talk_mushroom.js";
+import {
+  ANGRY_FOREST_CORE,
+  pickAngryForestState,
+  pickAngryForestNow,
+  applyAngryForestNow,
+} from "./angry_forest.js";
+import {
+  KEEPER_CORE,
+  pickKeeperState,
+  pickKeeperNow,
+  applyKeeperNow,
+} from "./keeper.js";
 
 const CHARACTER_PARTS = {
   dream: {
@@ -61,6 +122,54 @@ const CHARACTER_PARTS = {
     skipChapterMap: true,
     coreOnly: true,
   },
+  crystal: {
+    core: CRYSTAL_CORE,
+    pickState: pickCrystalState,
+    /** Living core only — no shared blocks, gender, mode, read, lang. */
+    skipSharedBlocks: true,
+    skipChapterMap: true,
+    coreOnly: true,
+  },
+  shiny: {
+    core: SHINY_CORE,
+    pickState: pickShinyState,
+    /** Living core only — no shared blocks, gender, mode, read, lang. */
+    skipSharedBlocks: true,
+    skipChapterMap: true,
+    coreOnly: true,
+  },
+  shiny_bro: {
+    core: SHINY_BRO_CORE,
+    pickState: pickShinyBroState,
+    /** Living core only — no shared blocks, gender, mode, read, lang. */
+    skipSharedBlocks: true,
+    skipChapterMap: true,
+    coreOnly: true,
+  },
+  talk_mushroom: {
+    core: TALK_MUSHROOM_CORE,
+    pickState: pickTalkMushroomState,
+    /** Living core only — no shared blocks, gender, mode, read, lang. */
+    skipSharedBlocks: true,
+    skipChapterMap: true,
+    coreOnly: true,
+  },
+  angry_forest: {
+    core: ANGRY_FOREST_CORE,
+    pickState: pickAngryForestState,
+    /** Living core only — no shared blocks, gender, mode, read, lang. */
+    skipSharedBlocks: true,
+    skipChapterMap: true,
+    coreOnly: true,
+  },
+  keeper: {
+    core: KEEPER_CORE,
+    pickState: pickKeeperState,
+    /** Living core only — no shared blocks, gender, mode, read, lang. */
+    skipSharedBlocks: true,
+    skipChapterMap: true,
+    coreOnly: true,
+  },
 };
 
 /**
@@ -75,9 +184,44 @@ export function buildHybridPrompt(characterId, rawCtx = {}) {
   const ctx = normalizeCtx(rawCtx);
   const state = parts.pickState(ctx.readChapter);
 
-  // Weaver (and any coreOnly): system prompt = character core file only.
+  // Living cores: character file only (* fill {сейчас} where supported).
   if (parts.coreOnly) {
-    const constant = String(parts.core || "").trim();
+    let constant = String(parts.core || "").trim();
+    let moodNow = null;
+    if (id === "weaver") {
+      moodNow = pickWeaverNow(ctx.moodNow);
+      constant = applyWeaverNow(constant, moodNow);
+    } else if (id === "dream") {
+      moodNow = pickDreamNow(ctx.moodNow);
+      constant = applyDreamNow(constant, moodNow);
+    } else if (id === "pak") {
+      moodNow = pickPakNow(ctx.moodNow);
+      constant = applyPakNow(constant, moodNow);
+    } else if (id === "liora") {
+      moodNow = pickLioraNow(ctx.moodNow);
+      constant = applyLioraNow(constant, moodNow);
+    } else if (id === "crystal") {
+      moodNow = pickCrystalNow(ctx.moodNow);
+      constant = applyCrystalNow(constant, moodNow);
+    } else if (id === "cat") {
+      moodNow = pickCatNow(ctx.moodNow);
+      constant = applyCatNow(constant, moodNow);
+    } else if (id === "shiny") {
+      moodNow = pickShinyNow(ctx.moodNow);
+      constant = applyShinyNow(constant, moodNow);
+    } else if (id === "shiny_bro") {
+      moodNow = pickShinyBroNow(ctx.moodNow);
+      constant = applyShinyBroNow(constant, moodNow);
+    } else if (id === "talk_mushroom") {
+      moodNow = pickTalkMushroomNow(ctx.moodNow);
+      constant = applyTalkMushroomNow(constant, moodNow);
+    } else if (id === "angry_forest") {
+      moodNow = pickAngryForestNow(ctx.moodNow);
+      constant = applyAngryForestNow(constant, moodNow);
+    } else if (id === "keeper") {
+      moodNow = pickKeeperNow(ctx.moodNow);
+      constant = applyKeeperNow(constant, moodNow);
+    }
     return {
       constant,
       variable: "",
@@ -88,6 +232,7 @@ export function buildHybridPrompt(characterId, rawCtx = {}) {
         stateRange: [state.min, state.max],
         stateLabel: state.label || null,
         coreOnly: true,
+        moodNow,
         hasCh6Addition: false,
         memoryCount: 0,
         personalChapter: null,

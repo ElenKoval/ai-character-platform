@@ -314,7 +314,23 @@
       ...ctx,
     };
     // Legacy characters still use systemExtra; living hybrids use their own cores only.
-    const hybridIds = new Set(["dream", "weaver", "pak", "drpak", "liora", "cat"]);
+    const hybridIds = new Set([
+      "dream",
+      "weaver",
+      "pak",
+      "drpak",
+      "liora",
+      "cat",
+      "crystal",
+      "shiny",
+      "shiny_bro",
+      "talk_mushroom",
+      "mushroom",
+      "angry_forest",
+      "forest",
+      "keeper",
+      "kiper",
+    ]);
     if (systemExtra && !hybridIds.has(String(apiId || "").toLowerCase())) {
       body.systemExtra = systemExtra;
     }

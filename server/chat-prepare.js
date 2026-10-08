@@ -21,6 +21,8 @@ export function prepareChatPayload({
   conversationKey,
   clientSummary,
   clientSummaryAt,
+  moodNow = null,
+  moodNowIndex = null,
 }) {
   const msgLang = language === "en" || language === "ru" ? language : "ru";
   const hybrid = usesHybridPrompt(character);
@@ -29,6 +31,12 @@ export function prepareChatPayload({
     currentChapter,
     mode,
     language: msgLang,
+    moodNow:
+      typeof moodNow === "string" && moodNow.trim()
+        ? moodNow.trim()
+        : moodNowIndex != null
+          ? moodNowIndex
+          : null,
   };
 
   const hist = prepareHistory(history, {
@@ -67,7 +75,7 @@ export function prepareChatPayload({
       msgLang === "en" ? "Reply ONLY in English.\n\n" : "Отвечай ТОЛЬКО на русском.\n\n";
 
     const characterId = (character || "").toLowerCase().trim().replace(/\s+/g, "_");
-    const femaleCharacterIds = ["weaver", "liora", "shiny", "nature", "talk_mushroom"];
+    const femaleCharacterIds = ["weaver", "liora", "shiny", "nature"];
     const isFemale = femaleCharacterIds.includes(characterId);
     const genderInstruction =
       msgLang === "en"
