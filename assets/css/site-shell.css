@@ -197,6 +197,20 @@ body.world-page.has-site-header,
 body.character-page.has-site-header,
 body.sound-hub.has-site-header { padding-top: 72px; }
 
+/* Listen page: flat ink like album / Your Thread (site-shell loads last) */
+html:has(body.sound-hub),
+body.sound-hub {
+  background: #0b0b0b !important;
+  background-color: #0b0b0b !important;
+  color: #e6e6e6;
+}
+body.sound-hub::before,
+body.sound-hub .portal-ambient,
+body.sound-hub .smoke-layer,
+body.sound-hub .sunbeam-layer {
+  display: none !important;
+}
+
 @media (max-width: 820px) {
   .site-nav--desktop { display: none; }
   .site-nav__burger { display: block; }
