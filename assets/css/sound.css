@@ -1,4 +1,4 @@
-/* ===============================
+﻿/* ===============================
    The Sound of the World — под яйцом, почти в футере
    Пульсирующая полоса + архив по персонажам
    =============================== */
@@ -41,7 +41,7 @@
 /* Кнопка перехода к архиву на главной */
 .sound-entry {
   display: block;
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-weight: 600;
   font-size: 1rem;
   letter-spacing: 0.2em;
@@ -128,7 +128,7 @@
   margin: 0 0 14px;
   padding: 0 0 10px;
   border-bottom: 1px solid rgba(255, 200, 120, 0.2);
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -142,7 +142,7 @@
 #sound-liora .sound-character__name,
 #sound-drpak .sound-character__name,
 #sound-dryad .sound-character__name {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
   letter-spacing: 0.12em;
   color: rgba(255, 245, 230, 0.72);
 }
@@ -177,7 +177,7 @@
 
 .sound-character__tracks a {
   display: inline-block;
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-size: 0.92rem;
   line-height: 1.4;
   letter-spacing: 0.02em;
@@ -223,7 +223,7 @@
   margin-bottom: 28px;
 }
 .sound-page__title {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-weight: 600;
   font-size: 1.25rem;
   letter-spacing: 0.2em;
@@ -271,7 +271,7 @@
 }
 
 .sound-hub__topbar .topbar__back {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
 }
 
 .sound-character--highlight {
@@ -308,8 +308,9 @@
     line-height: 1.5;
   }
 
+  /* Tablet: two columns; phone overrides to one below. */
   .sound-archive {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
   }
 
@@ -358,6 +359,12 @@
   .sound-character__tracks a:active {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 220, 160, 0.28);
+  }
+}
+
+@media (max-width: 600px) {
+  .sound-archive {
+    grid-template-columns: 1fr;
   }
 }
 

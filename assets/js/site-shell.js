@@ -4,6 +4,8 @@
 (() => {
   const STORAGE_PROGRESS = "sunnychimera-read-progress";
   const STORAGE_PREFS = "sunnychimera-reader-prefs";
+  const t = (key, vars) =>
+    (window.SunnyLocale && window.SunnyLocale.t(key, vars)) || key;
 
   function assetBase() {
     const path = (window.location.pathname || "").replace(/\\/g, "/");
@@ -24,11 +26,58 @@
     }
   }
 
+  function chapterNumFromId(id) {
+    if (!id) return 0;
+    if (id === "prologue" || id === "beginning") return 0;
+    const m = /^ch(\d+)$/i.exec(String(id));
+    return m ? Math.min(13, Math.max(0, Number(m[1]) || 0)) : 0;
+  }
+
   function saveProgress(data) {
     try {
-      localStorage.setItem(STORAGE_PROGRESS, JSON.stringify(data));
+      const prev = loadProgress() || {};
+      const chapterId = data?.chapterId || prev.chapterId || "";
+      const num = chapterNumFromId(chapterId);
+      const maxChapterNum = Math.max(
+        Number.isFinite(prev.maxChapterNum) ? prev.maxChapterNum : 0,
+        Number.isFinite(data?.maxChapterNum) ? data.maxChapterNum : 0,
+        num
+      );
+      localStorage.setItem(
+        STORAGE_PROGRESS,
+        JSON.stringify({ ...prev, ...data, chapterId, maxChapterNum })
+      );
     } catch (e) {}
   }
+
+  /** Chat API context: read progress + mode for hybrid character prompts. */
+  window.SunnyChatContext = {
+    chapterNumFromId,
+    getReadChapter() {
+      const p = loadProgress();
+      if (p && Number.isFinite(p.maxChapterNum)) return Math.min(13, Math.max(0, p.maxChapterNum));
+      return chapterNumFromId(p?.chapterId);
+    },
+    getCurrentChapter() {
+      const openId =
+        document.querySelector("dialog.site-reader[open]") &&
+        (window.SunnyReader?.currentChapterId?.() || null);
+      if (openId) return chapterNumFromId(openId);
+      const p = loadProgress();
+      return chapterNumFromId(p?.chapterId);
+    },
+    payload(mode = "talk", extra = {}) {
+      const readChapter = this.getReadChapter();
+      const currentChapter =
+        mode === "reader" ? this.getCurrentChapter() : readChapter;
+      return {
+        mode,
+        readChapter,
+        currentChapter,
+        ...extra,
+      };
+    },
+  };
 
   function loadPrefs() {
     try {
@@ -64,19 +113,19 @@
     header.className = "site-header";
     const homeLink = isHome
       ? ""
-      : `<a href="${home}" class="site-nav__home">На главную</a>`;
+      : `<a href="${home}" class="site-nav__home">${t("home")}</a>`;
     header.innerHTML = `
-      <a class="site-header__brand" href="${home}" aria-label="SunnyChimera — главная">sunny<span>Chimera</span></a>
-      <nav class="site-nav site-nav--desktop" aria-label="Основная навигация">
+      <a class="site-header__brand" href="${home}" aria-label="${t("brandAria")}">${t("brand")}</a>
+      <nav class="site-nav site-nav--desktop" aria-label="Main">
         ${homeLink}
-        <button type="button" class="site-nav__read${section === "home" ? " is-current" : ""}" data-nav-read>Читать</button>
-        <button type="button" class="site-nav__continue" data-nav-continue hidden>Продолжить</button>
-        <a href="${base}pages/your-thread.html" class="${section === "thread" ? "is-current" : ""}">Твоя Нить</a>
-        <a href="${base}pages/album.html" class="${section === "album" ? "is-current" : ""}">Альбом</a>
-        <a href="${base}pages/sound.html" class="${section === "listen" ? "is-current" : ""}">Послушать</a>
+        <button type="button" class="site-nav__read${section === "home" ? " is-current" : ""}" data-nav-read>${t("read")}</button>
+        <button type="button" class="site-nav__continue" data-nav-continue hidden>${t("continue")}</button>
+        <a href="${base}pages/your-thread.html" class="${section === "thread" ? "is-current" : ""}">${t("yourThread")}</a>
+        <a href="${base}pages/album.html" class="${section === "album" ? "is-current" : ""}">${t("album")}</a>
+        <a href="${base}pages/sound.html" class="${section === "listen" ? "is-current" : ""}">${t("listen")}</a>
         <div data-lang-switch-host></div>
       </nav>
-      <button type="button" class="site-nav__burger" aria-label="Меню" data-nav-burger>
+      <button type="button" class="site-nav__burger" aria-label="${t("menu")}" data-nav-burger>
         <span></span><span></span><span></span>
       </button>
     `;
@@ -88,13 +137,13 @@
     mobile.className = "site-nav-mobile";
     mobile.setAttribute("hidden", "");
     mobile.innerHTML = `
-      <button type="button" class="site-nav-mobile__close" data-nav-close aria-label="Закрыть">×</button>
+      <button type="button" class="site-nav-mobile__close" data-nav-close aria-label="${t("close")}">×</button>
       ${homeLink}
-      <button type="button" data-nav-read>Читать</button>
-      <button type="button" class="site-nav__continue" data-nav-continue hidden>Продолжить</button>
-      <a href="${base}pages/your-thread.html">Твоя Нить</a>
-      <a href="${base}pages/album.html">Альбом</a>
-      <a href="${base}pages/sound.html">Послушать</a>
+      <button type="button" data-nav-read>${t("read")}</button>
+      <button type="button" class="site-nav__continue" data-nav-continue hidden>${t("continue")}</button>
+      <a href="${base}pages/your-thread.html">${t("yourThread")}</a>
+      <a href="${base}pages/album.html">${t("album")}</a>
+      <a href="${base}pages/sound.html">${t("listen")}</a>
     `;
     document.body.appendChild(mobile);
 
@@ -120,7 +169,7 @@
     }
     buttons.forEach((b) => {
       b.hidden = false;
-      b.textContent = "Продолжить";
+      b.textContent = t("continue");
       b.title = ch.toc || ch.title;
     });
   }
@@ -193,16 +242,16 @@
       <div class="site-reader__progress" aria-hidden="true"><span data-reader-progress></span></div>
       <div class="site-reader__bar">
         <button type="button" class="site-reader__back" data-reader-close>
-          <span aria-hidden="true">←</span> На главную
+          <span aria-hidden="true">←</span> ${t("readerHome")}
         </button>
         <div class="site-reader__bar-actions">
-          <span class="site-reader__bar-label">Читалка · Часть первая</span>
-          <button type="button" data-reader-aa aria-expanded="false">Аа</button>
+          <span class="site-reader__bar-label">${t("readerLabel")}</span>
+          <button type="button" data-reader-aa aria-expanded="false">Aa</button>
         </div>
       </div>
       <div class="site-reader__settings" data-reader-settings>
-        <label>Размер <input type="range" min="18" max="28" step="1" data-reader-size></label>
-        <label>Бумага <input type="checkbox" data-reader-paper></label>
+        <label>${window.SunnyLocale?.getLang() === "ru" ? "Размер" : "Size"} <input type="range" min="18" max="28" step="1" data-reader-size></label>
+        <label>${window.SunnyLocale?.getLang() === "ru" ? "Бумага" : "Paper"} <input type="checkbox" data-reader-paper></label>
       </div>
       <div class="site-reader__layout">
         <article class="site-reader__article">
@@ -216,12 +265,12 @@
           <h2 class="site-reader__title" id="reader-title" data-reader-title></h2>
           <div class="site-reader__text" data-reader-text></div>
           <section class="site-reader__cast site-reader__cast--mobile" data-reader-cast-mobile hidden>
-            <h3>В этой главе</h3>
+            <h3>${t("readerInChapter")}</h3>
             <ul class="site-reader__cast-list" data-reader-cast-mobile-list></ul>
           </section>
-          <nav class="site-reader__nav" aria-label="Навигация по главам">
+          <nav class="site-reader__nav" aria-label="${t("readerChapterNav")}">
             <button type="button" data-reader-prev></button>
-            <a href="${home}#contents" data-reader-toc>оглавление</a>
+            <a href="${home}#contents" data-reader-toc>${t("readerToc")}</a>
             <button type="button" data-reader-next></button>
           </nav>
         </article>
@@ -246,7 +295,7 @@
           <div class="site-reader__rail-chat" data-reader-rail-chat hidden>
             <div class="site-reader__rail-chat-bar">
               <strong data-reader-chat-name></strong>
-              <button type="button" data-reader-chat-close>К списку</button>
+              <button type="button" data-reader-chat-close>${t("readerBackList")}</button>
             </div>
             <div class="chat site-reader__chat" data-reader-chat-root>
               <div class="chat__log" data-reader-chat-log></div>
@@ -254,6 +303,7 @@
                 <input class="chat__input" type="text" placeholder="Спроси…" autocomplete="off" data-reader-chat-input>
                 <button class="chat__send" type="submit">→</button>
               </form>
+              <p class="ai-share-note" data-ai-share-note></p>
               <p class="chat__hint" data-reader-chat-hint aria-live="polite"></p>
             </div>
           </div>
@@ -323,8 +373,15 @@
 
     function kickerFor(ch) {
       const info = meta.chapters?.[ch.id];
-      if (!info || info.num === 0) return "Часть первая · Вступление";
-      return `Часть первая · Глава ${info.num}`;
+      const en = window.SunnyLocale?.getLang() === "en";
+      if (!info || info.num === 0) {
+        return window.SunnyI18n?.t?.("reader.partOneIntro") ||
+          (en ? "Part One · Prologue" : "Часть первая · Вступление");
+      }
+      const tpl =
+        window.SunnyI18n?.t?.("reader.partOneChapter") ||
+        (en ? "Part One · Chapter {n}" : "Часть первая · Глава {n}");
+      return tpl.replace("{n}", String(info.num));
     }
 
     function aliasHit(text, alias) {
@@ -348,6 +405,13 @@
       return found;
     }
 
+    function unwrapItalic(text) {
+      const raw = String(text || "");
+      const m = raw.match(/^<em>([\s\S]*)<\/em>$/i);
+      if (m) return { italic: true, text: m[1] };
+      return { italic: false, text: raw };
+    }
+
     function renderText(paragraphs, castIds) {
       const frag = document.createDocumentFragment();
       paragraphs.forEach((t) => {
@@ -358,9 +422,11 @@
           frag.appendChild(knot);
           return;
         }
+        const { italic, text } = unwrapItalic(t);
         const p = document.createElement("p");
-        p.textContent = t;
-        const ids = mentionsInText(t, castIds);
+        if (italic) p.classList.add("is-italic");
+        p.textContent = text;
+        const ids = mentionsInText(text, castIds);
         if (ids.length) p.dataset.mentions = ids.join(" ");
         frag.appendChild(p);
       });
@@ -368,6 +434,8 @@
     }
 
     function castItem(id) {
+      try { window.storyMeta?.applyLang?.(window.SunnyLocale?.getLang?.() || "en"); } catch (e) {}
+
       const c = meta.characters?.[id];
       if (!c) return null;
       const li = document.createElement("li");
@@ -390,7 +458,7 @@
       pageLink.appendChild(name);
       const talk = document.createElement("a");
       talk.className = "site-reader__cast-talk";
-      talk.textContent = "Поговорить";
+      talk.textContent = t("talkGeneric") || (window.SunnyLocale?.getLang?.() === "ru" ? "Поговорить" : "Talk");
       talk.href = `${base}pages/talk.html?c=${encodeURIComponent(id)}`;
       talk.addEventListener("click", (e) => {
         e.preventDefault();
@@ -417,10 +485,14 @@
 
     function talkInvite(c) {
       const form = (c && (c.nameWith || c.name)) || "";
-      if (!form) return "Поговорить";
-      // «со» before с/з/ш/ж + consonant (со Злым Лесом)
-      const prep = /^[сзшжСЗШЖ][^аеёиоуыэюяАЕЁИОУЫЭЮЯ]/.test(form) ? "со" : "с";
-      return `Поговорить ${prep} ${form}`;
+      const lang = window.SunnyLocale?.getLang?.() || "en";
+      if (!form) return t("talkGeneric");
+      if (lang === "ru") {
+        // «со» before с/з/ш/ж + consonant (со Злым Лесом)
+        const prep = /^[сзшжСЗШЖ][^аеёиоуыэюяАЕЁИОУЫЭЮЯ]/.test(form) ? "со" : "с";
+        return `Поговорить ${prep} ${form}`;
+      }
+      return t("talkWith", { name: c.name || form });
     }
 
     const SPEECH_VERBS =
@@ -598,26 +670,20 @@
       const othersEl = dialog.querySelector("[data-reader-cast-others]");
       if (!nameEl || !talkEl || !othersEl || !lineEl) return;
 
+      // No changing quote-from-text under characters — only art, name, talk.
+      lineEl.textContent = "";
+      lineEl.hidden = true;
+
       if (isCharacterArt(activeArtKey)) {
         const c = meta.characters[activeArtKey];
         nameEl.textContent = c.name;
         nameEl.hidden = false;
-        const line = latestPassedLine(activeArtKey);
-        if (line) {
-          lineEl.textContent = `«${line}»`;
-          lineEl.hidden = false;
-        } else {
-          lineEl.textContent = "";
-          lineEl.hidden = true;
-        }
         talkEl.hidden = false;
-        talkEl.textContent = talkInvite(c);
+        talkEl.textContent = t("talkGeneric") || (window.SunnyLocale?.getLang?.() === "ru" ? "Поговорить" : "Talk");
         talkEl.dataset.talk = activeArtKey;
       } else {
         nameEl.textContent = activeArtLabel || chapterArtLabel || "";
         nameEl.hidden = !nameEl.textContent;
-        lineEl.textContent = "";
-        lineEl.hidden = true;
         talkEl.hidden = true;
         talkEl.textContent = "";
         delete talkEl.dataset.talk;
@@ -903,7 +969,7 @@
     function setNotebook(ch) {
       chapterArtSrc = meta.chapters?.[ch.id]?.image || "";
       const isDryadArt = /dryad\.(jpe?g|png|webp)$/i.test(chapterArtSrc);
-      chapterArtLabel = isDryadArt ? "Дриада" : ch.title || "";
+      chapterArtLabel = isDryadArt ? t("dryadName") : ch.title || "";
       activeArtKey = "";
       artFrontIsA = true;
       firstAppearances = [];
@@ -1058,10 +1124,21 @@
         chatInput.value = "";
         chatInput.disabled = true;
       }
-      appendChat(text, true);
-      chatHistory.push({ role: "user", text });
+      const already =
+        chatHistory.length &&
+        chatHistory[chatHistory.length - 1].role === "user" &&
+        chatHistory[chatHistory.length - 1].text === text;
+      if (!already) {
+        appendChat(text, true);
+        chatHistory.push({ role: "user", text });
+      }
       if (chatHint) chatHint.textContent = "…";
       try {
+        const ctx = window.SunnyChatContext?.payload?.("reader") || {
+          mode: "reader",
+          readChapter: 0,
+          currentChapter: 0,
+        };
         const res = await fetch(apiBase() + "/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -1070,27 +1147,62 @@
             history: chatHistory.slice(0, -1),
             provider: "auto",
             character: chatApiId,
+            ...ctx,
           }),
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          appendChat(typeof data.error === "string" ? data.error : "Ошибка сервера", false);
-          chatHistory.pop();
+          if (data.code === "rate_limit" || res.status === 429) {
+            const chMeta =
+              Object.values(meta.characters || {}).find(
+                (c) => c.apiId === chatApiId || c.id === chatApiId
+              ) || {};
+            const wait =
+              chMeta.waitPhrase ||
+              data.waitPhrase ||
+              (document.documentElement.lang === "ru" ? "…" : "…");
+            const hint =
+              data.retryHint ||
+              (document.documentElement.lang === "ru"
+                ? "Попробуй ещё раз через минуту"
+                : "Try again in a minute");
+            if (chatHint) {
+              chatHint.className = "chat__hint chat__hint--rate-limit";
+              chatHint.replaceChildren();
+              const w = document.createElement("span");
+              w.className = "chat__rate-wait";
+              w.textContent = wait;
+              const btn = document.createElement("button");
+              btn.type = "button";
+              btn.className = "chat__rate-retry";
+              btn.textContent = hint;
+              btn.addEventListener("click", () => sendChatMessage(text));
+              chatHint.append(w, btn);
+            }
+          } else {
+            appendChat(typeof data.error === "string" ? data.error : "Ошибка сервера", false);
+            chatHistory.pop();
+            if (chatHint) chatHint.textContent = "";
+          }
         } else {
           const reply = (data.text || "").trim() || "…";
           appendChat(reply, false);
           chatHistory.push({ role: "model", text: reply });
+          if (chatHint) {
+            chatHint.className = "chat__hint";
+            chatHint.textContent = "";
+          }
         }
       } catch (err) {
         appendChat("Ошибка сети", false);
         chatHistory.pop();
+        if (chatHint) chatHint.textContent = "";
       } finally {
         chatLoading = false;
         if (chatInput) {
           chatInput.disabled = false;
           chatInput.focus();
         }
-        if (chatHint) chatHint.textContent = "";
       }
     }
 
@@ -1175,7 +1287,7 @@
         nextBtn.textContent = `${next.toc || next.title} →`;
       } else {
         nextBtn.disabled = false;
-        nextBtn.textContent = story.endNote || "Конец первой части";
+        nextBtn.textContent = story.endNote || t("readerEnd");
       }
     }
 
@@ -1381,6 +1493,7 @@
       chapters,
       persist: persistPosition,
       syncArt: () => artSyncFn?.(),
+      currentChapterId: () => chapters[currentIndex]?.id || "",
     };
     updateContinueButtons();
 

@@ -1,4 +1,4 @@
-/* ===============================
+﻿/* ===============================
    WORLD PAGES - мир Dream / мир Weaver
    Главный персонаж крупно, команда (5) внизу, без движения
    =============================== */
@@ -68,13 +68,13 @@
 .world-page__back[href*="dream-world"],
 .world-page__topbar-link[href*="dream-world"],
 .world-page__topbar-link[href*="dream.html"] {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world-page.world--dream .world-page__back,
 .world-page.world--dream .world-page__topbar-link,
 .world-page.world--dream .lang-switch__btn {
-  font-family: var(--font-dream, "Philosopher", Georgia, serif);
+  font-family: var(--font-dream, Alice, Georgia, serif);
 }
 .world-page__back[href*="weaver-world"],
 .world-page__topbar-link[href*="weaver-world"],
@@ -89,7 +89,7 @@
 }
 .world-page__back[href*="index.html"],
 .world-page__topbar-link[href*="index.html"] {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
 }
 
 .world-page__back:hover,
@@ -114,7 +114,7 @@
 }
 
 .world--dream .world-team__title {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world--weaver .world-team__title {
@@ -193,7 +193,7 @@
 }
 
 .world--dream .world-hero__name {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world--weaver .world-hero__name {
@@ -201,7 +201,7 @@
 }
 
 .world--dream .world-team__card-name {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
   font-size: 1.05rem;
   letter-spacing: 0.04em;
 }
@@ -219,7 +219,7 @@
 }
 
 .world--dream .world-hero__tag {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world--weaver .world-hero__tag {
@@ -344,7 +344,7 @@
 }
 
 .world-team__card-name {
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
   font-size: 1rem;
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.9);
@@ -366,7 +366,7 @@
 }
 
 .world--dream .world-team__card-nav a {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world--weaver .world-team__card-nav a {
@@ -700,7 +700,7 @@ body.world-page.world-page--ink .sunbeam-layer {
   margin: 0 0 28px;
   position: relative;
   z-index: 3;
-  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--font-body, "PT Serif", Georgia, serif);
   font-weight: 400;
   font-size: clamp(1rem, 2vw, 1.2rem);
 }
@@ -859,7 +859,7 @@ body.world-page.world-page--ink .sunbeam-layer {
 
 .world-page--ink .world-hero__name,
 .world-page--ink .world-team__card-name {
-  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--font-body, "PT Serif", Georgia, serif);
   font-weight: 400;
   letter-spacing: -0.01em;
   text-align: center;
@@ -874,7 +874,7 @@ body.world-page.world-page--ink .sunbeam-layer {
 }
 
 .world-page--ink .world-hero__tag {
-  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--font-body, "PT Serif", Georgia, serif);
   font-size: 0.95rem;
   letter-spacing: 0.12em;
   color: rgba(184, 184, 184, 0.9);
@@ -941,7 +941,7 @@ body.world-page.world-page--ink .sunbeam-layer {
 .world-page--ink .world-quote {
   margin: 10px auto 0;
   max-width: 18em;
-  font: italic clamp(0.92rem, 1.2vw, 1.1rem) / 1.4 var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font: italic clamp(0.92rem, 1.2vw, 1.1rem) / 1.4 var(--font-body, "PT Serif", Georgia, serif);
   color: #c2c2c2;
   opacity: 0;
   max-height: 0;
@@ -998,7 +998,7 @@ body.world-page.world-page--ink .sunbeam-layer {
   z-index: 1;
   margin-top: auto;
   margin-bottom: 18%;
-  font-family: var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--font-body, "PT Serif", Georgia, serif);
   color: rgba(180, 180, 180, 0.55);
   font-size: clamp(0.85rem, 1.4vw, 1rem);
   max-width: 14em;
@@ -1099,7 +1099,7 @@ body.world-page.world-page--ink .sunbeam-layer {
 
 .world--dream .world-care-heading__tag {
   margin: 0;
-  font: 0.95rem/1.4 var(--font-body, "Cormorant Garamond", Georgia, serif);
+  font: 0.95rem/1.4 var(--font-body, "PT Serif", Georgia, serif);
   letter-spacing: 0.14em;
   color: rgba(184, 184, 184, 0.9);
 }

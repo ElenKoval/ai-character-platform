@@ -16,9 +16,18 @@
   let visits = 0, lastFright = -10000, assetReady = false, suspended = false;
   const busy = () => sleeping || motion.matches || document.hidden || reader?.open;
   function syncToggle() {
-    toggle.textContent = sleeping ? 'Разбудить жука' : 'Усыпить жука';
+    const sleep =
+      window.SunnyI18n?.t?.('footer.beetleSleep') ||
+      window.SunnyLocale?.t?.('beetleSleep') ||
+      'Усыпить жука';
+    const wake =
+      window.SunnyI18n?.t?.('footer.beetleWake') ||
+      window.SunnyLocale?.t?.('beetleWake') ||
+      'Разбудить жука';
+    toggle.textContent = sleeping ? wake : sleep;
     toggle.setAttribute('aria-pressed', String(sleeping));
   }
+  document.addEventListener('sunnychimera:i18n-ready', syncToggle);
   function cancel() { clearTimeout(timer); cancelAnimationFrame(raf); timer = 0; raf = 0; lastTime = 0; }
   function paint() {
     bug.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) translate(-50%,-50%) rotate(${angle}rad)`;

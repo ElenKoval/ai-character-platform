@@ -255,7 +255,14 @@
     wrap.className = "lang-switch";
     wrap.setAttribute("role", "navigation");
     wrap.setAttribute("aria-label", lang === "ru" ? "Язык" : "Language");
-    SUPPORTED.forEach(function (code) {
+    SUPPORTED.forEach(function (code, index) {
+      if (index > 0) {
+        var sep = document.createElement("span");
+        sep.className = "lang-switch__sep";
+        sep.setAttribute("aria-hidden", "true");
+        sep.textContent = "/";
+        wrap.appendChild(sep);
+      }
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "lang-switch__btn" + (code === lang ? " is-active" : "");

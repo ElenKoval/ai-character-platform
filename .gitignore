@@ -2,6 +2,9 @@
 *.iml
 node_modules/
 .env
+server/.env
 .DS_Store
 CHAT.md
 IMAGES.md
+server/scripts/*.log
+*.log

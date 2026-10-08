@@ -3,6 +3,10 @@
  */
 (() => {
   const STORAGE_KEY = "sunnychimera-scene-chats";
+  function storageKey() {
+    const code = window.SunnyLocale?.getLang?.() || "en";
+    return STORAGE_KEY + ":" + code;
+  }
   const HISTORY_CAP = 40;
 
   function apiBase() {
@@ -30,6 +34,43 @@
       .trim();
   }
 
+  function readChapterNow() {
+    const n = window.SunnyChatContext?.getReadChapter?.();
+    return Number.isFinite(Number(n)) ? Math.min(13, Math.max(0, Math.trunc(Number(n)))) : 0;
+  }
+
+  function talkedKey(id) {
+    return id ? `sunnychimera-talked:${id}` : "";
+  }
+
+  function hasTalkedBefore(id) {
+    const key = talkedKey(id);
+    if (!key) return false;
+    try {
+      return localStorage.getItem(key) === "1";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function markTalked(id) {
+    const key = talkedKey(id);
+    if (!key) return;
+    try {
+      localStorage.setItem(key, "1");
+    } catch (e) {}
+  }
+
+  function openingFor(c, { returning = false } = {}) {
+    if (!c) return "";
+    if (typeof c.getOpening === "function") {
+      return stripQuotes(
+        c.getOpening(readChapterNow(), { returning, lang: lang() })
+      );
+    }
+    return stripQuotes(c.quote || "");
+  }
+
   function formatNpc(text) {
     const t = stripQuotes(text);
     if (!t) return "";
@@ -40,15 +81,31 @@
     return (c && (c.id || c.apiId)) || "";
   }
 
+  function normalizeChatList(list) {
+    if (!Array.isArray(list)) return [];
+    return list
+      .filter((m) => m && (m.role === "user" || m.role === "model") && typeof m.text === "string")
+      .map((m) => ({ role: m.role, text: m.text }));
+  }
+
   function loadSavedChat(id) {
     if (!id) return [];
     try {
-      const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      const list = all[id];
-      if (!Array.isArray(list)) return [];
-      return list
-        .filter((m) => m && (m.role === "user" || m.role === "model") && typeof m.text === "string")
-        .map((m) => ({ role: m.role, text: m.text }));
+      const scoped = JSON.parse(localStorage.getItem(storageKey()) || "{}");
+      const fromScoped = normalizeChatList(scoped[id]);
+      if (fromScoped.length) return fromScoped;
+
+      // Legacy key used by older Your Thread builds (no :lang suffix).
+      const legacy = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      const fromLegacy = normalizeChatList(legacy[id]);
+      if (fromLegacy.length) {
+        scoped[id] = fromLegacy.slice(-HISTORY_CAP);
+        localStorage.setItem(storageKey(), JSON.stringify(scoped));
+        delete legacy[id];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(legacy));
+        return fromLegacy;
+      }
+      return [];
     } catch (e) {
       return [];
     }
@@ -57,18 +114,24 @@
   function saveChat(id, list) {
     if (!id) return;
     try {
-      const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      const all = JSON.parse(localStorage.getItem(storageKey()) || "{}");
       all[id] = (list || []).slice(-HISTORY_CAP);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+      localStorage.setItem(storageKey(), JSON.stringify(all));
     } catch (e) {}
   }
 
   function clearChat(id) {
     if (!id) return;
     try {
-      const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      const all = JSON.parse(localStorage.getItem(storageKey()) || "{}");
       delete all[id];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+      localStorage.setItem(storageKey(), JSON.stringify(all));
+      // Also clear legacy unscoped entry if present.
+      const legacy = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      if (legacy[id]) {
+        delete legacy[id];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(legacy));
+      }
     } catch (e) {}
   }
 
@@ -83,10 +146,9 @@
     back: document.querySelector("[data-talk-back]"),
     art: document.querySelector("[data-talk-art]"),
     name: document.querySelector("[data-talk-name]"),
-    column: document.querySelector(".talk__column"),
+    column: document.querySelector("[data-talk-column]"),
     log: document.querySelector("[data-talk-log]"),
-    thread: document.querySelector("[data-talk-thread]"),
-    wait: document.querySelector("[data-talk-wait]"),
+    dock: document.querySelector("[data-talk-dock]"),
     form: document.querySelector("[data-talk-form]"),
     input: document.querySelector("[data-talk-input]"),
     say: document.querySelector("[data-talk-say]"),
@@ -97,20 +159,51 @@
   let loading = false;
   let typeTimer = 0;
   let releaseArmed = false;
+  let pendingRetry = "";
+  let rateLimitEl = null;
   const chatId = chatIdFor(character);
 
-  document.title = `${character.name} — разговор`;
+  const lang = () => window.SunnyLocale?.getLang?.() || "en";
+  const tt = (key, vars) => {
+    let v = window.SunnyI18n?.t?.(key) || "";
+    if (!v && window.SunnyLocale?.t) {
+      const leaf = key.includes(".") ? key.split(".").pop() : key;
+      const camel = key.includes(".")
+        ? key
+            .split(".")
+            .map((p, i) => (i === 0 ? p : p.charAt(0).toUpperCase() + p.slice(1)))
+            .join("")
+        : key;
+      v = window.SunnyLocale.t(camel, vars) || window.SunnyLocale.t(leaf, vars) || "";
+    }
+    if (v && vars) {
+      Object.keys(vars).forEach((k) => {
+        v = v.replace(new RegExp("\\{" + k + "\\}", "g"), vars[k]);
+      });
+    }
+    return v;
+  };
+
+  document.title =
+    tt("talk.title", { name: character.name }) ||
+    `${character.name} — ${lang() === "ru" ? "разговор" : "talk"}`;
   els.name.textContent = character.name;
-  els.art.src = character.img;
   els.art.alt = character.name;
+  if (els.back) els.back.textContent = tt("talk.back") || tt("talkBack") || (lang() === "ru" ? "← Вернуться" : "← Back");
+  if (els.say) els.say.textContent = tt("talk.say") || tt("talkSay") || tt("thread.say") || (lang() === "ru" ? "Сказать" : "Say it");
   els.art.className = "talk__art";
-  if (character.sceneContrast === "hard" || character.sceneContrast === "face") {
-    els.art.classList.add(`talk__art--${character.sceneContrast}`);
-  } else if (character.sceneContrast === "soft") {
-    els.art.classList.add("talk__art--soft");
+  if (character.imgNeg) {
+    els.art.src = character.imgNeg;
+    els.art.classList.add("talk__art--ready");
+  } else {
+    els.art.src = character.img;
+    if (character.sceneContrast === "hard" || character.sceneContrast === "face") {
+      els.art.classList.add(`talk__art--${character.sceneContrast}`);
+    } else if (character.sceneContrast === "soft") {
+      els.art.classList.add("talk__art--soft");
+    }
   }
-  els.input.placeholder = character.askHint || `Спроси ${character.nameWith || character.name}…`;
-  els.wait.textContent = character.waitPhrase || "…";
+  els.input.placeholder = "";
 
   els.back?.addEventListener("click", (e) => {
     e.preventDefault();
@@ -124,14 +217,8 @@
 
   function setThinking(on) {
     loading = !!on;
-    document.body.classList.toggle("is-thinking", loading);
     els.input.disabled = loading;
     els.say.disabled = loading;
-    if (els.thread) {
-      // Thread lives under the last NPC line; show while thinking or when an NPC line exists
-      const hasNpc = history.some((m) => m.role === "model");
-      els.thread.hidden = !(loading || hasNpc);
-    }
   }
 
   function lineOpacity(index, total) {
@@ -142,10 +229,6 @@
 
   function renderLog(opts = {}) {
     const typingEl = opts.typingEl || null;
-    // Keep thread node alive across log rebuilds
-    if (els.thread && els.thread.parentNode === els.log) {
-      els.log.parentNode.appendChild(els.thread);
-    }
     els.log.replaceChildren();
     const total = history.length;
     history.forEach((m, i) => {
@@ -160,33 +243,18 @@
       }
       els.log.appendChild(p);
     });
-    placeThread();
-    if (opts.scroll !== false) {
-      window.requestAnimationFrame(() => {
-        const scroller = els.column;
-        if (!scroller) return;
-        scroller.scrollTo({
-          top: scroller.scrollHeight,
-          behavior: opts.smooth ? "smooth" : "auto",
-        });
-      });
-    }
+    if (opts.scroll !== false) scrollToInput(opts.smooth);
   }
 
-  function placeThread() {
-    if (!els.thread) return;
-    const npcLines = els.log.querySelectorAll(".talk__line--npc");
-    const lastNpc = npcLines[npcLines.length - 1];
-    const lastLine = els.log.querySelector(".talk__line:last-child");
-    const hasNpc = npcLines.length > 0;
-    els.thread.hidden = !(loading || hasNpc);
-    // While thinking — under the newest line; otherwise under last NPC reply
-    const anchor = loading ? lastLine || lastNpc : lastNpc;
-    if (anchor) {
-      anchor.insertAdjacentElement("afterend", els.thread);
-    } else if (els.log.parentNode) {
-      els.log.parentNode.insertBefore(els.thread, els.log.nextSibling);
-    }
+  function scrollToInput(smooth) {
+    window.requestAnimationFrame(() => {
+      const scroller = els.column;
+      if (!scroller) return;
+      scroller.scrollTo({
+        top: scroller.scrollHeight,
+        behavior: smooth ? "smooth" : "auto",
+      });
+    });
   }
 
   function clearTypeTimer() {
@@ -233,7 +301,7 @@
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "talk__release-link";
-      btn.textContent = "Отпустить разговор";
+      btn.textContent = tt("talk.release") || (lang() === "ru" ? "Отпустить разговор" : "Release the talk");
       btn.addEventListener("click", () => {
         releaseArmed = true;
         renderRelease();
@@ -244,12 +312,13 @@
     const yes = document.createElement("button");
     yes.type = "button";
     yes.className = "talk__release-choice";
-    yes.textContent = "Отпустить?";
+    yes.textContent = tt("talk.releaseConfirm") || (lang() === "ru" ? "Отпустить?" : "Release?");
     yes.addEventListener("click", () => {
       clearTypeTimer();
+      const returning = hasTalkedBefore(chatId);
       clearChat(chatId);
       history = [];
-      const opening = stripQuotes(character.quote || "");
+      const opening = openingFor(character, { returning });
       if (opening) {
         history.push({ role: "model", text: opening });
         persist();
@@ -266,7 +335,7 @@
     const no = document.createElement("button");
     no.type = "button";
     no.className = "talk__release-choice";
-    no.textContent = "Оставить";
+    no.textContent = tt("talk.keep") || (lang() === "ru" ? "Оставить" : "Keep");
     no.addEventListener("click", () => {
       releaseArmed = false;
       renderRelease();
@@ -274,18 +343,67 @@
     els.release.append(yes, dot, no);
   }
 
-  async function send(text) {
+  function clearRateLimitUI() {
+    pendingRetry = "";
+    rateLimitEl?.remove();
+    rateLimitEl = null;
+  }
+
+  function showRateLimitUI(waitPhrase, retryHint, retryMsg) {
+    clearRateLimitUI();
+    pendingRetry = retryMsg;
+    rateLimitEl = document.createElement("div");
+    rateLimitEl.className = "talk__rate-limit";
+    rateLimitEl.setAttribute("role", "status");
+
+    const wait = document.createElement("p");
+    wait.className = "talk__rate-limit-wait";
+    wait.textContent =
+      waitPhrase ||
+      character.waitPhrase ||
+      (lang() === "ru" ? "Дрим смотрит на Нити…" : "…");
+
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "talk__rate-limit-retry";
+    retry.textContent =
+      retryHint ||
+      tt("talk.retryLater") ||
+      (lang() === "ru" ? "Попробуй ещё раз через минуту" : "Try again in a minute");
+    retry.addEventListener("click", () => {
+      const again = pendingRetry;
+      clearRateLimitUI();
+      if (again) send(again, { fromRetry: true });
+    });
+
+    rateLimitEl.append(wait, retry);
+    els.log.appendChild(rateLimitEl);
+    els.log.scrollTop = els.log.scrollHeight;
+  }
+
+  async function send(text, opts = {}) {
     if (loading || !character) return;
     const msg = (text || "").trim();
     if (!msg) return;
 
-    history.push({ role: "user", text: msg });
-    persist();
+    clearRateLimitUI();
+    const fromRetry = Boolean(opts.fromRetry);
+    const last = history[history.length - 1];
+    const alreadyPushed = fromRetry && last?.role === "user" && last.text === msg;
+    if (!alreadyPushed) {
+      history.push({ role: "user", text: msg });
+      markTalked(chatId);
+      persist();
+    }
     renderLog({ scroll: true, smooth: true });
     setThinking(true);
-    els.wait.textContent = character.waitPhrase || "…";
 
     try {
+      const ctx = window.SunnyChatContext?.payload?.("talk") || {
+        mode: "talk",
+        readChapter: 0,
+        currentChapter: 0,
+      };
       const res = await fetch(apiBase() + "/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -294,13 +412,26 @@
           history: history.slice(0, -1),
           provider: "auto",
           character: character.apiId || character.id,
+          ...ctx,
         }),
       });
       const data = await res.json().catch(() => ({}));
       setThinking(false);
 
       if (!res.ok) {
-        const err = typeof data.error === "string" ? data.error : "Ошибка сервера";
+        if (data.code === "rate_limit" || res.status === 429) {
+          // Keep the user line; don't store a technical error as a reply.
+          showRateLimitUI(
+            character.waitPhrase || data.waitPhrase,
+            data.retryHint,
+            msg
+          );
+          return;
+        }
+        const err =
+          typeof data.error === "string"
+            ? data.error
+            : tt("talk.serverError") || (lang() === "ru" ? "Ошибка сервера" : "Server error");
         history.pop();
         persist();
         history.push({ role: "model", text: err });
@@ -316,7 +447,10 @@
       setThinking(false);
       history.pop();
       persist();
-      history.push({ role: "model", text: "Ошибка сети" });
+      history.push({
+        role: "model",
+        text: tt("talk.networkError") || (lang() === "ru" ? "Ошибка сети" : "Network error"),
+      });
       renderLog({ scroll: true });
     } finally {
       els.input.focus();
@@ -330,9 +464,10 @@
     send(text);
   });
 
+  try { window.storyMeta?.applyLang?.(lang()); } catch (e) {}
   // Boot conversation
   const saved = loadSavedChat(chatId);
-  const opening = stripQuotes(character.quote || "");
+  const opening = openingFor(character, { returning: hasTalkedBefore(chatId) });
   if (saved.length) {
     history = saved.slice();
   } else if (opening) {
@@ -342,7 +477,6 @@
     history = [];
   }
   renderLog({ scroll: false });
-  placeThread();
   renderRelease();
 
   const seed = window.SunnyTalk?.takeSeed?.() || "";

@@ -2,11 +2,11 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import path from "path";
-import fs from "fs";
 import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
-import { getSystemPrompt } from "./prompts/registry.js";
 import { getRateLimitMessage } from "./rate-limit-messages.js";
+import { prepareChatPayload } from "./chat-prepare.js";
+import { getOrCreateConstantCache } from "./gemini-cache.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const envPath = path.join(__dirname, ".env");
@@ -28,7 +28,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..")));
 
-/* Определение языка */
 function detectMessageLanguage(text) {
   let latin = 0;
   let cyrillic = 0;
@@ -39,16 +38,9 @@ function detectMessageLanguage(text) {
   return latin >= cyrillic && latin > 0 ? "en" : "ru";
 }
 
-/** Текст преимущественно из латиницы → true (английский). */
 function isEnglish(text) {
   if (!text || typeof text !== "string") return false;
-  let latin = 0;
-  let cyrillic = 0;
-  for (const ch of text) {
-    if (/[a-zA-Z]/.test(ch)) latin++;
-    else if (/[а-яА-ЯёЁ]/.test(ch)) cyrillic++;
-  }
-  return latin >= cyrillic && latin > 0;
+  return detectMessageLanguage(text) === "en";
 }
 
 function isRateLimitError(err) {
@@ -58,173 +50,496 @@ function isRateLimitError(err) {
   );
 }
 
-/** @returns {Promise<string|null>} */
-async function tryGroq(fullPrompt, history, trimmed) {
-  if (!GROQ_API_KEY) return null;
+function extractUsage(resultOrData) {
+  const u =
+    resultOrData?.usageMetadata ||
+    resultOrData?.usage_metadata ||
+    resultOrData?.usage ||
+    {};
+  const prompt = u.promptTokenCount ?? u.prompt_token_count ?? u.prompt_tokens ?? null;
+  const cached =
+    u.cachedContentTokenCount ??
+    u.cached_content_token_count ??
+    u.prompt_tokens_details?.cached_tokens ??
+    0;
+  return {
+    promptTokenCount: prompt,
+    cachedContentTokenCount: Number(cached) || 0,
+    candidatesTokenCount: u.candidatesTokenCount ?? u.candidates_token_count ?? u.completion_tokens ?? null,
+    totalTokenCount: u.totalTokenCount ?? u.total_token_count ?? u.total_tokens ?? null,
+    raw: u,
+  };
+}
+
+function shouldLogRawProvider(characterId, message) {
+  if (process.env.DEBUG_RAW_PROVIDER === "1") return true;
+  const id = String(characterId || "").toLowerCase();
+  const msg = String(message || "").trim().toLowerCase();
+  return id === "weaver" && (msg === "привет" || msg === "hello");
+}
+
+function logRawProvider(label, payload) {
+  console.log(`\n========== [RAW ${label}] ==========`);
+  console.log(JSON.stringify(payload, null, 2));
+  console.log(`========== [END RAW ${label}] ==========\n`);
+}
+
+/**
+ * Groq = OpenAI-compatible. Constant prefix first for automatic prompt-prefix caching.
+ * @returns {Promise<{ ok: true, text: string, usage: object } | { ok: false, isRateLimit: boolean, err?: Error }>}
+ */
+async function tryGroq(fullPrompt, recentHistory, trimmed, assembled, logCtx = {}) {
+  if (!GROQ_API_KEY) {
+    return { ok: false, isRateLimit: false, err: new Error("GROQ_API_KEY not set") };
+  }
   try {
-    const messages = [{ role: "system", content: fullPrompt }];
-    for (const turn of history) {
+    const messages = [];
+    if (assembled?.constant) {
+      messages.push({ role: "system", content: assembled.constant });
+      if (assembled.variable) {
+        messages.push({ role: "system", content: assembled.variable });
+      }
+    } else {
+      messages.push({ role: "system", content: fullPrompt });
+    }
+    for (const turn of recentHistory) {
       messages.push({
         role: turn.role === "user" ? "user" : "assistant",
-        content: turn.text || ""
+        content: turn.text || "",
       });
     }
     messages.push({ role: "user", content: trimmed });
 
-    const groqRes = await fetch(`${GROQ_BASE}/chat/completions`, {
+    const url = `${GROQ_BASE}/chat/completions`;
+    const body = {
+      model: GROQ_MODEL,
+      messages,
+      stream: false,
+      temperature: 1.0,
+      top_p: 0.9,
+      max_completion_tokens: 8192,
+      reasoning_effort: "low",
+    };
+
+    if (shouldLogRawProvider(logCtx.characterId, trimmed)) {
+      logRawProvider("GROQ REQUEST", {
+        provider: "groq",
+        url,
+        model: GROQ_MODEL,
+        body,
+      });
+    }
+
+    // gpt-oss spends completion budget on reasoning first. A low max_tokens
+    // often returns truncated/empty message.content with finish_reason=length.
+    const groqRes = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${GROQ_API_KEY}`
+        Authorization: `Bearer ${GROQ_API_KEY}`,
       },
-      body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages,
-        stream: false,
-        temperature: 1.0,
-        top_p: 0.9,
-        max_tokens: 1024
-      })
+      body: JSON.stringify(body),
     });
 
     if (groqRes.ok) {
       const data = await groqRes.json();
-      const text = data?.choices?.[0]?.message?.content ?? "";
-      return (text.trim() || "…");
+      if (shouldLogRawProvider(logCtx.characterId, trimmed)) {
+        logRawProvider("GROQ RESPONSE", {
+          provider: "groq",
+          status: groqRes.status,
+          data,
+        });
+      }
+      const choice = data?.choices?.[0];
+      const message = choice?.message || {};
+      let text = message.content ?? "";
+      // Some reasoning payloads put the visible answer only after empty content.
+      if (!String(text).trim() && typeof message.reasoning === "string") {
+        // Never show chain-of-thought; treat as empty and fall through.
+        text = "";
+      }
+      const finish = choice?.finish_reason || choice?.finishReason || "";
+      if (!String(text).trim() && /length/i.test(finish)) {
+        console.warn("[Groq] empty/truncated content (finish=length); reasoning likely ate the budget");
+      }
+      return {
+        ok: true,
+        text: String(text).trim() || "…",
+        usage: extractUsage(data),
+        finishReason: finish || undefined,
+      };
     }
 
     const errText = await groqRes.text();
+    if (shouldLogRawProvider(logCtx.characterId, trimmed)) {
+      logRawProvider("GROQ RESPONSE ERROR", {
+        provider: "groq",
+        status: groqRes.status,
+        body: errText,
+      });
+    }
     let errMsg = errText;
     try {
       const j = JSON.parse(errText);
       errMsg = j.error?.message || j.error?.code || errText;
     } catch (_) {}
     console.warn("[Groq] error", groqRes.status, errMsg);
+    const isRateLimit =
+      groqRes.status === 429 || /rate limit|too many requests|quota/i.test(errMsg);
+    return {
+      ok: false,
+      isRateLimit,
+      err: new Error(errMsg),
+    };
   } catch (err) {
     console.warn("[Groq] error", err.message);
+    return { ok: false, isRateLimit: isRateLimitError(err), err };
   }
-  return null;
 }
 
-/** @returns {Promise<{ ok: true, text: string } | { ok: false, err: Error, isRateLimit: boolean }>} */
-async function tryGemini(fullPrompt, history, trimmed) {
+function rateLimitResponse(res, character, lang) {
+  const waitPhrase = getRateLimitMessage(character);
+  return res.status(429).json({
+    code: "rate_limit",
+    waitPhrase,
+    retryHint:
+      lang === "en" ? "Try again in a minute" : "Попробуй ещё раз через минуту",
+  });
+}
+
+function bothFailedResponse(res, character, lang, geminiFail, groqFail) {
+  // After fallback: both providers hit the limit → soft wait UI, no technical error.
+  if (geminiFail?.isRateLimit && groqFail?.isRateLimit) {
+    return rateLimitResponse(res, character, lang);
+  }
+  // Only one provider configured and it hit the limit
+  if (geminiFail?.isRateLimit && !GROQ_API_KEY) {
+    return rateLimitResponse(res, character, lang);
+  }
+  if (groqFail?.isRateLimit && !genAI) {
+    return rateLimitResponse(res, character, lang);
+  }
+  const msg =
+    lang === "en"
+      ? "Could not reach the character. Try again later."
+      : "Не удалось достучаться до персонажа. Попробуй позже.";
+  return res.status(500).json({ error: msg });
+}
+
+/**
+ * Gemini with explicit cache for hybrid constant prefix when available.
+ * @returns {Promise<{ ok: true, text: string, usage: object, cacheName?: string } | { ok: false, err: Error, isRateLimit: boolean }>}
+ */
+async function tryGemini(fullPrompt, recentHistory, trimmed, opts = {}) {
   if (!genAI) return { ok: false, err: new Error("Gemini API key missing"), isRateLimit: false };
   try {
-    const contents = history.map(turn => ({
+    const contents = recentHistory.map((turn) => ({
       role: turn.role === "user" ? "user" : "model",
-      parts: [{ text: turn.text || "" }]
+      parts: [{ text: turn.text || "" }],
     }));
-    contents.push({ role: "user", parts: [{ text: trimmed }] });
 
-    const result = await genAI.models.generateContent({
-      model: GEMINI_MODEL,
-      contents,
-      config: {
-        systemInstruction: fullPrompt,
-        temperature: 1.0,
-        maxOutputTokens: 1024,
-        safetySettings: [
-          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
-        ]
+    const { assembled, characterId } = opts;
+    let cacheName = null;
+    // maxOutputTokens includes thinking tokens on Gemini 3.x. A low cap
+    // (e.g. 1024) often cuts the visible reply mid-sentence (MAX_TOKENS).
+    const config = {
+      temperature: 1.0,
+      maxOutputTokens: 8192,
+      thinkingConfig: { thinkingLevel: "low" },
+      safetySettings: [
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+      ],
+    };
+
+    // coreOnly / empty variable: always put prompt in systemInstruction (no cache).
+    const useCache = Boolean(assembled?.constant && characterId && assembled.variable);
+    if (useCache) {
+      try {
+        cacheName = await getOrCreateConstantCache(
+          genAI,
+          GEMINI_MODEL,
+          characterId,
+          assembled.constant
+        );
+      } catch (cacheErr) {
+        console.warn("[Gemini cache] create failed, falling back:", cacheErr.message);
       }
-    });
+    }
+
+    if (cacheName) {
+      config.cachedContent = cacheName;
+      // Variable tail (state/mode/map/lang) goes before the user turn
+      if (assembled.variable) {
+        contents.push({
+          role: "user",
+          parts: [{ text: `[Контекст запроса]\n${assembled.variable}` }],
+        });
+        contents.push({
+          role: "model",
+          parts: [{ text: "Понял." }],
+        });
+      }
+      contents.push({ role: "user", parts: [{ text: trimmed }] });
+    } else {
+      // Official field for @google/genai SDK → maps to system_instruction
+      config.systemInstruction = fullPrompt;
+      contents.push({ role: "user", parts: [{ text: trimmed }] });
+    }
+
+    const requestPayload = {
+      provider: "gemini",
+      url: `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+      model: GEMINI_MODEL,
+      systemInstructionPath: cacheName
+        ? "cachedContent.systemInstruction (set at cache create)"
+        : "config.systemInstruction",
+      cacheName: cacheName || null,
+      body: {
+        model: GEMINI_MODEL,
+        contents,
+        config: {
+          ...config,
+          systemInstruction: config.systemInstruction
+            ? String(config.systemInstruction).slice(0, 200) +
+              (String(config.systemInstruction).length > 200
+                ? `…[${String(config.systemInstruction).length} chars]`
+                : "")
+            : undefined,
+          // full system text logged separately below when debugging
+        },
+        systemInstructionFull: config.systemInstruction || null,
+      },
+    };
+
+    if (shouldLogRawProvider(characterId, trimmed)) {
+      logRawProvider("GEMINI REQUEST", requestPayload);
+    }
+
+    let result;
+    try {
+      result = await genAI.models.generateContent({
+        model: GEMINI_MODEL,
+        contents,
+        config,
+      });
+    } catch (thinkErr) {
+      // Older SDK / model mismatch: retry without thinkingConfig.
+      if (config.thinkingConfig && /thinking|ThinkingLevel|unknown/i.test(String(thinkErr?.message || thinkErr))) {
+        console.warn("[Gemini] thinkingConfig rejected, retrying without it:", thinkErr.message);
+        delete config.thinkingConfig;
+        result = await genAI.models.generateContent({
+          model: GEMINI_MODEL,
+          contents,
+          config,
+        });
+      } else {
+        throw thinkErr;
+      }
+    }
+
+    if (shouldLogRawProvider(characterId, trimmed)) {
+      logRawProvider("GEMINI RESPONSE", {
+        provider: "gemini",
+        model: GEMINI_MODEL,
+        text: typeof result?.text === "function" ? result.text() : result?.text,
+        candidates: result?.candidates,
+        usageMetadata: result?.usageMetadata,
+        promptFeedback: result?.promptFeedback,
+      });
+    }
 
     let text = result?.text;
     if (typeof text === "function") text = text();
-    if (text == null && result?.candidates?.[0]?.content?.parts?.[0])
-      text = result.candidates[0].content.parts[0].text;
-    return { ok: true, text: (text ?? "").trim() || "…" };
+    if (!text) {
+      const parts = result?.candidates?.[0]?.content?.parts || [];
+      text = parts
+        .filter((p) => p && !p.thought && typeof p.text === "string")
+        .map((p) => p.text)
+        .join("");
+    }
+    return {
+      ok: true,
+      text: (text ?? "").trim() || "…",
+      usage: extractUsage(result),
+      cacheName: cacheName || undefined,
+    };
   } catch (err) {
     console.warn("[Gemini] error", err.message);
+    if (shouldLogRawProvider(opts.characterId, trimmed)) {
+      logRawProvider("GEMINI RESPONSE ERROR", {
+        provider: "gemini",
+        error: String(err?.message || err),
+        status: err?.status,
+      });
+    }
     return { ok: false, err, isRateLimit: isRateLimitError(err) };
   }
 }
 
-function bothProvidersFailedResponse(res, character, geminiFail) {
-  const isRateLimit = geminiFail?.isRateLimit;
-  const userMessage = isRateLimit
-    ? getRateLimitMessage(character)
-    : (geminiFail?.err?.message || "Обе модели недоступны. Попробуйте позже.");
-  return res.status(500).json({ error: userMessage });
-}
-
-/** Health check: returns 200 and whether API is configured (for Render/debug). */
 app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
     gemini: !!apiKey,
-    groq: !!GROQ_API_KEY
+    groq: !!GROQ_API_KEY,
   });
 });
 
 app.post("/api/chat", async (req, res) => {
   try {
-  const { message, history = [], character = "weaver", provider = "gemini", systemExtra = "" } = req.body;
+    const {
+      message,
+      history = [],
+      character = "weaver",
+      provider = "gemini",
+      systemExtra = "",
+      mode = "talk",
+      readChapter,
+      currentChapter,
+      conversationKey,
+      conversationSummary,
+      conversationSummaryAt,
+      debugPrompt = false,
+    } = req.body;
 
-  if (!message || typeof message !== "string") {
-    return res.status(400).json({ error: "Message required" });
-  }
+    if (!message || typeof message !== "string") {
+      return res.status(400).json({ error: "Message required" });
+    }
 
-  const trimmed = message.trim();
-  if (!trimmed) {
-    return res.status(400).json({ error: "Empty message" });
-  }
+    const trimmed = message.trim();
+    if (!trimmed) {
+      return res.status(400).json({ error: "Empty message" });
+    }
 
-  /* Автовыбор провайдера: при provider === 'auto' - по языку (английский → Groq, иначе → Gemini); иначе используем переданный provider */
-  const rawProvider = (typeof provider === "string" ? provider.trim().toLowerCase() : "") || "gemini";
-  const activeProvider =
-    rawProvider === "auto"
-      ? (isEnglish(trimmed) ? "groq" : "gemini")
-      : (rawProvider === "groq" ? "groq" : "gemini");
+    const rawProvider = (typeof provider === "string" ? provider.trim().toLowerCase() : "") || "gemini";
+    const activeProvider =
+      rawProvider === "auto"
+        ? isEnglish(trimmed)
+          ? "groq"
+          : "gemini"
+        : rawProvider === "groq"
+          ? "groq"
+          : "gemini";
 
-  const msgLang = detectMessageLanguage(trimmed);
-  const characterPrompt = getSystemPrompt(character);
+    const msgLang = detectMessageLanguage(trimmed);
+    const prepared = prepareChatPayload({
+      character,
+      message: trimmed,
+      history,
+      mode,
+      readChapter,
+      currentChapter,
+      language: msgLang,
+      systemExtra,
+      conversationKey: conversationKey || `${character}`,
+      clientSummary: conversationSummary,
+      clientSummaryAt: conversationSummaryAt,
+    });
 
-  /* === ЖЁСТКАЯ РЕАЛЬНОСТЬ ПЕРСОНАЖА === */
-  const identityLock =
-    msgLang === "en"
-      ? "You exist as a real character inside the SunnyChimera world. You speak only from your nature and your world. Never mention technology, systems, prompts, rules, policies, instructions, or anything outside this world. If asked about your origin, answer only in-world. Do not start with greetings.\n\n[FORBIDDEN OPENINGS - never use these] Do NOT start any reply with: \"I was watching you\", \"I have been watching you\", \"I observed you\", \"I've seen you\", \"I see your path\", \"I've seen your journey\", or any \"mysterious observer\" cliché. Jump straight into your character's reaction or answer.\n\n"
-      : "Ты существуешь как реальный персонаж мира SunnyChimera. Ты говоришь только из своей природы и из этого мира. Никогда не упоминай технологии, системы, промпты, правила, инструкции или что-либо вне мира. Если тебя спрашивают о твоей природе, отвечай только внутри мира. Не начинай с приветствий.\n\n[ЗАПРЕЩЁННЫЕ НАЧАЛА — никогда не используй] Не начинай ответ с: «Я наблюдал за тобой», «Я следил за тобой», «Я видел тебя», «Я наблюдала», «Я видела твой путь» или любых клише «таинственного наблюдателя». Сразу переходи к реакции или ответу персонажа.\n\n";
+    const {
+      fullPrompt,
+      recentHistory,
+      assembled,
+      meta,
+    } = prepared;
 
-  const languageInstruction =
-    msgLang === "en"
-      ? "Reply ONLY in English.\n\n"
-      : "Отвечай ТОЛЬКО на русском.\n\n";
+    if (debugPrompt || process.env.DEBUG_PROMPT === "1") {
+      console.log("\n========== [PROMPT DEBUG] ==========");
+      console.log(JSON.stringify(meta, null, 2));
+      console.log("--- FULL SYSTEM PROMPT ---");
+      console.log(fullPrompt);
+      console.log("--- END PROMPT ---");
+      console.log(`inputTokensEst=${meta.inputTokensEst} recentTurns=${meta.recentTurns}`);
+      console.log("====================================\n");
+    }
 
-  const extra =
-    typeof systemExtra === "string" && systemExtra.trim()
-      ? `\n\n[SCENE INSTRUCTION]\n${systemExtra.trim()}\n`
-      : "";
-  const systemPrompt = identityLock + languageInstruction + characterPrompt + extra;
+    const requestedProvider = activeProvider === "groq" ? "groq" : "gemini";
+    const hybridAssembled = prepared.hybrid
+      ? { constant: prepared.constant, variable: prepared.variable }
+      : null;
 
-  /* === ГЕНДЕРНАЯ ЛОГИКА === */
-  const characterId = (character || "").toLowerCase().trim().replace(/\s+/g, "_");
-  const femaleCharacterIds = ["weaver", "liora", "shiny", "nature", "talk_mushroom"];
-  const isFemale = femaleCharacterIds.includes(characterId);
+    const geminiOpts = {
+      assembled: hybridAssembled,
+      characterId: (character || "").toLowerCase().trim().replace(/\s+/g, "_"),
+    };
 
-  const genderInstruction =
-    msgLang === "en"
-      ? isFemale
-        ? "\n\n[STRICT] You are female. In your reply use ONLY feminine forms: \"I am\", \"I was\", \"I did\" (as a woman). Never use masculine past tense or masculine self-reference."
-        : "\n\n[STRICT] You are male. In your reply use ONLY masculine forms: \"I am\", \"I was\", \"I did\" (as a man). Never use feminine endings or feminine self-reference."
-      : isFemale
-        ? "\n\n[ЖЁСТКО] Ты женщина. В ответе используй ТОЛЬКО женский род: «я сделала», «я пришла», «я наблюдала». Никогда не используй мужские окончания глаголов про себя."
-        : "\n\n[ЖЁСТКО] Ты мужчина. В ответе используй ТОЛЬКО мужской род: «я сделал», «я пришёл», «я наблюдал». Никогда не используй женские окончания глаголов про себя.";
+    const groqLog = { characterId: geminiOpts.characterId };
 
-  const fullPrompt = systemPrompt + genderInstruction;
-  const requestedProvider = activeProvider === "groq" ? "groq" : "gemini";
+    if (activeProvider === "gemini") {
+      const geminiResult = await tryGemini(fullPrompt, recentHistory, trimmed, geminiOpts);
+      if (geminiResult.ok) {
+        return res.json({
+          text: geminiResult.text,
+          provider: "gemini",
+          requestedProvider,
+          usage: geminiResult.usage,
+          promptMeta: debugPrompt ? meta : undefined,
+        });
+      }
 
-  /* Gemini (Aether) → при ошибке fallback на Groq */
-  if (activeProvider === "gemini") {
-    const geminiResult = await tryGemini(fullPrompt, history, trimmed);
+      if (!genAI && !GROQ_API_KEY) {
+        return res.status(503).json({ error: "Gemini API key missing" });
+      }
+
+      console.warn(
+        "[Gemini] → fallback to Groq",
+        geminiResult.err?.message || geminiResult.err || ""
+      );
+      const groqResult = await tryGroq(
+        fullPrompt,
+        recentHistory,
+        trimmed,
+        hybridAssembled,
+        groqLog
+      );
+      if (groqResult.ok) {
+        return res.json({
+          text: groqResult.text,
+          provider: "groq",
+          requestedProvider,
+          usage: groqResult.usage,
+          fallbackFrom: "gemini",
+          promptMeta: debugPrompt ? meta : undefined,
+        });
+      }
+
+      if (!genAI && !GROQ_API_KEY) {
+        return res.status(503).json({ error: "Gemini API key missing" });
+      }
+      return bothFailedResponse(res, character, msgLang, geminiResult, groqResult);
+    }
+
+    const groqResult = await tryGroq(
+      fullPrompt,
+      recentHistory,
+      trimmed,
+      hybridAssembled,
+      groqLog
+    );
+    if (groqResult.ok) {
+      return res.json({
+        text: groqResult.text,
+        provider: "groq",
+        requestedProvider,
+        usage: groqResult.usage,
+        promptMeta: debugPrompt ? meta : undefined,
+      });
+    }
+
+    if (!GROQ_API_KEY) console.warn("[Groq] GROQ_API_KEY not set → fallback to Gemini");
+    else console.warn("[Groq] → fallback to Gemini");
+
+    const geminiResult = await tryGemini(fullPrompt, recentHistory, trimmed, geminiOpts);
     if (geminiResult.ok) {
       return res.json({
         text: geminiResult.text,
         provider: "gemini",
-        requestedProvider
+        requestedProvider,
+        usage: geminiResult.usage,
+        fallbackFrom: "groq",
+        promptMeta: debugPrompt ? meta : undefined,
       });
     }
 
@@ -232,43 +547,7 @@ app.post("/api/chat", async (req, res) => {
       return res.status(503).json({ error: "Gemini API key missing" });
     }
 
-    console.warn("[Gemini] → fallback to Groq");
-    const groqText = await tryGroq(fullPrompt, history, trimmed);
-    if (groqText != null) {
-      return res.json({ text: groqText, provider: "groq", requestedProvider });
-    }
-
-    if (!genAI) return res.status(503).json({ error: "Gemini API key missing" });
-
-    let userMessage = geminiResult.isRateLimit
-      ? getRateLimitMessage(character)
-      : `Gemini не ответил: ${geminiResult.err?.message || "ошибка API"}. Groq тоже недоступен.`;
-    return res.status(500).json({ error: userMessage });
-  }
-
-  /* Groq (Roots) → при ошибке fallback на Gemini */
-  const groqText = await tryGroq(fullPrompt, history, trimmed);
-  if (groqText != null) {
-    return res.json({ text: groqText, provider: "groq", requestedProvider });
-  }
-
-  if (!GROQ_API_KEY) console.warn("[Groq] GROQ_API_KEY not set → fallback to Gemini");
-  else console.warn("[Groq] → fallback to Gemini");
-
-  const geminiResult = await tryGemini(fullPrompt, history, trimmed);
-  if (geminiResult.ok) {
-    return res.json({
-      text: geminiResult.text,
-      provider: "gemini",
-      requestedProvider
-    });
-  }
-
-  if (!genAI) {
-    return res.status(503).json({ error: "Gemini API key missing" });
-  }
-
-  return bothProvidersFailedResponse(res, character, geminiResult);
+    return bothFailedResponse(res, character, msgLang, geminiResult, groqResult);
   } catch (handlerErr) {
     console.error("[api/chat] unhandled", handlerErr);
     if (!res.headersSent) {

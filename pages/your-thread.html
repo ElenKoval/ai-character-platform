@@ -4,18 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0b0b">
-  <title>Твоя Нить — SunnyChimera</title>
+  <title data-i18n="thread.title">Твоя Нить — SunnyChimera</title>
   <meta name="description" content="Чего ты хочешь слишком сильно?">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23101010'/%3E%3Cpath d='M16 3C2 13 30 19 16 29M16 3C30 13 2 19 16 29' fill='none' stroke='%23c4c4c4' stroke-width='1.5'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alice&family=Bad+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap">
   <link rel="stylesheet" href="../assets/css/site-shell.css">
   <link rel="stylesheet" href="../assets/css/your-thread.css">
 </head>
 <body>
   <main class="yt" data-yt>
     <section class="yt-ask" data-yt-ask>
-      <h1 class="yt-ask__title">Чего ты хочешь слишком сильно?</h1>
+      <div class="yt-ask__lead">
+        <p class="yt-ask__epigraph" data-yt-epigraph>Дрим не даст Нити порваться.<br>Вивер не даст ей остаться прежней.<br><em>Оба называют это спасением.</em></p>
+        <h1 class="yt-ask__title" data-i18n="thread.askTitle">Чего ты хочешь слишком сильно?</h1>
+      </div>
       <form class="yt-form" data-yt-form>
         <input
           class="yt-form__input"
@@ -24,83 +27,130 @@
           maxlength="200"
           autocomplete="off"
           placeholder="Одной фразой…"
+          data-i18n="thread.placeholder"
+          data-i18n-attr="placeholder"
           data-yt-input
           required
         >
-        <button class="yt-form__say" type="submit" data-yt-say>Сказать</button>
+        <button class="yt-form__say" type="submit" data-yt-say data-i18n="thread.say">Сказать</button>
       </form>
+      <p class="ai-share-note" data-ai-share-note></p>
     </section>
 
     <section class="yt-reveal" data-yt-reveal hidden>
-      <div class="yt-stage">
-        <div class="yt-side yt-side--dream">
-          <img class="yt-side__art" src="../assets/img/dream2.jpeg" alt="Дрим" width="3024" height="4000">
-          <h2 class="yt-side__name">Дрим</h2>
-          <p class="yt-side__reply" data-yt-reply="dream" aria-live="polite"></p>
-          <a class="yt-side__continue" href="talk.html?c=dream" data-yt-continue="dream" hidden>Продолжить с Дримом</a>
+      <p class="yt-desire" data-yt-desire></p>
+
+      <div class="yt-grid">
+        <div class="yt-art-wrap yt-cell--dream">
+          <img class="yt-art yt-art--soft" src="../assets/img/dream2.jpeg" alt="Дрим" width="3024" height="4000">
         </div>
 
-        <div class="yt-cord" aria-hidden="true">
-          <svg viewBox="0 0 40 400" preserveAspectRatio="none" data-yt-cord>
-            <defs>
-              <filter id="yt-thread-depth" x="-80%" y="-10%" width="260%" height="120%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="1.6" result="blur"/>
-                <feOffset dx="1.2" result="off"/>
-                <feFlood flood-color="#000" flood-opacity="0.55"/>
-                <feComposite in2="off" operator="in" result="shadow"/>
-                <feMerge>
-                  <feMergeNode in="shadow"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <linearGradient id="yt-thread-metal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400">
-                <stop offset="0%" stop-color="#0a0a0a"/>
-                <stop offset="18%" stop-color="#8a8a8a"/>
-                <stop offset="36%" stop-color="#f0f0f0"/>
-                <stop offset="52%" stop-color="#2a2a2a"/>
-                <stop offset="70%" stop-color="#c8c8c8"/>
-                <stop offset="100%" stop-color="#111"/>
-                <animate attributeName="y1" values="0;-400" dur="14s" repeatCount="indefinite"/>
-                <animate attributeName="y2" values="400;0" dur="14s" repeatCount="indefinite"/>
-              </linearGradient>
-              <linearGradient id="yt-thread-shine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="120">
-                <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
-                <stop offset="45%" stop-color="#fff" stop-opacity="0.35"/>
-                <stop offset="50%" stop-color="#fff" stop-opacity="1"/>
-                <stop offset="55%" stop-color="#fff" stop-opacity="0.35"/>
-                <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-                <animate attributeName="y1" values="-120;480" dur="8s" repeatCount="indefinite"/>
-                <animate attributeName="y2" values="0;600" dur="8s" repeatCount="indefinite"/>
-              </linearGradient>
-            </defs>
-            <g data-yt-cord-paths></g>
-          </svg>
+        <div class="yt-cord-cell" aria-hidden="true">
+          <div class="yt-cord">
+            <svg viewBox="0 0 40 400" preserveAspectRatio="none" data-yt-cord>
+              <defs>
+                <filter id="yt-thread-depth" x="-80%" y="-10%" width="260%" height="120%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="1.6" result="blur"/>
+                  <feOffset dx="1.2" result="off"/>
+                  <feFlood flood-color="#000" flood-opacity="0.55"/>
+                  <feComposite in2="off" operator="in" result="shadow"/>
+                  <feMerge>
+                    <feMergeNode in="shadow"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                <linearGradient id="yt-thread-metal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400">
+                  <stop offset="0%" stop-color="#0a0a0a"/>
+                  <stop offset="18%" stop-color="#8a8a8a"/>
+                  <stop offset="36%" stop-color="#f0f0f0"/>
+                  <stop offset="52%" stop-color="#2a2a2a"/>
+                  <stop offset="70%" stop-color="#c8c8c8"/>
+                  <stop offset="100%" stop-color="#111"/>
+                  <animate attributeName="y1" values="0;-400" dur="14s" repeatCount="indefinite"/>
+                  <animate attributeName="y2" values="400;0" dur="14s" repeatCount="indefinite"/>
+                </linearGradient>
+                <linearGradient id="yt-thread-shine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="120">
+                  <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+                  <stop offset="45%" stop-color="#fff" stop-opacity="0.35"/>
+                  <stop offset="50%" stop-color="#fff" stop-opacity="1"/>
+                  <stop offset="55%" stop-color="#fff" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+                  <animate attributeName="y1" values="-120;480" dur="8s" repeatCount="indefinite"/>
+                  <animate attributeName="y2" values="0;600" dur="8s" repeatCount="indefinite"/>
+                </linearGradient>
+              </defs>
+              <g data-yt-cord-paths></g>
+            </svg>
+          </div>
         </div>
 
-        <div class="yt-side yt-side--weaver">
-          <img class="yt-side__art" src="../assets/img/weaver.jpeg" alt="Вивер" width="3849" height="2738">
-          <h2 class="yt-side__name">Вивер</h2>
-          <p class="yt-side__reply" data-yt-reply="weaver" aria-live="polite"></p>
-          <a class="yt-side__continue" href="talk.html?c=weaver" data-yt-continue="weaver" hidden>Продолжить с Вивер</a>
+        <div class="yt-art-wrap yt-cell--weaver">
+          <img class="yt-art yt-art--face" src="../assets/img/weaver.jpeg" alt="Вивер" width="3849" height="2738">
         </div>
+
+        <h2 class="yt-name yt-cell--dream" data-i18n="names.dream">Дрим</h2>
+        <h2 class="yt-name yt-cell--weaver" data-i18n="names.weaver">Вивер</h2>
+
+        <div class="yt-reply-block yt-cell--dream">
+          <p class="yt-reply is-wait" data-yt-reply="dream" aria-live="polite"></p>
+        </div>
+        <div class="yt-reply-block yt-cell--weaver">
+          <p class="yt-reply is-wait" data-yt-reply="weaver" aria-live="polite"></p>
+        </div>
+
+        <a class="yt-continue yt-cell--dream" href="talk.html?c=dream" data-yt-continue="dream" data-i18n="thread.continueDream" hidden>Продолжить с Дримом</a>
+        <button type="button" class="yt-retry yt-cell--dream" data-yt-retry="dream" data-i18n="thread.retry" hidden>Повторить</button>
+
+        <a class="yt-continue yt-cell--weaver" href="talk.html?c=weaver" data-yt-continue="weaver" data-i18n="thread.continueWeaver" hidden>Продолжить с Вивер</a>
+        <button type="button" class="yt-retry yt-cell--weaver" data-yt-retry="weaver" data-i18n="thread.retry" hidden>Повторить</button>
+
+        <p class="yt-crew yt-cell--dream" data-yt-crew-line="dream">
+          <span data-i18n="thread.askMore">Спросить ещё:</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="pak">Пак</button>
+          <span class="yt-crew__dot" aria-hidden="true">·</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="liora">Лиора</button>
+          <span class="yt-crew__dot" aria-hidden="true">·</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="crystal">Кристалл</button>
+          <span class="yt-crew__dot" aria-hidden="true">·</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="cat">Кот</button>
+        </p>
+
+        <button type="button" class="yt-keeper-ask" data-yt-ask-char="keeper" data-i18n="thread.askKeeper">Спросить Кипера</button>
+
+        <p class="yt-crew yt-cell--weaver" data-yt-crew-line="weaver">
+          <span data-i18n="thread.askMore">Спросить ещё:</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="shiny">Шайни</button>
+          <span class="yt-crew__dot" aria-hidden="true">·</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="shinyBro">Брат</button>
+          <span class="yt-crew__dot" aria-hidden="true">·</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="mushroom">Гриб</button>
+          <span class="yt-crew__dot" aria-hidden="true">·</span>
+          <button type="button" class="yt-crew__name" data-yt-ask-char="forest">Злой Лес</button>
+        </p>
+
+        <div class="yt-crew-replies yt-cell--dream" data-yt-crew-replies="dream"></div>
+        <div class="yt-crew-replies yt-cell--mid" data-yt-crew-replies="keeper"></div>
+        <div class="yt-crew-replies yt-cell--weaver" data-yt-crew-replies="weaver"></div>
       </div>
 
-      <p class="yt-desire" data-yt-desire></p>
       <p class="yt-help" data-yt-help hidden>
-        Если тебе сейчас тяжело — ты не один. Найти линию помощи в своей стране:
+        <span data-i18n="thread.crisis">Если тебе сейчас тяжело — ты не один. Найти линию помощи в своей стране:</span>
         <a href="https://findahelpline.com" target="_blank" rel="noopener noreferrer">findahelpline.com</a>
       </p>
-      <button type="button" class="yt-again" data-yt-again>Другая Нить</button>
+      <button type="button" class="yt-again" data-yt-again data-i18n="thread.again">Другая Нить</button>
     </section>
 
-    <nav class="yt-cast" data-yt-cast aria-label="Все персонажи">
+    <nav class="yt-cast" data-yt-cast aria-label="Все персонажи" data-i18n="thread.castLabel" data-i18n-attr="aria-label">
       <span class="yt-cast__label">Все персонажи</span>
     </nav>
   </main>
 
+  <script src="../assets/js/locale.js"></script>
   <script src="../assets/js/story-meta.js"></script>
   <script src="../assets/js/talk-nav.js"></script>
   <script src="../assets/js/site-shell.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+  <script src="../assets/js/ai-disclaimer.js"></script>
   <script src="../assets/js/your-thread.js"></script>
 </body>
 </html>

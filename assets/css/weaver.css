@@ -1,4 +1,4 @@
-/* ===============================
+﻿/* ===============================
    WORLD PAGES (Dream/Weaver)
    =============================== */
 
@@ -36,7 +36,7 @@
 /* Cinzel только если страница без world--dream / world--weaver */
 body:not(.world--dream):not(.world--weaver) .topbar__back,
 body:not(.world--dream):not(.world--weaver) .topbar__link {
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
 }
 
 /* По цели ссылки: Dream / Weaver / The Gate */
@@ -45,7 +45,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
 .topbar__link[href*="dream.html"],
 .world--dream .topbar__back,
 .world--dream .topbar__link {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 .topbar__back[href*="weaver-world"],
 .topbar__link[href*="weaver-world"],
@@ -56,7 +56,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
 }
 .topbar__back[href*="index.html"],
 .topbar__link[href*="index.html"] {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
 }
 
 .topbar__left {
@@ -160,7 +160,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
 .weaver__side--right:hover{ transform: rotate(0deg) scale(1.02); }
 .weaver__side-name{
   padding: 12px 16px;
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -225,7 +225,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
 .weaver__tag{
   margin: 0 0 16px;
   color: rgba(255,255,255,0.66);
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
 }
 
 .weaver__lore p{
@@ -296,7 +296,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
 
 .page-about .about-mail__label {
   margin: 0 0 12px;
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
   font-size: 0.78rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -309,7 +309,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
   position: relative;
   z-index: 1;
   display: inline-block;
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-size: clamp(1rem, 3.5vw, 1.15rem);
   letter-spacing: 0.04em;
   color: rgba(255, 245, 220, 0.95);
@@ -328,7 +328,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
 
 .page-about .about-mail__hint {
   margin: 14px 0 0;
-  font-family: var(--font-body, "Cormorant Garamond", serif);
+  font-family: var(--font-body, "PT Serif", serif);
   font-size: 1.05rem;
   font-style: italic;
   line-height: 1.45;
@@ -349,7 +349,7 @@ body:not(.world--dream):not(.world--weaver) .topbar__link {
   font-size: 18px;
   letter-spacing: 1px;
   color: rgba(255,255,255,0.75);
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
 }
 
 /* “сигил” Weaver - просто абстрактная метка */

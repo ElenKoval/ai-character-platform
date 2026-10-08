@@ -12,9 +12,32 @@
 
   const panel = chatContainer.closest(".character-chat") || chatContainer.closest(".dossier__chat");
   const meta = window.storyMeta?.characters || {};
-  const c =
-    meta[character] ||
-    Object.values(meta).find((x) => x.apiId === character || x.id === character);
+
+  function lang() {
+    return window.SunnyLocale?.getLang?.() || (document.documentElement.lang === "ru" ? "ru" : "en");
+  }
+
+  function resolve() {
+    window.storyMeta?.applyLang?.(lang());
+    const chars = window.storyMeta?.characters || meta;
+    return (
+      chars[character] ||
+      Object.values(chars).find(
+        (x) => x.apiId === character || x.id === character || x.soundId === character
+      ) ||
+      null
+    );
+  }
+
+  function talkLabel(c) {
+    if (!c) return lang() === "ru" ? "Поговорить" : "Talk";
+    const form = c.nameWith || c.name;
+    if (lang() !== "ru") {
+      return window.SunnyLocale?.t?.("talkWith", { name: c.name || form }) || `Talk with ${c.name || form}`;
+    }
+    const prep = /^[сзшжСЗШЖ][^аеёиоуыэюяАЕЁИОУЫЭЮЯ]/.test(form) ? "со" : "с";
+    return `Поговорить ${prep} ${form}`;
+  }
 
   function goTalk(seed) {
     if (window.SunnyTalk?.go) {
@@ -25,32 +48,24 @@
     window.location.href = `${base}pages/talk.html?c=${encodeURIComponent(character)}`;
   }
 
-  function talkLabel() {
-    if (!c) return "Поговорить";
-    const form = c.nameWith || c.name;
-    const prep = /^[сзшжСЗШЖ][^аеёиоуыэюяАЕЁИОУЫЭЮЯ]/.test(form) ? "со" : "с";
-    return `Поговорить ${prep} ${form}`;
-  }
-
-  if (panel) {
+  function renderEntry() {
+    if (!panel) return;
+    const c = resolve();
     panel.classList.add("character-chat--scene-entry");
     panel.innerHTML = "";
     const link = document.createElement("a");
     link.className = "dossier__scene-talk";
     link.href = window.SunnyTalk?.talkUrl?.(character) || `talk.html?c=${encodeURIComponent(character)}`;
-    link.textContent = talkLabel();
+    link.textContent = talkLabel(c);
     link.addEventListener("click", (e) => {
       e.preventDefault();
       goTalk();
     });
     panel.appendChild(link);
-    if (c?.askHint) {
-      const hint = document.createElement("p");
-      hint.className = "dossier__scene-hint";
-      hint.textContent = c.askHint;
-      panel.appendChild(hint);
-    }
   }
+
+  renderEntry();
+  document.addEventListener("sunnychimera:i18n-ready", renderEntry);
 
   document.addEventListener("click", (e) => {
     const talk = e.target.closest("[data-talk]");

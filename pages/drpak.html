@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
     <title>Пак - SunnyChimera</title>
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alice&family=Bad+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap">
     <link rel="stylesheet" href="../assets/css/site-shell.css" />
     <link rel="stylesheet" href="../assets/css/character.css" />
 </head>
@@ -22,13 +22,9 @@
     <h1 class="dossier__name">Пак</h1>
     <p class="dossier__essence">Пак — хирург реальности</p>
     <p class="dossier__blurb">Режет точно и без жалости к тому, что считает патологией. Жажда для него — опухоль.</p>
-    <p class="dossier__quote">«Не трать моё время на красивые объяснения. Покажи, где болит».</p>
+    <p class="dossier__quote">«Ты по делу? Если нет, тоже говори. Только короче».</p>
   </div>
   <div class="dossier__meta">
-    <section>
-      <h2>Появляется в главах</h2>
-      <div data-dossier-chapters></div>
-    </section>
     <section>
       <h2>Звук мира</h2>
       <div data-dossier-tracks></div>
@@ -42,11 +38,11 @@
         </header>
         <div class="chat__log">
           <div class="chat__msg chat__msg--npc">
-            <div class="chat__bubble" data-i18n="drpak.greeting">Don't waste my time on pretty explanations. Show me where it hurts. I'll cut away the rest.</div>
+            <div class="chat__bubble" data-i18n="drpak.greeting">Are you here on business? If not, say it anyway. Just shorter</div>
           </div>
         </div>
         <form class="chat__form">
-          <input class="chat__input" type="text" placeholder="Спроси…" autocomplete="off">
+          <input class="chat__input" type="text" placeholder="Опиши симптомы" autocomplete="off">
           <button class="chat__send" type="submit">Отправить</button>
         </form>
         <p class="chat__hint" aria-live="polite"></p>
@@ -56,7 +52,8 @@
 </main>
 <script src="../assets/js/atmosphere.js"></script>
 <script src="../assets/js/homepage-story.js"></script>
-<script src="../assets/js/story-meta.js"></script>
+<script src="../assets/js/locale.js"></script>
+  <script src="../assets/js/story-meta.js"></script>
 <script src="../assets/js/talk-nav.js"></script>
 <script src="../assets/js/site-shell.js"></script>
 <script src="../assets/js/i18n.js"></script>

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
@@ -8,7 +8,7 @@
   <meta name="description" content="Куда уходит то, чего ты хочешь слишком сильно? В Саду знают. В Лесу помнят. Истории и рисунки мира Дриады.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%23101010'/%3E%3Cpath d='M16 3C2 13 30 19 16 29M16 3C30 13 2 19 16 29' fill='none' stroke='%23c4c4c4' stroke-width='1.5'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alice&family=Bad+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap">
   <link rel="stylesheet" href="assets/css/homepage.css">
   <link rel="stylesheet" href="assets/css/site-shell.css">
   <link rel="stylesheet" href="assets/css/world-map.css">
@@ -75,7 +75,6 @@
         <path class="thread-current" pathLength="1000" d="M-40 840 C230 930 425 710 760 770 S1195 920 1190 575 S1040 255 1470 345"/>
       </svg>
       <div class="hero-copy">
-        <p class="world-name">Мир Дриады</p>
         <h1 id="hero-title"><span>Куда уходит то,</span> <span>чего ты хочешь</span> <em>слишком сильно?</em></h1>
         <p class="intro">В Саду знают. В Лесу помнят.</p>
         <button class="primary" data-read="beginning">Перед первым криком</button>
@@ -88,7 +87,7 @@
             <img src="assets/img/keeper.jpeg" alt="Кипер — хранитель у корней Дриады" width="795" height="1000" loading="lazy">
             <span>Коснись Кипера</span>
           </button>
-          <p class="contents-epigraph">«Сложно держать порядок, когда память складывается не по времени, а по боли».</p>
+          <p class="contents-epigraph">— Ты понимаешь, что говоришь? — Редко. Но это не значит, что я ошибаюсь.</p>
           <p id="keeper-quote" class="keeper-whisper" aria-live="polite"></p>
         </div>
         <div class="contents-spine" aria-hidden="true"></div>
@@ -175,30 +174,23 @@
             </li>
             <li>
               <button type="button" data-read="ch11">
-                <span class="contents-name">Свет, который не продаётся</span>
+                <span class="contents-name">Ноктюрн</span>
                 <span class="contents-dots" aria-hidden="true"></span>
                 <span class="contents-page">11</span>
               </button>
             </li>
             <li>
               <button type="button" data-read="ch12">
-                <span class="contents-name">Ноктюрн</span>
+                <span class="contents-name">Цена</span>
                 <span class="contents-dots" aria-hidden="true"></span>
                 <span class="contents-page">12</span>
               </button>
             </li>
             <li>
               <button type="button" data-read="ch13">
-                <span class="contents-name">Цена</span>
-                <span class="contents-dots" aria-hidden="true"></span>
-                <span class="contents-page">13</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" data-read="ch14">
                 <span class="contents-name">Шипы</span>
                 <span class="contents-dots" aria-hidden="true"></span>
-                <span class="contents-page">14</span>
+                <span class="contents-page">13</span>
               </button>
             </li>
           </ol>
@@ -208,7 +200,7 @@
     </section>
     <section class="world-scene" id="world" aria-labelledby="world-title">
       <div class="scene-intro">
-        <h2 id="world-title">Дрим не даст Нити порваться.<br>Вивер не даст ей остаться прежней.<br><em>Оба называют это спасением.</em></h2>
+        <h2 id="world-title">Карта мира</h2>
       </div>
       <div class="world-map" data-world-map>
         <div class="world-map__stage" data-world-map-stage>
@@ -217,89 +209,48 @@
           <div class="world-map__clip world-map__clip--tree" aria-hidden="true"><img src="assets/img/world_map.png" alt="" width="2400" height="1500"></div>
           <div class="world-map__clip world-map__clip--wasteland" aria-hidden="true"><img src="assets/img/world_map.png" alt="" width="2400" height="1500"></div>
           <div class="world-map__clip world-map__clip--forest" aria-hidden="true"><img src="assets/img/world_map.png" alt="" width="2400" height="1500"></div>
-          <svg class="world-map__threads" viewBox="0 0 2400 1500" preserveAspectRatio="none" aria-hidden="true" data-world-map-threads>
-            <defs>
-              <filter id="map-thread-depth" x="-20%" y="-40%" width="140%" height="180%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="1.8" result="blur"/>
-                <feOffset dy="2" result="off"/>
-                <feFlood flood-color="#000" flood-opacity="0.6"/>
-                <feComposite in2="off" operator="in" result="shadow"/>
-                <feMerge>
-                  <feMergeNode in="shadow"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <linearGradient id="map-thread-metal" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1500">
-                <stop offset="0%" stop-color="#0a0a0a"/>
-                <stop offset="18%" stop-color="#8a8a8a"/>
-                <stop offset="36%" stop-color="#f0f0f0"/>
-                <stop offset="52%" stop-color="#2a2a2a"/>
-                <stop offset="70%" stop-color="#c8c8c8"/>
-                <stop offset="100%" stop-color="#111"/>
-                <animate attributeName="y1" values="0;-1500" dur="14s" repeatCount="indefinite"/>
-                <animate attributeName="y2" values="1500;0" dur="14s" repeatCount="indefinite"/>
-              </linearGradient>
-              <linearGradient id="map-thread-shine" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="400">
-                <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
-                <stop offset="45%" stop-color="#fff" stop-opacity="0.35"/>
-                <stop offset="50%" stop-color="#fff" stop-opacity="1"/>
-                <stop offset="55%" stop-color="#fff" stop-opacity="0.35"/>
-                <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
-                <animate attributeName="y1" values="-400;1600" dur="8s" repeatCount="indefinite"/>
-                <animate attributeName="y2" values="0;2000" dur="8s" repeatCount="indefinite"/>
-              </linearGradient>
-            </defs>
-            <g data-world-map-strand-root></g>
-          </svg>
-          <p class="world-map__label world-map__label--tree">Дерево Дриады</p>
-          <p class="world-map__label world-map__label--garden">Сад</p>
-          <p class="world-map__label world-map__label--wasteland">Пустошь</p>
-          <p class="world-map__label world-map__label--forest">Злой Лес</p>
           <button type="button" class="world-map__hit world-map__hit--garden" data-region="garden" aria-label="Сад" aria-pressed="false"></button>
           <button type="button" class="world-map__hit world-map__hit--tree" data-region="tree" aria-label="Дерево Дриады" aria-pressed="false"></button>
           <button type="button" class="world-map__hit world-map__hit--wasteland" data-region="wasteland" aria-label="Пустошь" aria-pressed="false"></button>
           <button type="button" class="world-map__hit world-map__hit--forest" data-region="forest" aria-label="Злой Лес" aria-pressed="false"></button>
         </div>
+        <div class="world-map__caption" data-world-map-caption aria-live="polite">
+          <p class="world-map__caption-hint" data-wm-hint>Проведи по миру</p>
+          <div class="world-map__caption-focus" data-wm-focus>
+            <p class="world-map__caption-name" data-wm-name></p>
+            <p class="world-map__caption-line" data-wm-line hidden></p>
+          </div>
+        </div>
         <div class="world-map__panel" data-world-map-panel hidden></div>
       </div>
-    </section>
-    <section class="album-strip" id="album-strip" aria-labelledby="album-strip-title">
-      <div class="album-strip__head">
-        <h2 id="album-strip-title">Из альбома</h2>
-        <a class="text-link" href="pages/album.html">Открыть альбом</a>
-      </div>
-      <div class="album-strip__row" data-album-strip>
-        <a class="album-strip__page" href="pages/album.html#dream">
-          <div class="notebook-page"><div class="notebook-page__spiral" aria-hidden="true"></div><img class="notebook-page__img" src="assets/img/dream2.jpeg" alt="Дрим" loading="lazy"></div>
-          <span>Дрим</span>
-        </a>
-        <a class="album-strip__page" href="pages/album.html#weaver">
-          <div class="notebook-page"><div class="notebook-page__spiral" aria-hidden="true"></div><img class="notebook-page__img" src="assets/img/weaver.jpeg" alt="Вивер" loading="lazy"></div>
-          <span>Вивер</span>
-        </a>
-        <a class="album-strip__page" href="pages/album.html#keeper">
-          <div class="notebook-page"><div class="notebook-page__spiral" aria-hidden="true"></div><img class="notebook-page__img" src="assets/img/keeper.jpeg" alt="Кипер" loading="lazy"></div>
-          <span>Кипер</span>
-        </a>
-        <a class="album-strip__page" href="pages/album.html#forest">
-          <div class="notebook-page"><div class="notebook-page__spiral" aria-hidden="true"></div><img class="notebook-page__img" src="assets/img/angry_forest1.jpeg" alt="Злой Лес" loading="lazy"></div>
-          <span>Злой Лес</span>
-        </a>
+      <div class="album-strip" id="album-strip" aria-labelledby="album-strip-title">
+        <div class="album-strip__head">
+          <h2 id="album-strip-title">Из альбома</h2>
+          <a class="text-link" href="pages/album.html">Открыть альбом</a>
+        </div>
+        <div class="album-strip__row" data-album-strip></div>
       </div>
     </section>
   </main>
   <footer>
-    <a class="brand" href="index.html">sunny<span>Chimera</span></a>
+    <div class="footer-brand">
+      <a class="brand" href="index.html">Мир Дриады</a>
+      <span class="footer-part">Часть первая</span>
+    </div>
     <a href="pages/about.html">Об авторе и мире</a>
     <button id="beetle-toggle" aria-pressed="false" hidden>Усыпить жука</button>
+    <p class="footer-legal">© 2026 sunnyChimera. Тексты и рисунки. Все права защищены · Персонажи отвечают с помощью ИИ</p>
   </footer>
   <dialog id="reader" class="site-reader" aria-labelledby="reader-title"></dialog>
   <div id="wandering-beetle" aria-hidden="true" hidden><div class="beetle-sprite"></div></div>
   <script src="assets/js/homepage-story.js"></script>
+  <script src="assets/js/locale.js"></script>
   <script src="assets/js/story-meta.js"></script>
   <script src="assets/js/talk-nav.js"></script>
   <script src="assets/js/site-shell.js"></script>
+  <script src="assets/js/ai-disclaimer.js"></script>
   <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/homepage-i18n.js"></script>
   <script src="assets/js/homepage.js"></script>
   <script src="assets/js/world-map.js" defer></script>
   <script src="assets/js/homepage-beetle.js" defer></script>

@@ -1,4 +1,4 @@
-/* ===============================
+﻿/* ===============================
    Character pages: layout by image orientation
    Vertical image → chat on the right
    Horizontal image → chat at the bottom
@@ -228,14 +228,14 @@
 
 /* Кнопки нав: шрифты как на портале - Dream / Weaver / The Gate */
 .character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="dream-world"] {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 .character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="weaver-world"] {
   font-family: var(--font-scary, "Alice", serif);
 }
 .character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="index.html"],
 .character-page--vertical .character-layout--visual-left .character-caption__actions a[href*="world.html"] {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
 }
 
 .character-page--vertical .character-layout--visual-left .character-figure__img-wrap {
@@ -427,14 +427,14 @@
 }
 
 .world--dream .character-lore__title {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world--weaver .character-lore__title {
   font-family: var(--font-scary, "Alice", serif);
 }
 
-/* Мир Дрима: кнопки и ссылки навигации — Philosopher */
+/* Мир Дрима: кнопки и ссылки навигации — Alice */
 .world--dream .character-lore__story-btn,
 .world--dream .character-mobile-tabs__btn,
 .world--dream .sound-playlist-link,
@@ -444,7 +444,7 @@
 .world--dream .character-chat .chat__send,
 .world--dream .character-chat .chat__provider-btn,
 .world--dream .lang-switch__btn {
-  font-family: var(--font-dream, "Philosopher", Georgia, serif);
+  font-family: var(--font-dream, Alice, Georgia, serif);
   letter-spacing: 0.05em;
 }
 
@@ -689,7 +689,7 @@
 }
 
 .world--dream .character-caption__name {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world--weaver .character-caption__name {
@@ -710,7 +710,7 @@
 }
 
 .world--dream .character-caption__tag {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world--weaver .character-caption__tag {
@@ -737,18 +737,18 @@
 /* По цели ссылки: Dream world / Weaver world / The Gate (Crystal, Weaver, все страницы персонажей) */
 .character-caption__actions a[href*="dream-world"],
 .character-caption__actions a[href*="dream.html"] {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 .character-caption__actions a[href*="weaver-world"],
 .character-caption__actions a[href*="weaver.html"] {
   font-family: var(--font-scary, "Alice", serif);
 }
 .character-caption__actions a[href*="index.html"] {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
 }
 
 .character-caption__actions a[href*="world.html"] {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
 }
 
 .character-caption__actions a:hover {
@@ -1652,7 +1652,7 @@
     width: 100%;
     margin: 0;
     padding: 10px 14px;
-    font-family: var(--font-fantasy, "Cinzel", serif);
+    font-family: var(--font-fantasy, Alice, serif);
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -1674,7 +1674,7 @@
   }
 
   body.world--dream[data-mobile-tabs].has-mobile-tabs .character-mobile-back {
-    font-family: var(--font-dream, "Philosopher", serif);
+    font-family: var(--font-dream, Alice, serif);
   }
 
   /* --- Landing: large portrait, caption, prompt, buttons --- */
@@ -1691,7 +1691,7 @@
   body[data-mobile-tabs].has-mobile-tabs .character-mobile-home__prompt {
     margin: 0;
     padding: 0;
-    font-family: var(--font-fantasy, "Cinzel", serif);
+    font-family: var(--font-fantasy, Alice, serif);
     font-size: 0.95rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -1704,7 +1704,7 @@
   }
 
   body.world--dream[data-mobile-tabs].has-mobile-tabs .character-mobile-home__prompt {
-    font-family: var(--font-dream, "Philosopher", serif);
+    font-family: var(--font-dream, Alice, serif);
   }
 
   body[data-mobile-tabs].has-mobile-tabs .character-mobile-home__actions {
@@ -1718,7 +1718,7 @@
     width: 100%;
     margin: 0;
     padding: 14px 16px;
-    font-family: var(--font-fantasy, "Cinzel", serif);
+    font-family: var(--font-fantasy, Alice, serif);
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.12em;
@@ -1740,7 +1740,7 @@
   }
 
   body.world--dream[data-mobile-tabs].has-mobile-tabs .character-mobile-home__btn {
-    font-family: var(--font-dream, "Philosopher", serif);
+    font-family: var(--font-dream, Alice, serif);
   }
 
   /* Home: portrait + caption centered */

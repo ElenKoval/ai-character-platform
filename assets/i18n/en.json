@@ -22,7 +22,8 @@
     "talkMushroom": "Mushroom",
     "angryForest": "Angry Forest",
     "dryad": "Dryad",
-    "keeper": "Kiper"
+    "keeper": "Kiper",
+    "elias": "Elias"
   },
   "common": {
     "gate": "The Gate",
@@ -40,7 +41,8 @@
     "backDreamWorld": "← Dream's World",
     "backWeaverWorld": "← Weaver's World",
     "backWorldHistory": "← World history",
-    "backToGate": "The Gate"
+    "backToGate": "The Gate",
+    "backHome": "← Home"
   },
   "index": {
     "dreamName": "Mr. Dream",
@@ -119,7 +121,8 @@
     "innerSound": "Inner Sound",
     "hintGeminiGroq": "Response via Gemini or Groq.",
     "model": "Model",
-    "chooseModel": "Choose model"
+    "chooseModel": "Choose model",
+    "askPlaceholder": "Ask…"
   },
   "sound": {
     "title": "The Sound of the World",
@@ -134,10 +137,10 @@
     "weaverName": "Weaver"
   },
   "about": {
-    "title": "About - SunnyChimera",
+    "title": "About — The Dryad's World",
     "tag": "this world is still growing",
     "mailLabel": "A whisper from the human world",
-    "mailHint": "Write — the portal sometimes forwards mail."
+    "mailHint": "Write — sometimes a letter finds its way."
   },
   "tags": {
     "wildPulse": "The Wild Pulse",
@@ -145,7 +148,7 @@
     "orderCircle": "Order Circle"
   },
   "cat": {
-    "greeting": "Don't look at me like that. I don't know myself why I'm standing here. But if you came with a question, ask it before I change my mind."
+    "greeting": "Oh. Hi. You're not sleeping either?"
   },
   "dream": {
     "greeting": "I don't predict the future. I watch what a Thread is trying to become. Speak, and we'll see where it pulls."
@@ -154,10 +157,10 @@
     "greeting": "Oh, new strings. I want to hear how you sound when you stop holding yourself together. Your Thread is damn out of tune… but I'll admit, I like that dirty rhythm. So, shall we play?"
   },
   "drpak": {
-    "greeting": "Don't waste my time on pretty explanations. Show me where it hurts. I'll cut away the rest."
+    "greeting": "Are you here on business? If not, say it anyway. Just shorter"
   },
   "liora": {
-    "greeting": "Come closer. When was the last time you felt safe enough to feel like a child again?"
+    "greeting": "Oh. Sit closer — it's warm here"
   },
   "shiny": {
     "greeting": "Come on, wake up! Your Thirst wants to breathe. Give me just one second of pure courage - and we'll blow this dead-right order to hell!"
@@ -166,7 +169,7 @@
     "greeting": "Stepping into chaos is easy; surviving it is harder. Shiny will give you the spark, but I'm here so the fire doesn't consume you whole. Tell me what's going on there."
   },
   "weaver": {
-    "greeting": "I'm Weaver. Name what you want so badly that you're afraid to hear your own answer."
+    "greeting": "Oh! Who are you?"
   },
   "talkMushroom": {
     "greeting": "Oh, fresh lies on the doorstep. Came to pretend you're all proper and convenient? Drop it, that crap doesn't work here. Who are you so afraid to admit your Thirst to? Spill it."
@@ -188,5 +191,127 @@
     "backWeaverWorld": "← Weaver's World",
     "dreamShort": "Dream",
     "weaverShort": "Weaver"
+  },
+  "shell": {
+    "brand": "The Dryad's World",
+    "brandAria": "The Dryad's World — home",
+    "home": "Home",
+    "read": "Read",
+    "continue": "Continue",
+    "yourThread": "Your Thread",
+    "album": "Album",
+    "listen": "Listen",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "home": {
+    "heroTitleHtml": "<span>Where does that go,</span> <span>which you want</span> <em>too much?</em>",
+    "intro": "The Garden knows. The Forest remembers.",
+    "readPrologue": "Before the First Cry",
+    "keeperTouch": "Touch Kiper",
+    "keeperThought": "Another thought from Kiper",
+    "epigraph": "— Do you understand what you're saying? — Rarely. But that doesn't mean I'm wrong.",
+    "history": "Story",
+    "partFirstHtml": "Part <em>One</em>",
+    "itBegins": "It is only beginning.",
+    "mapTitle": "World Map",
+    "mapHint": "Trace the world",
+    "fromAlbum": "From the album",
+    "fromAlbumRegion": "From the album · {name}",
+    "openAlbum": "Open the album",
+    "skip": "Skip to content",
+    "siteTitle": "SunnyChimera — The Dryad's World",
+    "siteDesc": "Where does what you want too much go? The Garden knows. The Forest remembers. Stories and drawings of the Dryad's world.",
+    "dryadAlt": "The Dryad sleeps, fused with an ancient tree",
+    "mapAlt": "Map of the Dryad's world",
+    "keeperAlt": "Kiper — keeper at the Dryad's roots"
+  },
+  "footer": {
+    "brand": "The Dryad's World",
+    "partOne": "Part One",
+    "about": "About the author & world",
+    "legal": "© 2026 sunnyChimera. Texts and drawings. All rights reserved · Characters respond with AI",
+    "beetleSleep": "Put the beetle to sleep",
+    "beetleWake": "Wake the beetle"
+  },
+  "map": {
+    "garden": "Garden",
+    "tree": "Dryad's Tree",
+    "wasteland": "Wasteland",
+    "forest": "Angry Forest",
+    "hint": "Trace the world",
+    "askKeeper": "The Dryad sleeps. <a href=\"{href}\">Ask Kiper</a>.",
+    "treeCaption": "The Dryad was first.",
+    "gardenCaption": "A Thread was not fate; it simply grew.",
+    "forestCaption": "Everything they saved you from still lives in me.",
+    "wastelandCaption": "There was nothing there.",
+    "thirstSub": "Thirst was taken from the Threads.\nThe pain was left to the Forest."
+  },
+  "reader": {
+    "home": "Home",
+    "label": "Reader · Part One",
+    "end": "End of Part One",
+    "partOneChapter": "Part One · Chapter {n}",
+    "partOneIntro": "Part One · Prologue",
+    "inChapter": "In this chapter",
+    "chapterNav": "Chapter navigation",
+    "talkWith": "Talk with {name}",
+    "talkGeneric": "Talk",
+    "toc": "contents",
+    "backList": "Back to list",
+    "dryad": "Dryad"
+  },
+  "talk": {
+    "back": "← Back",
+    "release": "Release the talk",
+    "releaseConfirm": "Release?",
+    "keep": "Keep",
+    "title": "{name} — talk",
+    "networkError": "Network error",
+    "serverError": "Server error",
+    "retryLater": "Try again in a minute",
+    "say": "Say it"
+  },
+  "thread": {
+    "title": "Your Thread — SunnyChimera",
+    "epigraphHtml": "Dream will not let the Thread break.<br>Weaver will not let it stay the same.<br><em>Both call it salvation.</em>",
+    "askTitle": "What do you want too much?",
+    "placeholder": "In one phrase…",
+    "say": "Say it",
+    "continueDream": "Continue with Dream",
+    "continueWeaver": "Continue with Weaver",
+    "retry": "Try again",
+    "askMore": "Ask also:",
+    "askKeeper": "Ask Kiper",
+    "again": "Another Thread",
+    "castLabel": "All characters",
+    "crisis": "If things are hard right now — you are not alone. Find a helpline in your country:",
+    "thinking": "He is thinking. Try again",
+    "dream": "Dream",
+    "weaver": "Weaver"
+  },
+  "album": {
+    "title": "Album — SunnyChimera",
+    "heading": "Album",
+    "lead": "Drawings of the Dryad's world.",
+    "skip": "To the album",
+    "talk": "Talk",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "keeperMurmurs": [
+    "“Nobody ever comes to ask about the beetle. That is the great tragedy of beetles.”",
+    "“I once saw a fish in the sky. Or it was a thought about a fish.”",
+    "“Legs are a terrible thing. The more of them you have, the harder it is to pretend you are standing still.”",
+    "“Laws, you know, have very tender skin.”",
+    "“Children simply exist so loudly that the old laws start to itch.”"
+  ],
+  "dossier": {
+    "chapters": "Appears in chapters",
+    "sound": "Sound of the world",
+    "noChapters": "No chapters yet.",
+    "noTracks": "No tracks yet.",
+    "chapter": "Chapter",
+    "track": "Track"
   }
 }

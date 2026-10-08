@@ -1,9 +1,9 @@
 /* ===============================
    GLOBAL RESET
    =============================== */
-/* Google + зеркало (если fonts.googleapis.com недоступен — Philosopher/Alice всё равно подгрузятся) */
-@import url("https://fonts.googleapis.com/css2?family=Alice&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap");
-@import url("https://fonts.bunny.net/css?family=alice:400|philosopher:400,700|cinzel:400,600,700|cormorant-garamond:400,600|playfair-display:400,600,700&display=swap");
+/* Google + зеркало (если fonts.googleapis.com недоступен — Alice / PT Serif всё равно подгрузятся) */
+@import url("https://fonts.googleapis.com/css2?family=Alice&family=Bad+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.bunny.net/css?family=alice:400|bad-script:400|pt-serif:400,700,400i,700i&display=swap");
 
 :root {
   --bg: #101218;
@@ -12,11 +12,12 @@
   --panel-border: rgba(255, 255, 255, 0.12);
   --text-main: rgba(255, 255, 255, 0.9);
   --text-muted: rgba(255, 255, 255, 0.6);
-  --font-scary: "Alice", Palatino, "Palatino Linotype", Georgia, serif;
-  --font-fantasy: "Cinzel", serif;
-  --font-dream: "Philosopher", Georgia, "Times New Roman", serif;
-  --font-root: "Playfair Display", serif;
-  --font-body: "Cormorant Garamond", serif;
+  --font-scary: Alice, Georgia, serif;
+  --font-fantasy: Alice, Georgia, serif;
+  --font-dream: Alice, Georgia, serif;
+  --font-root: Alice, Georgia, serif;
+  --font-body: "PT Serif", Georgia, serif;
+  --font-hand: "Bad Script", "Segoe Script", cursive;
 
   /* Атмосфера по умолчанию — нейтральное серебро (между мирами) */
   --beam-edge: rgba(190, 193, 200, 0.11);
@@ -62,7 +63,7 @@ body {
   pointer-events: auto;
 }
 .portal-topbar__brand {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -117,6 +118,18 @@ body {
 .world-history__topbar .lang-switch--inline {
   margin-left: auto;
 }
+.lang-switch__sep {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 2px;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  user-select: none;
+  pointer-events: none;
+}
 .lang-switch__btn {
   min-width: 36px;
   padding: 6px 10px;
@@ -143,14 +156,14 @@ body {
    =============================== */
 a[href*="dream-world"],
 a[href*="dream.html"] {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 a[href*="weaver-world"],
 a[href*="weaver.html"] {
   font-family: var(--font-scary, "Alice", serif);
 }
 a[href*="index.html"] {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
 }
 
 /* ===============================
@@ -544,7 +557,7 @@ body.world--weaver {
   text-shadow: 0 1px 16px rgba(0,0,0,0.6);
 }
 
-/* Dream — Philosopher */
+/* Dream — Alice */
 .panel--dream .panel__name,
 .panel--dream .panel__tag {
   font-family: var(--font-dream);

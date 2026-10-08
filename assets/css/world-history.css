@@ -1,4 +1,4 @@
-/* ===============================
+﻿/* ===============================
    Страница «История мира» - Nature слева, Keeper справа, текст по центру
    =============================== */
 
@@ -28,7 +28,7 @@
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-weight: 700;
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   letter-spacing: 0.05em;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .world-history__link--dream {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world-history__link--weaver {
@@ -89,7 +89,7 @@
   border-bottom: 2px solid transparent;
   background: transparent;
   color: rgba(255, 255, 255, 0.55);
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-size: clamp(0.78rem, 2.8vw, 0.92rem);
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -111,7 +111,7 @@
 }
 
 .world-history__tab[data-world-tab="duo"].is-active {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   letter-spacing: 0.08em;
 }
 
@@ -371,7 +371,7 @@
   margin: 0;
   padding: 0 16px 14px;
   text-align: center;
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
   font-size: clamp(0.82rem, 2vw, 0.95rem);
   line-height: 1.45;
   font-style: italic;
@@ -782,7 +782,7 @@
   flex-shrink: 0;
   padding: 12px 16px;
   margin: 0;
-  font-family: var(--font-fantasy, "Cinzel", serif);
+  font-family: var(--font-fantasy, Alice, serif);
   font-size: 0.9rem;
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.75);
@@ -799,7 +799,7 @@
 
 .world-history__title {
   margin: 0 0 2em;
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-size: 2rem;
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.95);
@@ -809,7 +809,7 @@
 
 .world-history__subtitle {
   margin: 2em 0 1em;
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   font-size: 1.35rem;
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.92);
@@ -897,7 +897,7 @@
 }
 
 .world-history__links .world-history__btn--dream {
-  font-family: var(--font-dream, "Philosopher", serif);
+  font-family: var(--font-dream, Alice, serif);
 }
 
 .world-history__links .world-history__btn--weaver {
@@ -1083,7 +1083,7 @@
 }
 
 .world-history__title {
-  font-family: var(--font-root, "Playfair Display", serif);
+  font-family: var(--font-root, Alice, serif);
   text-shadow: none;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1093,7 +1093,7 @@
 .world-history__text {
   max-width: 56ch;
   margin: 0 auto;
-  font-family: var(--font-body, "Cormorant Garamond", serif);
+  font-family: var(--font-body, "PT Serif", serif);
   color: rgba(255, 255, 255, 0.88);
   line-height: 1.65;
 }

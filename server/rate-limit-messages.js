@@ -7,18 +7,19 @@ export const RATE_LIMIT_MESSAGES = {
   default:
     "Лимиты запросов исчерпаны. Попробуйте через несколько минут или переключите модель (Groq / Gemini).",
 
-  weaver: "Enough for now. The rest requires hunger.",
+  weaver: "Вивер уже бежит к тебе…",
   dream: "The thread ends here.",
   crystal: "Lights out. I’m done",
-  drpak: "That is where this ends. Access closed.",
-  liora: "That’s enough for tonight, little one.",
+  drpak: "Пак смотрит на тебя, не мигая…",
+  pak: "Пак смотрит на тебя, не мигая…",
+  liora: "Лиора прислушивается…",
   shiny: "That’s enough. I don’t repeat myself.",
   shiny_bro: "Enough. Conversation ends.",
   angry_forest: "Growth halted.Return later.",
   talk_mushroom: "The soil stops here.Dialogue sealed.",
   dryad: "",
   keeper: "The page tore itself. No more words today",
-  cat: "Enough. The rest is silence.",
+  cat: "Кот смотрит в окна…",
 };
 
 /**

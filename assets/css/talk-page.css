@@ -1,13 +1,11 @@
-/* Dedicated talk page — art stays put, only the log scrolls */
+/* Dedicated talk page — art pinned; chat column scrolls */
 :root {
   --talk-bg: #050505;
   --talk-ink: #e8e8e8;
   --talk-mute: #6a6a6a;
   --talk-line: #2a2a2a;
-  --talk-thread: #d5b77c;
-  --talk-serif: "Cormorant Garamond", "Times New Roman", serif;
-  --talk-dock: 118px;
-  --talk-dock-gap: 2.4em;
+  --talk-display: Alice, Georgia, serif;
+  --talk-serif: "PT Serif", Georgia, serif;
 }
 
 html,
@@ -55,7 +53,6 @@ body.talk-page {
   box-sizing: border-box;
 }
 
-/* Art + name stay pinned; they do not scroll away */
 .talk__hero {
   flex: 0 0 auto;
   display: flex;
@@ -67,28 +64,18 @@ body.talk-page {
 }
 
 .talk__art-wrap {
-  width: min(52vh, 400px);
-  height: min(58vh, 480px);
-  max-width: 86vw;
+  width: fit-content;
+  max-width: 100%;
+  height: auto;
   overflow: hidden;
-  background: #000;
+  background: transparent;
   position: relative;
-}
-/* Soft fade only — do not eat the figure */
-.talk__art-wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(to bottom, #000 0%, transparent 4%, transparent 96%, #000 100%),
-    linear-gradient(to right, #000 0%, transparent 3%, transparent 97%, #000 100%);
 }
 .talk__art {
   display: block;
-  width: 100%;
-  height: 100%;
-  /* Whole drawing visible — no crop / zoom */
+  height: min(40vh, 420px);
+  width: auto;
+  max-width: min(92vw, 720px);
   object-fit: contain;
   object-position: center;
   transform: none;
@@ -103,15 +90,18 @@ body.talk-page {
 .talk__art--face {
   filter: grayscale(1) invert(1) contrast(1.55) brightness(1.08);
 }
+.talk__art--ready {
+  filter: none;
+}
 
 .talk__name {
   margin: 0;
-  font: 400 clamp(26px, 4vw, 36px) / 1.1 var(--talk-serif);
+  font: 400 clamp(26px, 4vw, 36px) / 1.1 var(--talk-display);
   color: #f2f2f2;
   letter-spacing: -0.01em;
 }
 
-/* Only this column scrolls */
+/* Scrollable chat: replies + input under the last line */
 .talk__column {
   flex: 1;
   min-height: 0;
@@ -119,7 +109,7 @@ body.talk-page {
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 4px 2px calc(var(--talk-dock) + var(--talk-dock-gap) + env(safe-area-inset-bottom));
+  padding: 4px 2px max(20px, env(safe-area-inset-bottom));
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: #333 transparent;
@@ -136,7 +126,7 @@ body.talk-page {
   display: flex;
   flex-direction: column;
   gap: 1.15em;
-  padding-bottom: 1.2em;
+  width: 100%;
   text-align: left;
 }
 
@@ -144,81 +134,36 @@ body.talk-page {
   margin: 0;
   font: 400 clamp(18px, 2.6vw, 21px) / 1.5 var(--talk-serif);
   transition: opacity 0.45s ease;
+  max-width: 92%;
 }
 .talk__line--npc {
   font-style: italic;
   color: #e4e4e4;
+  align-self: flex-start;
+  text-align: left;
 }
 .talk__line--user {
   font-style: normal;
   color: var(--talk-mute);
+  align-self: flex-end;
+  text-align: right;
 }
 
-.talk__thread-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: min(16rem, 70%);
-  margin: 18px auto 1.2em;
-}
-.talk__thread-block[hidden] {
-  display: none !important;
-}
-.talk__wait {
-  margin: 0;
-  min-height: 1.2em;
-  font: italic 15px/1.3 var(--talk-serif);
-  color: #8a8a8a;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.talk-page.is-thinking .talk__wait {
-  opacity: 1;
-}
-.talk__thread {
-  width: 100%;
-  height: 1px;
-  background: var(--talk-thread);
-  transform-origin: center;
-  box-shadow: 0 0 8px rgba(213, 183, 124, 0.35);
-  opacity: 0.55;
-}
-.talk-page.is-thinking .talk__thread {
-  animation: talk-thread-pulse 1.4s ease-in-out infinite;
-}
-@keyframes talk-thread-pulse {
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scaleX(0.72);
-  }
-  50% {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-}
-
-/* Fixed input dock */
+/* Input sits under the last reply (~48px), scrolls with the page */
 .talk__dock {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 4;
-  padding:
-    12px 20px
-    max(14px, env(safe-area-inset-bottom));
-  background: linear-gradient(to top, #050505 72%, rgba(5, 5, 5, 0));
+  position: static;
+  width: 100%;
+  margin-top: 48px;
+  padding: 0;
+  background: none;
   box-sizing: border-box;
 }
 .talk__form {
   display: flex;
   align-items: baseline;
   gap: 16px;
-  width: min(600px, 100%);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 0 0 8px;
   border-bottom: 1px solid #cfcfcf;
 }
@@ -255,9 +200,50 @@ body.talk-page {
   cursor: default;
 }
 
+.ai-share-note {
+  margin: 10px 0 0;
+  font: 400 12px/1.4 var(--talk-serif);
+  color: #5a5a5a;
+  text-align: left;
+}
+.ai-share-note a {
+  color: #6e6e6e;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ai-share-note a:hover {
+  color: #999;
+}
+
+.talk__rate-limit {
+  margin: 18px 0 8px;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.talk__rate-limit-wait {
+  margin: 0;
+  font: italic 400 16px/1.45 var(--talk-serif);
+  color: #6a6a6a;
+}
+.talk__rate-limit-retry {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 400 14px/1.4 var(--talk-serif);
+  color: #7a7a7a;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.talk__rate-limit-retry:hover {
+  color: #aaa;
+}
+
 .talk__release {
-  width: min(600px, 100%);
-  margin: 10px auto 0;
+  width: 100%;
+  margin: 10px 0 0;
   text-align: center;
   min-height: 1.4em;
 }
@@ -290,9 +276,9 @@ body.talk-page {
 }
 
 @media (max-width: 720px) {
-  .talk__art-wrap {
-    width: min(72vw, 320px);
-    height: min(82vw, 400px);
+  .talk__art {
+    height: min(36vh, 300px);
+    max-width: min(92vw, 100%);
   }
   .talk__name {
     font-size: 26px;
@@ -301,3 +287,4 @@ body.talk-page {
     font-size: 18px;
   }
 }
+
