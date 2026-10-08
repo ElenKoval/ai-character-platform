@@ -73,9 +73,21 @@
     }
   }
 
+  function isObsoleteHub(href) {
+    try {
+      const u = new URL(href, window.location.href);
+      const p = (u.pathname || "").replace(/\\/g, "/").toLowerCase();
+      return /\/(dream-world|weaver-world)(\.html)?$/.test(p) ||
+        /\/index\.portal-backup(\.html)?$/.test(p);
+    } catch (e) {
+      return false;
+    }
+  }
+
   function back() {
     const ret = takeReturn();
-    if (ret?.href) {
+    const home = `${assetBase()}index.html`;
+    if (ret?.href && !isObsoleteHub(ret.href)) {
       // Keep scroll hint for the landing page
       try {
         sessionStorage.setItem(
@@ -93,11 +105,15 @@
       window.location.href = ret.href;
       return;
     }
+    if (ret?.href && isObsoleteHub(ret.href)) {
+      window.location.href = home;
+      return;
+    }
     if (window.history.length > 1) {
       window.history.back();
       return;
     }
-    window.location.href = `${assetBase()}index.html`;
+    window.location.href = home;
   }
 
   window.SunnyTalk = { go, back, takeSeed, talkUrl, captureReturn };

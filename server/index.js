@@ -26,13 +26,46 @@ const GROQ_BASE = "https://api.groq.com/openai/v1";
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "..")));
+
+const ROOT = path.join(__dirname, "..");
+
+/** Old portal hubs — gone; always land on the current homepage. */
+const OBSOLETE_HUBS = new Set([
+  "/pages/dream-world",
+  "/pages/dream-world.html",
+  "/pages/weaver-world",
+  "/pages/weaver-world.html",
+  "/index.portal-backup",
+  "/index.portal-backup.html",
+]);
+
+app.use((req, res, next) => {
+  const raw = (req.path || "").replace(/\\/g, "/");
+  const pathOnly = raw.split("?")[0].toLowerCase();
+  if (OBSOLETE_HUBS.has(pathOnly)) {
+    res.set("Cache-Control", "no-store");
+    return res.redirect(301, "/index.html");
+  }
+  next();
+});
+
+/** Mobile Safari often keeps stale HTML; never cache pages. */
+app.use((req, res, next) => {
+  const p = (req.path || "").split("?")[0].toLowerCase();
+  if (p === "/" || p.endsWith(".html") || !path.extname(p)) {
+    res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.set("Pragma", "no-cache");
+  }
+  next();
+});
+
+app.use(express.static(ROOT));
 
 /** Deploy fingerprint — open /api/build to confirm Render picked up latest git. */
 app.get("/api/build", (_req, res) => {
   res.json({
-    build: "yt-mist-black",
-    servedFrom: path.join(__dirname, ".."),
+    build: "kill-old-world-hubs",
+    servedFrom: ROOT,
   });
 });
 

@@ -116,18 +116,22 @@
       : `<a href="${home}" class="site-nav__home">${t("home")}</a>`;
     header.innerHTML = `
       <a class="site-header__brand" href="${home}" aria-label="${t("brandAria")}">${t("brand")}</a>
-      <nav class="site-nav site-nav--desktop" aria-label="Main">
-        ${homeLink}
-        <button type="button" class="site-nav__read${section === "home" ? " is-current" : ""}" data-nav-read>${t("read")}</button>
-        <button type="button" class="site-nav__continue" data-nav-continue hidden>${t("continue")}</button>
-        <a href="${base}pages/your-thread.html" class="${section === "thread" ? "is-current" : ""}">${t("yourThread")}</a>
-        <a href="${base}pages/album.html" class="${section === "album" ? "is-current" : ""}">${t("album")}</a>
-        <a href="${base}pages/sound.html" class="${section === "listen" ? "is-current" : ""}">${t("listen")}</a>
-        <div data-lang-switch-host></div>
-      </nav>
-      <button type="button" class="site-nav__burger" aria-label="${t("menu")}" data-nav-burger>
-        <span></span><span></span><span></span>
-      </button>
+      <div class="site-header__end">
+        <nav class="site-nav site-nav--desktop" aria-label="Main">
+          ${homeLink}
+          <button type="button" class="site-nav__read${section === "home" ? " is-current" : ""}" data-nav-read>${t("read")}</button>
+          <button type="button" class="site-nav__continue" data-nav-continue hidden>${t("continue")}</button>
+          <a href="${base}pages/your-thread.html" class="${section === "thread" ? "is-current" : ""}">${t("yourThread")}</a>
+          <a href="${base}pages/album.html" class="${section === "album" ? "is-current" : ""}">${t("album")}</a>
+          <a href="${base}pages/sound.html" class="${section === "listen" ? "is-current" : ""}">${t("listen")}</a>
+        </nav>
+        <div class="site-header__tools">
+          <div data-lang-switch-host></div>
+          <button type="button" class="site-nav__burger" aria-label="${t("menu")}" data-nav-burger>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
     `;
     document.body.prepend(header);
     document.body.classList.add("has-site-header");
