@@ -1,13 +1,261 @@
 /* Your Thread — ask → steel cord → Dream & Weaver */
+:root {
+  --beam-edge: rgba(190, 193, 200, 0.11);
+  --beam-mid: rgba(178, 182, 190, 0.28);
+  --beam-core: rgba(205, 208, 214, 0.4);
+  --ambient-glow: rgba(118, 122, 132, 0.07);
+}
+
+html,
 body {
   margin: 0;
-  background: #0b0b0b;
+  min-height: 100%;
+  background: #0a0b10;
+  background-color: #0a0b10;
+}
+
+body {
   color: #e6e6e6;
   font: 16px/1.6 "PT Serif", Georgia, serif;
+  position: relative;
+  overflow-x: hidden;
 }
+
+/* Разводы: та же мгла + дым, что на Listen до плоского ink */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -60%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 85% at 50% 42%, rgba(255, 255, 255, 0.06), transparent 58%),
+    radial-gradient(ellipse 120% 95% at 50% 50%, rgba(32, 35, 45, 0.5), transparent 74%);
+  filter: blur(52px) contrast(115%);
+  opacity: 1;
+  animation: ytMistMove 22s ease-in-out infinite;
+}
+
+.portal-ambient {
+  position: fixed;
+  inset: -20%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse 95% 80% at 50% 48%, var(--ambient-glow), transparent 70%);
+  filter: blur(24px);
+  opacity: 0.85;
+}
+
+.smoke-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.smoke-cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    rgba(255, 255, 255, 0.25),
+    rgba(180, 182, 188, 0.12),
+    transparent 70%
+  );
+  filter: blur(40px);
+  opacity: 0.85;
+}
+
+.smoke-cloud--1 {
+  width: min(45vw, 420px);
+  height: min(35vw, 320px);
+  top: 10%;
+  left: -20%;
+  animation: ytSmoke1 35s ease-in-out infinite;
+}
+.smoke-cloud--2 {
+  width: min(38vw, 360px);
+  height: min(42vw, 380px);
+  top: 55%;
+  left: -15%;
+  animation: ytSmoke2 42s ease-in-out infinite 5s;
+}
+.smoke-cloud--3 {
+  width: min(50vw, 450px);
+  height: min(30vw, 280px);
+  top: 25%;
+  right: -25%;
+  animation: ytSmoke3 38s ease-in-out infinite 2s;
+}
+.smoke-cloud--4 {
+  width: min(40vw, 380px);
+  height: min(45vw, 400px);
+  bottom: 5%;
+  right: -20%;
+  animation: ytSmoke4 45s ease-in-out infinite 8s;
+}
+.smoke-cloud--5 {
+  width: min(35vw, 340px);
+  height: min(38vw, 350px);
+  top: 40%;
+  left: 30%;
+  animation: ytSmoke5 50s ease-in-out infinite 12s;
+}
+.smoke-cloud--6 {
+  width: min(42vw, 400px);
+  height: min(32vw, 300px);
+  top: 15%;
+  right: 20%;
+  animation: ytSmoke6 40s ease-in-out infinite 6s;
+}
+
+.sunbeam-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sunbeam {
+  position: absolute;
+  top: -30%;
+  left: 0;
+  width: min(75vw, 900px);
+  height: 180vh;
+  transform-origin: center center;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--beam-edge) 10%,
+    var(--beam-mid) 30%,
+    var(--beam-core) 50%,
+    var(--beam-mid) 70%,
+    var(--beam-edge) 90%,
+    transparent 100%
+  );
+  filter: blur(22px);
+}
+
+.sunbeam--main {
+  animation: ytSunbeam 45s linear infinite;
+}
+
+@keyframes ytMistMove {
+  0%,
+  100% {
+    transform: translate(-4%, -6%) scale(1);
+  }
+  50% {
+    transform: translate(6%, 5%) scale(1.04);
+  }
+}
+@keyframes ytSmoke1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(85vw, 15vh) scale(1.15);
+    opacity: 0.9;
+  }
+}
+@keyframes ytSmoke2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1.1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate(90vw, -20vh) scale(0.95);
+    opacity: 0.85;
+  }
+}
+@keyframes ytSmoke3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-80vw, 25vh) scale(1.1);
+    opacity: 0.85;
+  }
+}
+@keyframes ytSmoke4 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1.05);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-75vw, -15vh) scale(0.9);
+    opacity: 0.9;
+  }
+}
+@keyframes ytSmoke5 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.65;
+  }
+  33% {
+    transform: translate(25vw, -18vh) scale(1.2);
+    opacity: 0.8;
+  }
+  66% {
+    transform: translate(-20vw, 12vh) scale(0.9);
+    opacity: 0.75;
+  }
+}
+@keyframes ytSmoke6 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+  33% {
+    transform: translate(-30vw, 20vh) scale(1.1);
+    opacity: 0.85;
+  }
+  66% {
+    transform: translate(15vw, -10vh) scale(0.95);
+    opacity: 0.75;
+  }
+}
+@keyframes ytSunbeam {
+  0% {
+    transform: rotate(-28deg) translateX(-85vw);
+  }
+  100% {
+    transform: rotate(-28deg) translateX(165vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  .smoke-cloud--1,
+  .smoke-cloud--2,
+  .smoke-cloud--3,
+  .smoke-cloud--4,
+  .smoke-cloud--5,
+  .smoke-cloud--6,
+  .sunbeam--main {
+    animation: none;
+  }
+  .sunbeam--main {
+    transform: rotate(-28deg) translateX(20vw);
+    opacity: 0.5;
+  }
+}
+
 .yt {
   --yt-display: Alice, Georgia, serif;
   --yt-serif: "PT Serif", Georgia, serif;
+  position: relative;
+  z-index: 6;
   min-height: calc(100svh - 76px);
   display: flex;
   flex-direction: column;

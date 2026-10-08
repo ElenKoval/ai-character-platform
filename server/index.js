@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "..")));
 /** Deploy fingerprint — open /api/build to confirm Render picked up latest git. */
 app.get("/api/build", (_req, res) => {
   res.json({
-    build: "listen-ink-3e4f54a",
+    build: "yt-mist-36789cf",
     servedFrom: path.join(__dirname, ".."),
   });
 });
