@@ -241,6 +241,24 @@
   margin: 0 0 32px;
 }
 
+/* Страница «Послушать»: чёрный фон как у остальных ink-страниц; визитки не трогаем */
+html:has(body.sound-hub),
+body.sound-hub {
+  background: #0b0b0b !important;
+  background-color: #0b0b0b !important;
+}
+
+body.sound-hub {
+  color: #e6e6e6;
+}
+
+body.sound-hub::before,
+body.sound-hub .portal-ambient,
+body.sound-hub .smoke-layer,
+body.sound-hub .sunbeam-layer {
+  display: none !important;
+}
+
 /* ----- Sound hub page: topbar (как у миров) ----- */
 .sound-hub__topbar {
   position: sticky;
