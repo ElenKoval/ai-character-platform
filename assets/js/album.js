@@ -103,6 +103,14 @@
     return box;
   }
 
+  function entryPlaceholder(entry) {
+    if (entry?.artPlaceholder) return entry.artPlaceholder;
+    const c =
+      meta.characters?.[entry?.id] ||
+      meta.characters?.[entry?.talkId];
+    return c?.artPlaceholder || "";
+  }
+
   function showLightbox(index) {
     if (!flatEntries.length) return;
     const n = flatEntries.length;
@@ -111,10 +119,28 @@
     const box = ensureLightbox();
     const img = box.querySelector("[data-album-lightbox-img]");
     const caption = box.querySelector("[data-album-lightbox-caption]");
-    img.src = entry.img;
-    img.alt = entry.name;
-    img.classList.toggle("album-lightbox__img--mono", entry.id === "fallow");
-    caption.textContent = entry.name;
+    let ph = box.querySelector("[data-album-lightbox-placeholder]");
+    if (!ph) {
+      ph = document.createElement("p");
+      ph.className = "art-placeholder album-lightbox__placeholder";
+      ph.setAttribute("data-album-lightbox-placeholder", "");
+      img.parentElement?.insertBefore(ph, img);
+    }
+    const line = entryPlaceholder(entry);
+    if (!entry.img && line) {
+      img.hidden = true;
+      img.removeAttribute("src");
+      ph.hidden = false;
+      ph.textContent = line;
+      caption.textContent = entry.name;
+    } else {
+      ph.hidden = true;
+      img.hidden = false;
+      img.src = entry.img;
+      img.alt = entry.name;
+      img.classList.toggle("album-lightbox__img--mono", entry.id === "fallow");
+      caption.textContent = entry.name;
+    }
     box.hidden = false;
     document.body.classList.add("album-lightbox-open");
   }
@@ -137,9 +163,14 @@
       : "";
     const monoClass = entry.id === "fallow" ? " album__img--mono" : "";
 
+    const line = entryPlaceholder(entry);
+    const artInner =
+      !entry.img && line
+        ? `<span class="art-placeholder album__art-placeholder">${line}</span>`
+        : `<img class="album__img${monoClass}" src="${entry.img}" alt="${entry.name}" loading="lazy">`;
     article.innerHTML = `
-      <button type="button" class="album__art" data-album-open="${flatIndex}" aria-label="${entry.name}">
-        <img class="album__img${monoClass}" src="${entry.img}" alt="${entry.name}" loading="lazy">
+      <button type="button" class="album__art${!entry.img && line ? " album__art--placeholder" : ""}" data-album-open="${flatIndex}" aria-label="${entry.name}">
+        ${artInner}
       </button>
       <div class="album__meta">
         <h3 class="album__name">${entry.name}</h3>

@@ -19,6 +19,7 @@
     "liora": "Лиора",
     "shiny": "Шайни",
     "shinyBro": "Брат Шайни",
+    "shinyBroArtPlaceholder": "Брат вышел за бурбоном. Скоро вернётся.",
     "talkMushroom": "Гриб",
     "angryForest": "Злой Лес",
     "dryad": "Дриада",
@@ -70,6 +71,9 @@
     "title": "Мир Вивер",
     "heroTag": "жажда · перемены",
     "scrollHint": "Ещё персонажи ниже"
+  },
+  "shinyBro": {
+    "artPlaceholder": "Брат вышел за бурбоном. Скоро вернётся."
   },
   "world": {
     "pageTitle": "Корень всего сущего. Тишина и безумие. - SunnyChimera",

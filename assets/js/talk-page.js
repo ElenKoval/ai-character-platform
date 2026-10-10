@@ -166,6 +166,8 @@
   const els = {
     back: document.querySelector("[data-talk-back]"),
     art: document.querySelector("[data-talk-art]"),
+    artPlaceholder: document.querySelector("[data-talk-art-placeholder]"),
+    artWrap: document.querySelector(".talk__art-wrap"),
     name: document.querySelector("[data-talk-name]"),
     column: document.querySelector("[data-talk-column]"),
     log: document.querySelector("[data-talk-log]"),
@@ -210,20 +212,38 @@
     tt("talk.title", { name: character.name }) ||
     `${character.name} — ${lang() === "ru" ? "разговор" : "talk"}`;
   els.name.textContent = character.name;
-  els.art.alt = character.name;
   if (els.back) els.back.textContent = tt("talk.back") || tt("talkBack") || (lang() === "ru" ? "← Вернуться" : "← Back");
   if (els.say) els.say.textContent = tt("talk.say") || tt("talkSay") || tt("thread.say") || (lang() === "ru" ? "Сказать" : "Say it");
-  els.art.className = "talk__art";
-  if (character.imgNeg) {
-    els.art.src = character.imgNeg;
-    els.art.classList.add("talk__art--ready");
-  } else {
-    els.art.src = character.img;
-    if (character.sceneContrast === "hard" || character.sceneContrast === "face") {
-      els.art.classList.add(`talk__art--${character.sceneContrast}`);
-    } else if (character.sceneContrast === "soft") {
-      els.art.classList.add("talk__art--soft");
+  const artSrc = character.imgNeg || character.img || "";
+  const placeholderText =
+    character.artPlaceholder ||
+    tt("shinyBro.artPlaceholder") ||
+    (lang() === "ru"
+      ? "Брат вышел за бурбоном. Скоро вернётся."
+      : "Brother stepped out for bourbon. He'll be back.");
+  if (!artSrc && character.artPlaceholder) {
+    if (els.art) els.art.hidden = true;
+    if (els.artPlaceholder) {
+      els.artPlaceholder.hidden = false;
+      els.artPlaceholder.textContent = placeholderText;
     }
+    els.artWrap?.classList.add("talk__art-wrap--placeholder");
+  } else if (els.art) {
+    els.art.hidden = false;
+    els.art.alt = character.name;
+    els.art.className = "talk__art";
+    if (character.imgNeg) {
+      els.art.src = character.imgNeg;
+      els.art.classList.add("talk__art--ready");
+    } else {
+      els.art.src = character.img;
+      if (character.sceneContrast === "hard" || character.sceneContrast === "face") {
+        els.art.classList.add(`talk__art--${character.sceneContrast}`);
+      } else if (character.sceneContrast === "soft") {
+        els.art.classList.add("talk__art--soft");
+      }
+    }
+    if (els.artPlaceholder) els.artPlaceholder.hidden = true;
   }
   els.input.placeholder = "";
 

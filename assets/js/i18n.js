@@ -156,7 +156,7 @@
 
   function applyTextMap(dict) {
     var nodes = document.querySelectorAll(
-      "a, button, h1, h2, h3, p, span, label, .footer__whisper, .world-team__title, .character-caption__tag, .world-team__card-placeholder-text, .character-figure__placeholder-text"
+      "a, button, h1, h2, h3, p, span, label, .footer__whisper, .world-team__title, .character-caption__tag, .world-team__card-placeholder-text, .character-figure__placeholder-text, .art-placeholder"
     );
     nodes.forEach(function (el) {
       if (el.closest(".lang-switch")) return;

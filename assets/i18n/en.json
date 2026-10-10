@@ -19,6 +19,7 @@
     "liora": "Liora",
     "shiny": "Shiny",
     "shinyBro": "Shiny's Brother",
+    "shinyBroArtPlaceholder": "Brother stepped out for bourbon. He'll be back.",
     "talkMushroom": "Mushroom",
     "angryForest": "Angry Forest",
     "dryad": "Dryad",
@@ -70,6 +71,9 @@
     "title": "Weaver's World",
     "heroTag": "thirst · change",
     "scrollHint": "More characters below"
+  },
+  "shinyBro": {
+    "artPlaceholder": "Brother stepped out for bourbon. He'll be back."
   },
   "world": {
     "pageTitle": "The Root of All Things. Silence and Madness. - SunnyChimera",

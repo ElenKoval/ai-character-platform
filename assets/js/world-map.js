@@ -157,7 +157,16 @@
     art.href = albumHref(id);
     art.setAttribute("aria-label", entry.name);
     const monoClass = id === "fallow" ? " album-strip__img--mono" : "";
-    art.innerHTML = `<img class="album-strip__img${monoClass}" src="${entry.img}" alt="${entry.name}" loading="lazy">`;
+    const ph =
+      entry.artPlaceholder ||
+      window.storyMeta?.characters?.[id]?.artPlaceholder ||
+      "";
+    if (!entry.img && ph) {
+      art.classList.add("album-strip__art--placeholder");
+      art.innerHTML = `<span class="art-placeholder album-strip__placeholder">${ph}</span>`;
+    } else {
+      art.innerHTML = `<img class="album-strip__img${monoClass}" src="${entry.img}" alt="${entry.name}" loading="lazy">`;
+    }
     card.appendChild(art);
 
     const meta = document.createElement("div");

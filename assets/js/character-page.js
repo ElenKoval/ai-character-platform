@@ -39,6 +39,7 @@
     const blurbEl = root.querySelector(".dossier__blurb");
     const quoteEl = root.querySelector(".dossier__quote");
     const imgEl = root.querySelector(".notebook-page__img, .dossier__art img");
+    const placeholderEl = root.querySelector("[data-art-placeholder], .art-placeholder");
 
     if (nameEl && c.name) nameEl.textContent = c.name;
     if (essenceEl && c.essence) essenceEl.textContent = c.essence;
@@ -53,6 +54,9 @@
         : c.quote;
     if (quoteEl && opening) quoteEl.textContent = wrapQuote(opening);
     if (imgEl && c.name) imgEl.alt = c.name;
+    if (placeholderEl && c.artPlaceholder) {
+      placeholderEl.textContent = c.artPlaceholder;
+    }
 
     document.title = `${c.name} — SunnyChimera`;
 

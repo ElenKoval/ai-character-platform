@@ -444,19 +444,26 @@
       if (!c) return null;
       const li = document.createElement("li");
       li.dataset.castId = id;
-      const img = document.createElement("img");
-      img.src = c.img;
-      img.alt = c.name;
-      img.loading = "lazy";
-      img.onerror = () => {
-        img.style.opacity = "0.2";
-      };
       const el = document.createElement("div");
       el.className = "site-reader__cast-card";
       const pageLink = document.createElement("a");
       pageLink.href = c.page;
       pageLink.className = "site-reader__cast-page";
-      pageLink.appendChild(img);
+      if (c.img) {
+        const img = document.createElement("img");
+        img.src = c.img;
+        img.alt = c.name;
+        img.loading = "lazy";
+        img.onerror = () => {
+          img.style.opacity = "0.2";
+        };
+        pageLink.appendChild(img);
+      } else if (c.artPlaceholder) {
+        const ph = document.createElement("span");
+        ph.className = "art-placeholder art-placeholder--cast";
+        ph.textContent = c.artPlaceholder;
+        pageLink.appendChild(ph);
+      }
       const name = document.createElement("strong");
       name.textContent = c.name;
       pageLink.appendChild(name);

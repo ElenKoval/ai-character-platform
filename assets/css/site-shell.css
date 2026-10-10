@@ -1077,6 +1077,27 @@ body.character-page--dossier {
 .dossier__art .notebook-page {
   max-width: 280px;
 }
+.dossier__art .notebook-page--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.dossier__art .notebook-page--placeholder .notebook-page__spiral {
+  opacity: 0.35;
+}
+.dossier__art .art-placeholder {
+  border: 0;
+  background: transparent;
+  min-height: 0;
+  padding: 1.5rem 1.25rem;
+}
+.site-reader__cast-page .art-placeholder--cast {
+  width: 100%;
+  max-width: 120px;
+}
 .dossier__meta {
   display: flex;
   flex-direction: column;

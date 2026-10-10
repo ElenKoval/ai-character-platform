@@ -490,6 +490,7 @@
           quote: "«К ней — только через меня».",
           askHint: "Спроси Брата Шайни, кого он бережёт…",
           waitPhrase: "Проверяет, не близко ли ты…",
+          artPlaceholder: "Брат вышел за бурбоном. Скоро вернётся.",
         },
         en: {
           name: "Shiny's Brother",
@@ -499,6 +500,7 @@
           quote: "“To get to her, you go through me.”",
           askHint: "Ask Shiny's Brother whom he protects…",
           waitPhrase: "Checking whether you're too close…",
+          artPlaceholder: "Brother stepped out for bourbon. He'll be back.",
         },
       },
       apiId: "shiny_bro",
@@ -507,7 +509,8 @@
       nameWith: "Братом Шайни",
       gender: "m",
       page: `${base}pages/shiny_bro.html`,
-      img: `${base}assets/img/shiny_bro.jpeg`,
+      img: "",
+      artPlaceholder: "Брат вышел за бурбоном. Скоро вернётся.",
       world: "weaver",
       essence: "Брат Шайни — жёсткая защита",
       blurb: "Стоит рядом со светом сестры и готов разбить всё, что подходит слишком близко.",
@@ -847,7 +850,8 @@
         },
       },
       name: "Брат",
-      img: characters.shinyBro.img,
+      img: "",
+      artPlaceholder: characters.shinyBro.artPlaceholder,
       quote: "«Я держу канистру. Она держит зажигалку. Так у нас заведено».",
       talkId: "shinyBro",
       chapterIds: null,
@@ -1040,7 +1044,7 @@
     Object.values(characters).forEach((c) => {
       const t = c.i18n && c.i18n[l];
       if (!t) return;
-      ["name", "quote", "essence", "blurb", "askHint", "waitPhrase", "nameWith"].forEach((k) => {
+      ["name", "quote", "essence", "blurb", "askHint", "waitPhrase", "nameWith", "artPlaceholder"].forEach((k) => {
         if (t[k] != null) c[k] = t[k];
       });
     });
@@ -1049,6 +1053,9 @@
       if (!t) return;
       if (t.name != null) a.name = t.name;
       if (t.quote != null) a.quote = t.quote;
+      const char = characters[a.id] || characters[a.talkId];
+      if (char && char.artPlaceholder) a.artPlaceholder = char.artPlaceholder;
+      if (char) a.img = char.img || "";
     });
     albumSections.forEach((s) => {
       const t = s.i18n && s.i18n[l];

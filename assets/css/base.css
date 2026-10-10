@@ -83,6 +83,34 @@ body {
   padding-top: 52px;
 }
 
+/* Missing portrait — ink text tile (Brother, etc.) */
+.art-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 1.4rem 1.5rem;
+  min-height: 10rem;
+  width: 100%;
+  box-sizing: border-box;
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(230, 230, 230, 0.52);
+  font-family: "PT Serif", Georgia, serif;
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+  text-align: center;
+}
+.art-placeholder--cast {
+  min-height: 4.5rem;
+  padding: 0.7rem 0.75rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
 /* Language switcher EN / RU — plain ink text, no pills */
 .lang-switch {
   display: flex;

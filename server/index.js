@@ -64,7 +64,7 @@ app.use(express.static(ROOT));
 /** Deploy fingerprint — open /api/build to confirm Render picked up latest git. */
 app.get("/api/build", (_req, res) => {
   res.json({
-    build: "lang-switch-ink",
+    build: "brother-bourbon-placeholder",
     servedFrom: ROOT,
   });
 });
