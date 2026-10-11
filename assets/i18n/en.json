@@ -130,12 +130,13 @@
   },
   "sound": {
     "title": "The Sound of the World",
-    "lead": "Music archive by character",
+    "lead": "",
     "back": "← The Gate",
-    "trackOne": "Track one",
-    "trackTwo": "Track two",
-    "trackThree": "Track three",
-    "trackFour": "Track four",
+    "comingSoon": "Music coming soon",
+    "lyrics": "Lyrics",
+    "lyricsSoon": "Lyrics coming soon.",
+    "loading": "Loading…",
+    "playError": "Could not play.",
     "keeperName": "Kiper",
     "dryadName": "Dryad",
     "weaverName": "Weaver"
