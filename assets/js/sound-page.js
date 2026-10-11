@@ -223,21 +223,22 @@
     }
   }
 
-  function clearHash() {
-    if (window.location.hash) {
-      history.replaceState(null, "", window.location.pathname + window.location.search);
+  function setShelfHash() {
+    const next = "#listen";
+    if (window.location.hash !== next) {
+      history.replaceState(null, "", window.location.pathname + window.location.search + next);
     }
   }
 
   function updateHash(c) {
     if (!c) {
-      clearHash();
+      setShelfHash();
       return;
     }
     const id = c.soundId || c.id;
     const next = `#sound-${id}`;
     if (window.location.hash !== next) {
-      history.replaceState(null, "", next);
+      history.replaceState(null, "", window.location.pathname + window.location.search + next);
     }
   }
 
@@ -248,7 +249,7 @@
     if (els.lyricsToggle) els.lyricsToggle.setAttribute("aria-expanded", "false");
     if (els.lyricsBody) els.lyricsBody.hidden = true;
     setView("shelf");
-    clearHash();
+    setShelfHash();
     document.title = tt("sound.title", "Звук мира", "The Sound of the World");
     buildShelf();
   }
@@ -467,7 +468,10 @@
   }
 
   function characterFromHash() {
-    const m = /^#sound-(.+)$/i.exec(window.location.hash || "");
+    const hash = window.location.hash || "";
+    // #listen / empty / bare # → collection shelf (nav "Listen" uses #listen)
+    if (!hash || hash === "#" || /^#listen\/?$/i.test(hash)) return null;
+    const m = /^#sound-(.+)$/i.exec(hash);
     if (!m) return null;
     return catalog.bySoundId(m[1]) || catalog.byId(m[1]);
   }

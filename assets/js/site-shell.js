@@ -128,7 +128,7 @@
           <button type="button" class="site-nav__continue" data-nav-continue hidden>${t("continue")}</button>
           <a href="${base}pages/your-thread.html" class="${section === "thread" ? "is-current" : ""}">${t("yourThread")}</a>
           <a href="${base}pages/album.html" class="${section === "album" ? "is-current" : ""}">${t("album")}</a>
-          <a href="${base}pages/sound.html" class="${section === "listen" ? "is-current" : ""}">${t("listen")}</a>
+          <a href="${base}pages/sound.html#listen" class="${section === "listen" ? "is-current" : ""}">${t("listen")}</a>
         </nav>
         <div class="site-header__tools">
           <div data-lang-switch-host></div>
@@ -152,7 +152,7 @@
       <button type="button" class="site-nav__continue" data-nav-continue hidden>${t("continue")}</button>
       <a href="${base}pages/your-thread.html">${t("yourThread")}</a>
       <a href="${base}pages/album.html">${t("album")}</a>
-      <a href="${base}pages/sound.html">${t("listen")}</a>
+      <a href="${base}pages/sound.html#listen">${t("listen")}</a>
     `;
     document.body.appendChild(mobile);
 
