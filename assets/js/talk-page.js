@@ -219,8 +219,8 @@
     character.artPlaceholder ||
     tt("shinyBro.artPlaceholder") ||
     (lang() === "ru"
-      ? "Брат вышел за бурбоном. Скоро вернётся."
-      : "Brother stepped out for bourbon. He'll be back.");
+      ? "Брат вышел за бурбоном.\nСкоро вернётся."
+      : "Brother stepped out for bourbon.\nHe'll be back.");
   if (!artSrc && character.artPlaceholder) {
     if (els.art) els.art.hidden = true;
     if (els.artPlaceholder) {

@@ -19,7 +19,7 @@
     "liora": "Лиора",
     "shiny": "Шайни",
     "shinyBro": "Брат Шайни",
-    "shinyBroArtPlaceholder": "Брат вышел за бурбоном. Скоро вернётся.",
+    "shinyBroArtPlaceholder": "Брат вышел за бурбоном.\nСкоро вернётся.",
     "talkMushroom": "Гриб",
     "angryForest": "Злой Лес",
     "dryad": "Дриада",
@@ -73,7 +73,7 @@
     "scrollHint": "Ещё персонажи ниже"
   },
   "shinyBro": {
-    "artPlaceholder": "Брат вышел за бурбоном. Скоро вернётся."
+    "artPlaceholder": "Брат вышел за бурбоном.\nСкоро вернётся."
   },
   "world": {
     "pageTitle": "Корень всего сущего. Тишина и безумие. - SunnyChimera",

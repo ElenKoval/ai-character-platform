@@ -263,6 +263,7 @@
             <div class="notebook-page notebook-page--warm">
               <div class="notebook-page__spiral" aria-hidden="true"></div>
               <img class="notebook-page__img" data-reader-mobile-img alt="">
+              <p class="art-placeholder art-placeholder--reader" data-reader-mobile-placeholder hidden></p>
             </div>
           </div>
           <p class="site-reader__kicker" data-reader-kicker></p>
@@ -286,6 +287,7 @@
                 <div class="site-reader__art-stage" data-reader-art-stage>
                   <img class="notebook-page__img is-active" data-reader-art-a alt="">
                   <img class="notebook-page__img" data-reader-art-b alt="" aria-hidden="true">
+                  <p class="art-placeholder art-placeholder--reader" data-reader-art-placeholder hidden></p>
                 </div>
                 <div class="site-reader__focus" data-reader-focus>
                   <p class="site-reader__focus-name" data-reader-focus-name></p>
@@ -738,9 +740,22 @@
         notebook: dialog.querySelector("[data-reader-notebook]"),
         a: dialog.querySelector("[data-reader-art-a]"),
         b: dialog.querySelector("[data-reader-art-b]"),
+        placeholder: dialog.querySelector("[data-reader-art-placeholder]"),
         mobileWrap: dialog.querySelector("[data-reader-mobile-art]"),
         mobileImg: dialog.querySelector("[data-reader-mobile-img]"),
+        mobilePlaceholder: dialog.querySelector("[data-reader-mobile-placeholder]"),
       };
+    }
+
+    function characterVisual(idOrChar) {
+      const c =
+        typeof idOrChar === "string" ? meta.characters?.[idOrChar] : idOrChar;
+      if (!c) return null;
+      if (c.img) return { type: "img", src: c.img, label: c.name, text: "" };
+      if (c.artPlaceholder) {
+        return { type: "placeholder", src: "", label: c.name, text: c.artPlaceholder };
+      }
+      return null;
     }
 
     function setActiveCast(id) {
@@ -756,26 +771,38 @@
     function sizeArtStageToDrawing() {
       const stage = dialog.querySelector("[data-reader-art-stage]");
       const layers = dialog.querySelector("[data-reader-art-layers]");
+      const placeholder = dialog.querySelector("[data-reader-art-placeholder]");
       const img = dialog.querySelector(".site-reader__art-stage .notebook-page__img.is-active");
       const focus = dialog.querySelector("[data-reader-focus]");
-      if (!stage || !layers || !img || !img.naturalWidth || !img.naturalHeight) return;
+      if (!stage || !layers) return;
       const lw = layers.clientWidth || stage.clientWidth;
       if (!lw) return;
       const railH = dialog.querySelector("[data-reader-rail]")?.clientHeight || dialog.clientHeight;
       const focusH = focus ? focus.getBoundingClientRect().height : 72;
       // Leave room above/below so the whole block can sit centered in the rail
       const maxH = Math.max(140, Math.min(railH - focusH - 48, railH * 0.58));
+      if (placeholder && !placeholder.hidden) {
+        const byWidth = (4 / 3) * lw;
+        stage.style.height = `${Math.round(Math.min(byWidth, maxH))}px`;
+        return;
+      }
+      if (!img || !img.naturalWidth || !img.naturalHeight) return;
       const byWidth = (img.naturalHeight / img.naturalWidth) * lw;
       stage.style.height = `${Math.round(Math.min(byWidth, maxH))}px`;
     }
 
     function activeArtDisplayRect() {
       const stage = dialog.querySelector("[data-reader-art-stage]");
-      const img = dialog.querySelector(".site-reader__art-stage .notebook-page__img.is-active");
-      if (!stage || !img || !img.naturalWidth || !img.naturalHeight) return null;
+      const placeholder = dialog.querySelector("[data-reader-art-placeholder]");
+      if (!stage) return null;
       const lw = stage.clientWidth;
       const lh = stage.clientHeight;
       if (!lw || !lh) return null;
+      if (placeholder && !placeholder.hidden) {
+        return { stage, left: 0, top: 0, width: lw, height: lh };
+      }
+      const img = dialog.querySelector(".site-reader__art-stage .notebook-page__img.is-active");
+      if (!img || !img.naturalWidth || !img.naturalHeight) return null;
       const scale = Math.min(lw / img.naturalWidth, lh / img.naturalHeight);
       const dispW = img.naturalWidth * scale;
       const dispH = img.naturalHeight * scale;
@@ -816,22 +843,86 @@
       requestAnimationFrame(() => sizeArtStageToDrawing());
     }
 
+    function hideReaderPlaceholder() {
+      const { placeholder, mobilePlaceholder, mobileImg, a, b } = artLayers();
+      if (placeholder) {
+        placeholder.hidden = true;
+        placeholder.setAttribute("hidden", "");
+        placeholder.textContent = "";
+      }
+      if (mobilePlaceholder) {
+        mobilePlaceholder.hidden = true;
+        mobilePlaceholder.setAttribute("hidden", "");
+        mobilePlaceholder.textContent = "";
+      }
+      if (mobileImg) mobileImg.hidden = false;
+      if (a) a.hidden = false;
+      if (b) b.hidden = false;
+      dialog.querySelector("[data-reader-notebook]")?.classList.remove("site-reader__notebook--placeholder");
+      dialog.querySelector("[data-reader-mobile-art] .notebook-page")?.classList.remove("notebook-page--placeholder");
+    }
+
+    function showPlaceholderArt(key, text, alt) {
+      const { notebook, a, b, placeholder, mobileWrap, mobileImg, mobilePlaceholder } = artLayers();
+      if (!notebook || !placeholder) return;
+      hideReaderPlaceholder();
+      notebook.hidden = false;
+      notebook.classList.add("site-reader__notebook--placeholder");
+      if (a) {
+        a.classList.remove("is-active");
+        a.setAttribute("aria-hidden", "true");
+        a.removeAttribute("src");
+        a.hidden = true;
+      }
+      if (b) {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-hidden", "true");
+        b.removeAttribute("src");
+        b.hidden = true;
+      }
+      placeholder.hidden = false;
+      placeholder.textContent = text || "";
+      activeArtKey = key;
+      activeArtLabel = alt || "";
+      artHoverTalk = false;
+      if (mobileWrap) {
+        mobileWrap.hidden = false;
+        mobileWrap.querySelector(".notebook-page")?.classList.add("notebook-page--placeholder");
+        if (mobileImg) {
+          mobileImg.hidden = true;
+          mobileImg.removeAttribute("src");
+        }
+        if (mobilePlaceholder) {
+          mobilePlaceholder.hidden = false;
+          mobilePlaceholder.textContent = text || "";
+        }
+      }
+      syncArtInteract();
+    }
+
     function showArt(src, key, alt) {
       const { notebook, a, b, mobileWrap, mobileImg } = artLayers();
       if (!notebook || !a || !b) return;
       if (!src) {
+        hideReaderPlaceholder();
         notebook.hidden = true;
         if (mobileWrap) mobileWrap.hidden = true;
+        a.hidden = false;
+        b.hidden = false;
         activeArtKey = "";
         activeArtLabel = "";
         artHoverTalk = false;
         syncArtInteract();
         return;
       }
+      hideReaderPlaceholder();
+      a.hidden = false;
+      b.hidden = false;
       notebook.hidden = false;
       activeArtLabel = alt || "";
       if (mobileWrap && mobileImg) {
         mobileWrap.hidden = false;
+        mobileImg.hidden = false;
         mobileImg.src = src;
         mobileImg.alt = alt || "";
         applyArtOrientation(mobileWrap.querySelector(".notebook-page") || notebook, mobileImg);
@@ -873,6 +964,21 @@
       }
     }
 
+    function focusCharacterArt(id) {
+      const visual = characterVisual(id);
+      if (!visual) return false;
+      pinArt(id);
+      activeArtKey = id;
+      activeArtLabel = visual.label;
+      if (visual.type === "placeholder") {
+        showPlaceholderArt(id, visual.text, visual.label);
+      } else {
+        showArt(visual.src, id, visual.label);
+      }
+      setActiveCast(id);
+      return true;
+    }
+
     function earliestAliasIndex(text, aliases) {
       let best = -1;
       (aliases || []).forEach((alias) => {
@@ -892,16 +998,32 @@
         const hits = [];
         castIds.forEach((id) => {
           if (seen.has(id)) return;
+          const visual = characterVisual(id);
+          if (!visual) return;
           const c = meta.characters?.[id];
-          if (!c?.img) return;
           const idx = earliestAliasIndex(text, c.aliases);
-          if (idx >= 0) hits.push({ id, idx, name: c.name, src: c.img });
+          if (idx >= 0) {
+            hits.push({
+              id,
+              idx,
+              name: visual.label,
+              src: visual.src,
+              placeholder: visual.type === "placeholder" ? visual.text : "",
+            });
+          }
         });
         hits.sort((a, b) => a.idx - b.idx);
         hits.forEach((h, stagger) => {
           if (seen.has(h.id)) return;
           seen.add(h.id);
-          list.push({ id: h.id, el: p, name: h.name, src: h.src, stagger });
+          list.push({
+            id: h.id,
+            el: p,
+            name: h.name,
+            src: h.src,
+            placeholder: h.placeholder || "",
+            stagger,
+          });
         });
       });
       return list;
@@ -923,12 +1045,17 @@
       if (pinnedArtKey === "chapter" && chapterArtSrc) {
         return { key: "chapter", src: chapterArtSrc, label: chapterArtLabel };
       }
-      const c = meta.characters?.[pinnedArtKey];
-      if (!c?.img) {
+      const visual = characterVisual(pinnedArtKey);
+      if (!visual) {
         pinnedArtKey = null;
         return null;
       }
-      return { key: pinnedArtKey, src: c.img, label: c.name };
+      return {
+        key: pinnedArtKey,
+        src: visual.src,
+        label: visual.label,
+        placeholder: visual.type === "placeholder" ? visual.text : "",
+      };
     }
 
     function pinArt(key) {
@@ -969,7 +1096,12 @@
         // Stagger same-paragraph first appearances so earlier name unlocks first
         const unlockAt = offsetInDialog(m.el) + (m.stagger || 0) * (dialog.clientHeight * 0.22);
         if (unlockAt <= focusOffset) {
-          current = { key: m.id, src: m.src, label: m.name };
+          current = {
+            key: m.id,
+            src: m.src,
+            label: m.name,
+            placeholder: m.placeholder || "",
+          };
         } else {
           break;
         }
@@ -1005,7 +1137,10 @@
         b.removeAttribute("src");
       }
       if (chapterArtSrc && openAtTop) showArt(chapterArtSrc, "chapter", chapterArtLabel);
-      else if (!chapterArtSrc && notebook) notebook.hidden = true;
+      else {
+        hideReaderPlaceholder();
+        if (!chapterArtSrc && notebook) notebook.hidden = true;
+      }
       setActiveCast(null);
     }
 
@@ -1026,7 +1161,10 @@
       firstAppearances = buildFirstAppearances(castIds);
       const syncArt = () => {
         const next = artForScrollPosition();
-        if (next.src) {
+        if (next?.placeholder) {
+          showPlaceholderArt(next.key, next.placeholder, next.label);
+          setActiveCast(next.key === "chapter" ? null : next.key);
+        } else if (next?.src) {
           showArt(next.src, next.key, next.label);
           setActiveCast(next.key === "chapter" ? null : next.key);
         } else {
@@ -1262,16 +1400,7 @@
       const showArtBtn = e.target.closest("[data-show-art]");
       if (showArtBtn && dialog.contains(showArtBtn)) {
         e.preventDefault();
-        const id = showArtBtn.dataset.showArt;
-        const c = meta.characters?.[id];
-        if (c?.img) {
-          // Eager key so focus line / ask target update before art crossfade finishes
-          pinArt(id);
-          activeArtKey = id;
-          activeArtLabel = c.name;
-          showArt(c.img, id, c.name);
-          setActiveCast(id);
-        }
+        focusCharacterArt(showArtBtn.dataset.showArt);
         return;
       }
       const talk = e.target.closest("[data-talk]");

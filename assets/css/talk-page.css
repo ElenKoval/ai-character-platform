@@ -72,14 +72,17 @@ body.talk-page {
   position: relative;
 }
 .talk__art-wrap--placeholder {
-  width: min(92vw, 420px);
-  background: #0b0b0b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.talk__art-placeholder {
-  min-height: min(28vh, 220px);
-  border: 0;
+  width: min(72vw, 320px);
   background: transparent;
+  border: 0;
+  overflow: visible;
+}
+.talk__art-placeholder.art-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  min-height: 0;
+  color: #e6e6e6;
+  font-family: "Bad Script", "Segoe Script", cursive;
 }
 .talk__art {
   display: block;
