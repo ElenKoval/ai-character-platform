@@ -1199,6 +1199,20 @@ body.character-page--dossier {
   flex-direction: column;
   gap: 8px;
 }
+.dossier__track--local {
+  display: grid;
+  gap: 8px;
+}
+.dossier__track-title {
+  font: italic 18px/1.35 var(--shell-serif);
+  color: #ddd;
+}
+.dossier__audio {
+  width: min(100%, 320px);
+  height: 36px;
+  accent-color: #c8c8c8;
+  filter: grayscale(1) contrast(1.05);
+}
 .dossier__chapters button,
 .dossier__tracks a {
   background: none;

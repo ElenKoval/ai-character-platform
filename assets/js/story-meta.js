@@ -131,9 +131,10 @@
       sceneContrast: "face",
       aliases: ["Вивер", "Weaver"],
       tracks: [
-        { title: "Track one", href: "#" },
-        { title: "Track two", href: "#" },
-        { title: "Track three", href: "#" },
+        {
+          title: "Gasoline Rainbow",
+          src: `${base}assets/audio/weaver-gasoline-rainbow.mp3`,
+        },
       ],
     },
     keeper: {

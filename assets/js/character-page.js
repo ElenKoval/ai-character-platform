@@ -99,19 +99,41 @@
     const ul = document.createElement("ul");
     ul.className = "dossier__tracks";
     all.forEach((tr) => {
+      if (!tr) return;
+      const title = tr.title || t("dossier.track", "Track", "Трек");
+      const localSrc = tr.src || "";
+      const external = tr.href && tr.href !== "#" ? tr.href : "";
+      if (!localSrc && !external) return;
+
       const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = tr.href || `sound.html#sound-${character.soundId}`;
-      a.textContent = tr.title || t("dossier.track", "Track", "Трек");
-      if (tr.href && tr.href !== "#") {
+      if (localSrc) {
+        li.className = "dossier__track dossier__track--local";
+        const label = document.createElement("span");
+        label.className = "dossier__track-title";
+        label.textContent = title;
+        const audio = document.createElement("audio");
+        audio.className = "dossier__audio";
+        audio.controls = true;
+        audio.preload = "metadata";
+        audio.src = localSrc;
+        li.append(label, audio);
+      } else {
+        const a = document.createElement("a");
+        a.href = external;
+        a.textContent = title;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
-      } else {
-        a.href = `sound.html#sound-${character.soundId}`;
+        li.appendChild(a);
       }
-      li.appendChild(a);
       ul.appendChild(li);
     });
+    if (!ul.children.length) {
+      const p = document.createElement("p");
+      p.className = "dossier__empty";
+      p.textContent = t("dossier.noTracks", "No tracks yet.", "Треков пока нет.");
+      tracksEl.appendChild(p);
+      return;
+    }
     tracksEl.appendChild(ul);
   }
 

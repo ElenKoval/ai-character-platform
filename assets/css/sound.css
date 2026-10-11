@@ -200,6 +200,28 @@
   text-shadow: 0 0 18px rgba(255, 200, 120, 0.28);
 }
 
+.sound-character__track--local {
+  display: grid;
+  gap: 8px;
+}
+.sound-character__track-title {
+  font-family: var(--font-root, Alice, serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: rgba(230, 230, 230, 0.9);
+}
+.sound-character__track-title::before {
+  content: "♪ ";
+  opacity: 0.45;
+  font-size: 0.85em;
+}
+.sound-audio {
+  width: min(100%, 360px);
+  height: 36px;
+  accent-color: #c8c8c8;
+  filter: grayscale(1) contrast(1.05);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sound-page .sound-character::before {
     animation: none;
