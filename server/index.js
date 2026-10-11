@@ -494,6 +494,7 @@ app.post("/api/chat", async (req, res) => {
       mode = "talk",
       readChapter,
       currentChapter,
+      language = null,
       conversationKey,
       conversationSummary,
       conversationSummaryAt,
@@ -511,17 +512,20 @@ app.post("/api/chat", async (req, res) => {
       return res.status(400).json({ error: "Empty message" });
     }
 
+    // UI language wins; fall back to message script only if client omitted it.
+    const clientLang = language === "en" || language === "ru" ? language : null;
+    const msgLang = clientLang || detectMessageLanguage(trimmed);
+
     const rawProvider = (typeof provider === "string" ? provider.trim().toLowerCase() : "") || "gemini";
     const activeProvider =
       rawProvider === "auto"
-        ? isEnglish(trimmed)
+        ? msgLang === "en"
           ? "groq"
           : "gemini"
         : rawProvider === "groq"
           ? "groq"
           : "gemini";
 
-    const msgLang = detectMessageLanguage(trimmed);
     const prepared = prepareChatPayload({
       character,
       message: trimmed,

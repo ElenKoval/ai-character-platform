@@ -70,10 +70,15 @@
       const readChapter = this.getReadChapter();
       const currentChapter =
         mode === "reader" ? this.getCurrentChapter() : readChapter;
+      const language =
+        window.SunnyLocale?.getLang?.() ||
+        window.SunnyI18n?.getLang?.() ||
+        (document.documentElement.lang === "ru" ? "ru" : "en");
       return {
         mode,
         readChapter,
         currentChapter,
+        language: language === "ru" ? "ru" : "en",
         ...extra,
       };
     },

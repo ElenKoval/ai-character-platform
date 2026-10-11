@@ -2356,7 +2356,7 @@ God knows after how many attempts Pak gave up and collapsed in exhaustion by the
 
 Kiper ran over the Dryad's tree, periodically stopping before her closed eyes.
 
-— Seems the time of Sacrifice has come. Or Harvest? Or Life? Something that starts with… wait. Or the time of the Beetle? Oh, and where is my new beetle friend?
+— Seems the time of Breaking has come. Or Becoming? Or a Breath? Something that definitely starts with a B. Or the time of the Beetle? Oh, and where is my new beetle friend?
 
 Kiper bustled about, peering into every crack, and did not notice the slight tremor that passed across the Dryad's face.
 

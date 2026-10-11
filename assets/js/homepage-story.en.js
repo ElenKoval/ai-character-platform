@@ -1268,7 +1268,7 @@ window.homepageStory = {
         "— Don't be afraid, the Forest's roots whispered. — He won't come in here.",
         "God knows after how many attempts Pak gave up and collapsed in exhaustion by the Garden, at Dream's feet. The huge, beautiful dragon looked like a kitten just pulled from a river. His wings lay lifeless, his gaze expressed nothing. Dream, Cat, and Crystal stood silently nearby.",
         "Kiper ran over the Dryad's tree, periodically stopping before her closed eyes.",
-        "— Seems the time of Sacrifice has come. Or Harvest? Or Life? Something that starts with… wait. Or the time of the Beetle? Oh, and where is my new beetle friend?",
+        "— Seems the time of Breaking has come. Or Becoming? Or a Breath? Something that definitely starts with a B. Or the time of the Beetle? Oh, and where is my new beetle friend?",
         "Kiper bustled about, peering into every crack, and did not notice the slight tremor that passed across the Dryad's face.",
         "Dream looked at Cat:",
         "— Cat… Listen. This is hard for you, I see, but understand: we need you. We have to prevent the destruction of Threads. We can't let this order fall apart; you see yourself what that leads to…",

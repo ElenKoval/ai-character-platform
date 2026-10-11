@@ -57,10 +57,16 @@ export function prepareChatPayload({
     assembled = getAssembledPrompt(character, promptCtx);
     constant = assembled.constant;
     variable = assembled.variable;
-    // coreOnly (Weaver): never append mode/summary/lang — only simple/viver.md
+    // coreOnly: living file only — no mode/read/shared blocks.
+    // Language still required: cores are written in Russian and otherwise answer in RU.
     if (assembled.meta?.coreOnly) {
-      variable = "";
-      fullPrompt = constant;
+      const languageOnly =
+        msgLang === "en"
+          ? "## Language\nReply ONLY in English. Never switch to Russian."
+          : "## Язык\nОтвечай ТОЛЬКО на русском. Никогда не переключайся на английский.";
+      variable = languageOnly;
+      if (summaryNote) variable = `${variable}\n\n${summaryNote}`;
+      fullPrompt = `${constant}\n\n${variable}`;
     } else {
       if (summaryNote) variable = `${variable}\n\n${summaryNote}`;
       fullPrompt = `${constant}\n\n${variable}`;

@@ -175,7 +175,12 @@
       typePace: 125,
       sceneContrast: "hard",
       aliases: ["Кипер", "Kiper", "Keeper"],
-      tracks: [{ title: "Track one", href: "#" }],
+      tracks: [
+        {
+          title: "Has Anybody Seen My Beetle",
+          src: `${base}assets/audio/keeper-has-anybody-seen-my-beetle.mp3`,
+        },
+      ],
     },
     pak: {
       id: "pak",
@@ -355,8 +360,10 @@
       sceneContrast: "hard",
       aliases: ["Кристалл", "Crystal"],
       tracks: [
-        { title: "Track one", href: "#" },
-        { title: "Track two", href: "#" },
+        {
+          title: "Tune You Slow",
+          src: `${base}assets/audio/crystal-tune-you-slow.mp3`,
+        },
       ],
     },
     cat: {
@@ -431,8 +438,10 @@
       sceneContrast: "hard",
       aliases: ["Кот", "Cat", "CAT"],
       tracks: [
-        { title: "Track one", href: "#" },
-        { title: "Track two", href: "#" },
+        {
+          title: "Two Hundred Forty-Seven",
+          src: `${base}assets/audio/cat-two-hundred-forty-seven.mp3`,
+        },
       ],
     },
     shiny: {

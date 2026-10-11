@@ -1,5 +1,5 @@
 /**
- * Listen: character switcher + custom thread player.
+ * Listen: vinyl shelf (all characters) + detail player.
  */
 (() => {
   const RETURN_KEY = "sunnychimera-sound-return";
@@ -7,7 +7,11 @@
   if (!catalog?.characters?.length) return;
 
   const els = {
-    cast: document.querySelector("[data-sound-cast]"),
+    page: document.querySelector("[data-sound-page]"),
+    shelf: document.querySelector("[data-sound-shelf]"),
+    detail: document.querySelector("[data-sound-detail]"),
+    back: document.querySelector("[data-sound-back]"),
+    backLabel: document.querySelector("[data-sound-back-label]"),
     artWrap: document.querySelector("[data-sound-art-wrap]"),
     art: document.querySelector("[data-sound-art]"),
     artPlaceholder: document.querySelector("[data-sound-art-placeholder]"),
@@ -36,7 +40,8 @@
     stage: document.querySelector("[data-sound-stage]"),
   };
 
-  let characterId = catalog.defaultCharacterId || "weaver";
+  let view = "shelf"; // shelf | detail
+  let characterId = "";
   let songId = "";
   let seeking = false;
   let wasPlayingBeforeSeek = false;
@@ -58,7 +63,7 @@
   }
 
   function character() {
-    return catalog.byId(characterId) || catalog.characters[0];
+    return catalog.byId(characterId) || null;
   }
 
   function songs() {
@@ -68,6 +73,25 @@
   function song() {
     const list = songs();
     return list.find((s) => s.id === songId) || list[0] || null;
+  }
+
+  function songCountLabel(n) {
+    if (lang() === "ru") {
+      const mod10 = n % 10;
+      const mod100 = n % 100;
+      if (mod10 === 1 && mod100 !== 11) return `${n} песня`;
+      if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${n} песни`;
+      return `${n} песен`;
+    }
+    return n === 1 ? "1 song" : `${n} songs`;
+  }
+
+  function brotherPlaceholder() {
+    return tt(
+      "shinyBro.artPlaceholder",
+      "Брат вышел за бурбоном.\nСкоро вернётся.",
+      "Brother stepped out for bourbon.\nHe'll be back."
+    );
   }
 
   function formatTime(sec) {
@@ -89,6 +113,10 @@
     els.status.textContent = msg;
   }
 
+  function resetDiscSpin() {
+    els.stage?.classList.remove("is-playing", "is-spinning");
+  }
+
   function setPlayingUI(playing) {
     const isRu = lang() === "ru";
     if (els.playIcon) els.playIcon.textContent = playing ? "❚❚" : "▶";
@@ -96,7 +124,13 @@
       els.play.setAttribute("aria-label", playing ? (isRu ? "Пауза" : "Pause") : isRu ? "Играть" : "Play");
       els.play.classList.toggle("is-playing", playing);
     }
-    els.stage?.classList.toggle("is-playing", playing && !reduceMotion);
+    if (reduceMotion || !els.stage) return;
+    if (playing) {
+      els.stage.classList.add("is-spinning", "is-playing");
+    } else {
+      // Keep is-spinning so the disc freezes at the current angle
+      els.stage.classList.remove("is-playing");
+    }
   }
 
   const ICON_SPEAKER =
@@ -108,7 +142,10 @@
     const isRu = lang() === "ru";
     if (els.muteIcon) els.muteIcon.innerHTML = muted ? ICON_SPEAKER_MUTED : ICON_SPEAKER;
     if (els.mute) {
-      els.mute.setAttribute("aria-label", muted ? (isRu ? "Включить звук" : "Unmute") : isRu ? "Выключить звук" : "Mute");
+      els.mute.setAttribute(
+        "aria-label",
+        muted ? (isRu ? "Включить звук" : "Unmute") : isRu ? "Выключить звук" : "Mute"
+      );
       els.mute.classList.toggle("is-muted", muted);
     }
   }
@@ -124,9 +161,7 @@
     const pct = `${(ratio * 100).toFixed(3)}%`;
     if (els.fill) els.fill.style.width = pct;
     if (els.knob) els.knob.style.left = pct;
-    if (els.seek) {
-      els.seek.setAttribute("aria-valuenow", String(Math.round(ratio * 100)));
-    }
+    if (els.seek) els.seek.setAttribute("aria-valuenow", String(Math.round(ratio * 100)));
     if (els.current) els.current.textContent = formatTime(els.audio?.currentTime || 0);
     if (els.duration) {
       const d = els.audio?.duration;
@@ -142,6 +177,7 @@
       try {
         a.currentTime = 0;
       } catch (e) {}
+      resetDiscSpin();
     }
     setPlayingUI(false);
     renderProgress();
@@ -175,12 +211,58 @@
     }
   }
 
-  function brotherPlaceholder() {
-    return tt(
-      "shinyBro.artPlaceholder",
-      "Брат вышел за бурбоном.\nСкоро вернётся.",
-      "Brother stepped out for bourbon.\nHe'll be back."
-    );
+  function setView(next) {
+    view = next;
+    const shelf = next === "shelf";
+    if (els.shelf) els.shelf.hidden = !shelf;
+    if (els.detail) els.detail.hidden = shelf;
+    els.page?.classList.toggle("is-shelf", shelf);
+    els.page?.classList.toggle("is-detail", !shelf);
+    if (els.backLabel) {
+      els.backLabel.textContent = tt("sound.backToAll", "← Все персонажи", "← All characters");
+    }
+  }
+
+  function clearHash() {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  }
+
+  function updateHash(c) {
+    if (!c) {
+      clearHash();
+      return;
+    }
+    const id = c.soundId || c.id;
+    const next = `#sound-${id}`;
+    if (window.location.hash !== next) {
+      history.replaceState(null, "", next);
+    }
+  }
+
+  function showShelf() {
+    stopAudio({ reset: true });
+    characterId = "";
+    songId = "";
+    if (els.lyricsToggle) els.lyricsToggle.setAttribute("aria-expanded", "false");
+    if (els.lyricsBody) els.lyricsBody.hidden = true;
+    setView("shelf");
+    clearHash();
+    document.title = tt("sound.title", "Звук мира", "The Sound of the World");
+    buildShelf();
+  }
+
+  function openCharacter(id, { fromHash = false } = {}) {
+    if (!catalog.byId(id)) return;
+    stopAudio({ reset: true });
+    characterId = id;
+    songId = "";
+    if (els.lyricsToggle) els.lyricsToggle.setAttribute("aria-expanded", "false");
+    if (els.lyricsBody) els.lyricsBody.hidden = true;
+    setView("detail");
+    renderCharacter();
+    if (!fromHash) updateHash(character());
   }
 
   function renderArt(c) {
@@ -250,15 +332,11 @@
       if (els.lyricsText) els.lyricsText.textContent = "";
       return;
     }
-    // Show control next to the song title whenever a song is selected.
     if (els.lyricsToggle) els.lyricsToggle.hidden = false;
     if (els.lyrics) els.lyrics.hidden = false;
     if (els.lyricsText) {
-      els.lyricsText.textContent = text || tt(
-        "sound.lyricsSoon",
-        "Текст скоро появится.",
-        "Lyrics coming soon."
-      );
+      els.lyricsText.textContent =
+        text || tt("sound.lyricsSoon", "Текст скоро появится.", "Lyrics coming soon.");
       els.lyricsText.classList.toggle("is-soon", !text);
     }
     const open = els.lyricsToggle?.getAttribute("aria-expanded") === "true";
@@ -312,37 +390,7 @@
     }
 
     document.title = `${name} — ${tt("sound.title", "Звук мира", "The Sound of the World")}`;
-    updateCastActive();
     updateHash(c);
-  }
-
-  function updateCastActive() {
-    if (!els.cast) return;
-    els.cast.querySelectorAll("[data-sound-char]").forEach((btn) => {
-      const on = btn.dataset.soundChar === characterId;
-      btn.classList.toggle("is-active", on);
-      btn.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-  }
-
-  function updateHash(c) {
-    const id = c?.soundId || c?.id;
-    if (!id) return;
-    const next = `#sound-${id}`;
-    if (window.location.hash !== next) {
-      history.replaceState(null, "", next);
-    }
-  }
-
-  function selectCharacter(id) {
-    if (!catalog.byId(id)) return;
-    if (id === characterId) return;
-    stopAudio({ reset: true });
-    characterId = id;
-    songId = "";
-    if (els.lyricsToggle) els.lyricsToggle.setAttribute("aria-expanded", "false");
-    if (els.lyricsBody) els.lyricsBody.hidden = true;
-    renderCharacter();
   }
 
   function selectSong(id) {
@@ -358,18 +406,63 @@
     renderLyrics(s, { hasSong: true });
   }
 
-  function buildCast() {
-    if (!els.cast) return;
-    els.cast.replaceChildren();
+  function buildShelf() {
+    if (!els.shelf) return;
+    els.shelf.replaceChildren();
+    const listenLabel = tt("sound.listen", "Слушать", "Listen");
+    const soonLabel = tt("sound.soon", "Скоро", "Soon");
+
     catalog.characters.forEach((c) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "sound-cast__btn";
-      btn.dataset.soundChar = c.id;
-      btn.textContent = c.names?.[lang()] || c.names?.en || c.id;
-      btn.setAttribute("aria-pressed", "false");
-      btn.addEventListener("click", () => selectCharacter(c.id));
-      els.cast.appendChild(btn);
+      const name = c.names?.[lang()] || c.names?.en || c.id;
+      const count = (c.songs || []).filter((s) => s && s.src).length;
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "sound-vinyl";
+      card.dataset.soundChar = c.id;
+      card.dataset.char = c.id;
+      card.setAttribute("aria-label", name);
+
+      const disc = document.createElement("span");
+      disc.className = "sound-vinyl__disc";
+      disc.setAttribute("aria-hidden", "true");
+      disc.innerHTML = `
+        <span class="sound-vinyl__plate">
+          <span class="sound-vinyl__grooves"></span>
+          <span class="sound-vinyl__label"></span>
+          <span class="sound-vinyl__spindle"></span>
+          <span class="sound-vinyl__listen">${listenLabel}</span>
+        </span>
+      `;
+
+      const label = disc.querySelector(".sound-vinyl__label");
+      if (c.img) {
+        const img = document.createElement("img");
+        img.className = "sound-vinyl__img";
+        img.src = c.img;
+        img.alt = "";
+        img.loading = "lazy";
+        label.appendChild(img);
+      } else if (c.artPlaceholder) {
+        const ph = document.createElement("span");
+        ph.className = "art-placeholder sound-vinyl__placeholder";
+        ph.textContent = brotherPlaceholder();
+        label.appendChild(ph);
+        card.classList.add("is-placeholder");
+      }
+
+      const meta = document.createElement("span");
+      meta.className = "sound-vinyl__meta";
+      const nameEl = document.createElement("span");
+      nameEl.className = "sound-vinyl__name";
+      nameEl.textContent = name;
+      const status = document.createElement("span");
+      status.className = "sound-vinyl__status" + (count ? "" : " is-soon");
+      status.textContent = count ? songCountLabel(count) : soonLabel;
+      meta.append(nameEl, status);
+
+      card.append(disc, meta);
+      card.addEventListener("click", () => openCharacter(c.id));
+      els.shelf.appendChild(card);
     });
   }
 
@@ -396,6 +489,8 @@
     a.volume = Number(els.volume?.value) || 0.85;
     lastVolume = a.volume || 0.85;
     setMutedUI(a.muted || a.volume === 0);
+
+    els.back?.addEventListener("click", () => showShelf());
 
     els.play?.addEventListener("click", () => {
       if (!a.src) return;
@@ -428,10 +523,11 @@
     });
     a.addEventListener("pause", () => setPlayingUI(false));
     a.addEventListener("ended", () => {
-      setPlayingUI(false);
       try {
         a.currentTime = 0;
       } catch (e) {}
+      resetDiscSpin();
+      setPlayingUI(false);
       renderProgress();
     });
     a.addEventListener("timeupdate", () => {
@@ -536,70 +632,45 @@
     });
   }
 
-  /* ----- legacy back-link helpers (kept for compatibility) ----- */
-  function pageFromHash() {
-    const m = /^#sound-(.+)$/.exec(window.location.hash);
-    if (!m) return null;
-    return m[1] + ".html";
-  }
-
-  function resolveBackHref() {
-    const ref = document.referrer;
-    if (ref) {
-      try {
-        const refUrl = new URL(ref);
-        if (refUrl.origin === window.location.origin) {
-          const name = refUrl.pathname.replace(/\\/g, "/").split("/").pop() || "";
-          if (!name || name === "index.html") {
-            try {
-              sessionStorage.removeItem(RETURN_KEY);
-            } catch (e) {}
-            return "../index.html";
-          }
-          if (/\.html$/i.test(name) && name !== "sound.html") return name;
-        }
-      } catch (e) {}
-    }
-    try {
-      const stored = sessionStorage.getItem(RETURN_KEY);
-      if (stored && /\.html$/i.test(stored) && stored !== "sound.html") return stored;
-    } catch (e) {}
-    const fromHash = pageFromHash();
-    if (fromHash && fromHash !== "sound.html") return fromHash;
-    return "../index.html";
-  }
-
   function updateBackLink() {
     const back = document.querySelector(".sound-hub__back");
     if (!back) return;
-    const href = resolveBackHref();
-    back.setAttribute("href", href);
+    back.setAttribute("href", "../index.html");
   }
 
   function init() {
-    const fromHash = characterFromHash();
-    if (fromHash) characterId = fromHash.id;
-    else characterId = catalog.defaultCharacterId || "weaver";
-
-    buildCast();
     bindPlayer();
-    renderCharacter();
+    buildShelf();
     updateBackLink();
+
+    const fromHash = characterFromHash();
+    if (fromHash) {
+      openCharacter(fromHash.id, { fromHash: true });
+    } else {
+      showShelf();
+    }
 
     document.addEventListener("sunnychimera:i18n-ready", () => {
       const playing = !els.audio?.paused && !!els.audio?.src;
-      buildCast();
-      renderCharacter();
+      if (view === "shelf") {
+        buildShelf();
+        document.title = tt("sound.title", "Звук мира", "The Sound of the World");
+      } else {
+        buildShelf();
+        renderCharacter();
+        if (els.backLabel) {
+          els.backLabel.textContent = tt("sound.backToAll", "← Все персонажи", "← All characters");
+        }
+        setPlayingUI(playing);
+        setMutedUI(!!els.audio?.muted || els.audio?.volume === 0);
+      }
       updateBackLink();
-      setPlayingUI(playing);
-      setMutedUI(!!els.audio?.muted || els.audio?.volume === 0);
-      // Restore play UI labels after lang switch without interrupting audio
-      if (playing) setPlayingUI(true);
     });
 
     window.addEventListener("hashchange", () => {
       const c = characterFromHash();
-      if (c && c.id !== characterId) selectCharacter(c.id);
+      if (c) openCharacter(c.id, { fromHash: true });
+      else showShelf();
     });
   }
 

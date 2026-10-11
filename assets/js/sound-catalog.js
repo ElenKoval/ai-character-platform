@@ -20,7 +20,14 @@
       soundId: "cat",
       names: { ru: "Кот", en: "Cat" },
       img: `${base}assets/img/cat.jpeg`,
-      songs: [],
+      songs: [
+        {
+          id: "two-hundred-forty-seven",
+          title: "Two Hundred Forty-Seven",
+          src: `${base}assets/audio/cat-two-hundred-forty-seven.mp3`,
+          lyrics: "",
+        },
+      ],
     },
     {
       id: "weaver",
@@ -95,14 +102,28 @@ Everything!`,
       soundId: "crystal",
       names: { ru: "Кристалл", en: "Crystal" },
       img: `${base}assets/img/Crystal.jpeg`,
-      songs: [],
+      songs: [
+        {
+          id: "tune-you-slow",
+          title: "Tune You Slow",
+          src: `${base}assets/audio/crystal-tune-you-slow.mp3`,
+          lyrics: "",
+        },
+      ],
     },
     {
       id: "keeper",
       soundId: "keeper",
       names: { ru: "Кипер", en: "Keeper" },
       img: `${base}assets/img/keeper.jpeg`,
-      songs: [],
+      songs: [
+        {
+          id: "has-anybody-seen-my-beetle",
+          title: "Has Anybody Seen My Beetle",
+          src: `${base}assets/audio/keeper-has-anybody-seen-my-beetle.mp3`,
+          lyrics: "",
+        },
+      ],
     },
     {
       id: "shiny",
@@ -157,7 +178,6 @@ Everything!`,
   ];
 
   window.SunnySoundCatalog = {
-    defaultCharacterId: "weaver",
     characters,
     byId(id) {
       return characters.find((c) => c.id === id) || null;

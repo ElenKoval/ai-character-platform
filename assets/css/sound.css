@@ -77,8 +77,297 @@ body.sound-hub .sunbeam-layer {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-align: center;
-  margin: 0 0 18px;
+  margin: 0 0 28px;
   color: #ddd;
+}
+
+.sound-page.is-detail .sound-page__title {
+  margin-bottom: 12px;
+}
+
+/* --- Vinyl collection shelf --- */
+.sound-shelf {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 48px) clamp(18px, 3vw, 36px);
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 4px 0 40px;
+  list-style: none;
+}
+
+.sound-shelf[hidden],
+.sound-detail[hidden],
+.sound-player[hidden],
+.sound-songlist[hidden],
+.sound-lyrics[hidden],
+.sound-lyrics__body[hidden],
+.sound-lyrics__toggle[hidden],
+.sound-stage__song[hidden],
+.sound-stage__empty[hidden],
+.sound-player__status[hidden],
+.sound-stage__img[hidden],
+.sound-stage__placeholder[hidden] {
+  display: none !important;
+}
+
+.sound-vinyl {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sound-vinyl:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.sound-vinyl__disc {
+  display: block;
+  width: 100%;
+  max-width: 168px;
+  aspect-ratio: 1;
+}
+
+.sound-vinyl__plate {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 50%, #1a1a1a 0 14%, transparent 14.2%),
+    #101010;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 28px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  will-change: transform;
+}
+
+.sound-vinyl__grooves {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.045) 0 1px,
+      transparent 1px 4px
+    );
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.sound-vinyl__grooves::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0 8%,
+    rgba(255, 255, 255, 0.07) 12%,
+    transparent 18% 55%,
+    rgba(255, 255, 255, 0.05) 60%,
+    transparent 68% 100%
+  );
+  mix-blend-mode: soft-light;
+}
+
+.sound-vinyl__label {
+  position: absolute;
+  z-index: 1;
+  inset: 21%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #0b0b0b;
+  box-shadow:
+    0 0 0 1px rgba(20, 20, 20, 0.95),
+    0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+.sound-vinyl__img {
+  display: block;
+  width: 122%;
+  height: 122%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 18%;
+  filter: grayscale(0.12) contrast(1.04);
+  transform: scale(1.06);
+  transform-origin: center 30%;
+  pointer-events: none;
+}
+
+.sound-vinyl[data-char="dream"] .sound-vinyl__img,
+.sound-vinyl[data-char="keeper"] .sound-vinyl__img,
+.sound-vinyl[data-char="dryad"] .sound-vinyl__img {
+  object-position: center 12%;
+  transform: scale(1.1);
+}
+.sound-vinyl[data-char="cat"] .sound-vinyl__img,
+.sound-vinyl[data-char="pak"] .sound-vinyl__img {
+  object-position: center 22%;
+  transform: scale(1.12);
+}
+.sound-vinyl[data-char="weaver"] .sound-vinyl__img,
+.sound-vinyl[data-char="shiny"] .sound-vinyl__img,
+.sound-vinyl[data-char="mushroom"] .sound-vinyl__img {
+  object-position: center 16%;
+  transform: scale(1.14);
+}
+.sound-vinyl[data-char="crystal"] .sound-vinyl__img,
+.sound-vinyl[data-char="liora"] .sound-vinyl__img {
+  object-position: center 20%;
+  transform: scale(1.12);
+}
+.sound-vinyl[data-char="forest"] .sound-vinyl__img {
+  object-position: center 40%;
+  transform: scale(1.16);
+}
+
+.sound-vinyl__placeholder.art-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+  border: 0;
+  box-shadow: none;
+  transform: none;
+  font-size: 0.52rem;
+  line-height: 1.25;
+  padding: 0.4rem;
+  display: grid;
+  place-items: center;
+  white-space: pre-line;
+  background: #111;
+}
+.sound-vinyl__placeholder.art-placeholder::before,
+.sound-vinyl__placeholder.art-placeholder::after {
+  display: none;
+}
+
+.sound-vinyl__spindle {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  width: 5%;
+  height: 5%;
+  min-width: 6px;
+  min-height: 6px;
+  margin: -2.5% 0 0 -2.5%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #3a3a3a, #0a0a0a 70%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.sound-vinyl__listen {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  font-family: "PT Serif", Georgia, serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f2f2f2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  white-space: nowrap;
+}
+
+.sound-vinyl:hover .sound-vinyl__plate,
+.sound-vinyl:focus-visible .sound-vinyl__plate {
+  transform: translateY(-8px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 18px 36px rgba(0, 0, 0, 0.55);
+}
+
+.sound-vinyl:hover .sound-vinyl__listen,
+.sound-vinyl:focus-visible .sound-vinyl__listen {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.sound-vinyl__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 2.6em;
+}
+
+.sound-vinyl__name {
+  font-family: "PT Serif", Georgia, serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d8d8d8;
+  line-height: 1.2;
+}
+
+.sound-vinyl__status {
+  font-family: "PT Serif", Georgia, serif;
+  font-size: 0.82rem;
+  color: #9a9a9a;
+  letter-spacing: 0.02em;
+}
+
+.sound-vinyl__status.is-soon {
+  font-style: italic;
+  color: #7e7e7e;
+  font-size: 0.78rem;
+}
+
+/* Detail view */
+.sound-detail__back {
+  appearance: none;
+  border: 0;
+  background: none;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 16px;
+  padding: 4px 0;
+  cursor: pointer;
+  font-family: "PT Serif", Georgia, serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: #9a9a9a;
+  transition: color 0.15s ease;
+}
+
+.sound-detail__back:hover {
+  color: #fff;
+}
+
+.sound-detail__back:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 3px;
 }
 
 .sound-stage {
@@ -240,9 +529,14 @@ body.sound-hub .sunbeam-layer {
   pointer-events: none;
 }
 
-/* Spin like the old card glow — only while playing */
-.sound-stage.is-playing .sound-disc__plate {
+/* Spin while the track is active; pause freezes angle, play resumes from there */
+.sound-stage.is-spinning .sound-disc__plate {
   animation: sound-disc-spin 14s linear infinite;
+  animation-play-state: paused;
+}
+
+.sound-stage.is-spinning.is-playing .sound-disc__plate {
+  animation-play-state: running;
 }
 
 @keyframes sound-disc-spin {
@@ -314,7 +608,7 @@ body.sound-hub .sunbeam-layer {
 .sound-player__volume:focus-visible,
 .sound-thread:focus-visible,
 .sound-songlist__btn:focus-visible,
-.sound-cast__btn:focus-visible {
+.sound-detail__back:focus-visible {
   outline: 1px solid rgba(255, 255, 255, 0.55);
   outline-offset: 3px;
 }
@@ -522,45 +816,19 @@ body.sound-hub .sunbeam-layer {
   text-align: center;
 }
 
-/* Cast at bottom */
-.sound-cast {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px 28px;
-  margin: 28px auto 0;
-  max-width: 960px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.sound-cast__btn {
-  appearance: none;
-  border: 0;
-  background: none;
-  padding: 4px 0;
-  margin: 0;
-  cursor: pointer;
-  font-family: "PT Serif", Georgia, serif;
-  font-size: clamp(1.08rem, 2.6vw, 1.28rem);
-  line-height: 1.35;
-  color: #8a8a8a;
-  border-bottom: 1px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.sound-cast__btn:hover {
-  color: #d8d8d8;
-}
-
-.sound-cast__btn.is-active {
-  color: #fff;
-  border-bottom-color: rgba(255, 255, 255, 0.75);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .sound-stage.is-playing .sound-disc__plate {
+  .sound-stage.is-spinning .sound-disc__plate {
     animation: none;
+  }
+
+  .sound-vinyl__plate,
+  .sound-vinyl__listen {
+    transition: none;
+  }
+
+  .sound-vinyl:hover .sound-vinyl__plate,
+  .sound-vinyl:focus-visible .sound-vinyl__plate {
+    transform: none;
   }
 }
 
@@ -570,7 +838,21 @@ body.sound-hub .sunbeam-layer {
   }
 
   .sound-page__title {
-    margin-bottom: 12px;
+    margin-bottom: 20px;
+  }
+
+  .sound-page.is-detail .sound-page__title {
+    margin-bottom: 10px;
+  }
+
+  .sound-shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 20px;
+    padding-bottom: 32px;
+  }
+
+  .sound-vinyl__disc {
+    max-width: 190px;
   }
 
   .sound-stage {
@@ -604,17 +886,15 @@ body.sound-hub .sunbeam-layer {
     width: min(140px, 46vw);
   }
 
-  .sound-cast {
-    margin-top: 20px;
-    gap: 12px 22px;
-  }
-
-  .sound-cast__btn {
-    font-size: clamp(1.02rem, 3.4vw, 1.18rem);
-  }
-
   .sound-lyrics__text {
     max-height: none;
     overflow: visible;
+  }
+}
+
+@media (hover: none) {
+  /* Touch: no hover — a light press state still lifts the disc */
+  .sound-vinyl:active .sound-vinyl__plate {
+    transform: translateY(-4px);
   }
 }

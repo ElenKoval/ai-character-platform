@@ -5,105 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Звук мира — SunnyChimera</title>
   <meta name="theme-color" content="#0b0b0b" />
-  <link rel="stylesheet" href="../assets/css/base.css?v=sound-polish" />
-  <link rel="stylesheet" href="../assets/css/sound.css?v=sound-polish" />
+  <link rel="stylesheet" href="../assets/css/base.css?v=sound-shelf2" />
+  <link rel="stylesheet" href="../assets/css/sound.css?v=sound-spin-pause" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alice&family=Bad+Script&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap">
-  <link rel="stylesheet" href="../assets/css/site-shell.css?v=sound-polish" />
+  <link rel="stylesheet" href="../assets/css/site-shell.css?v=sound-shelf2" />
 </head>
 <body class="world sound-hub">
-  <main class="sound-page" id="sound">
+  <main class="sound-page" id="sound" data-sound-page>
+
     <h1 class="sound-page__title" data-i18n="sound.title">Звук мира</h1>
 
-    <section class="sound-stage" data-sound-stage aria-live="polite">
-      <div class="sound-stage__art" data-sound-art-wrap>
-        <div class="sound-disc" data-sound-disc aria-hidden="true">
-          <div class="sound-disc__plate">
-            <div class="sound-disc__grooves"></div>
-            <div class="sound-disc__label">
-              <img class="sound-stage__img" data-sound-art alt="" hidden>
-              <p class="art-placeholder sound-stage__placeholder" data-sound-art-placeholder hidden></p>
+    <!-- Collection: all vinyls -->
+    <section class="sound-shelf" data-sound-shelf aria-label="Characters"></section>
+
+    <!-- Detail player for one character -->
+    <section class="sound-detail" data-sound-detail hidden>
+      <button type="button" class="sound-detail__back" data-sound-back>
+        <span data-sound-back-label>← Все персонажи</span>
+      </button>
+
+      <div class="sound-stage" data-sound-stage aria-live="polite">
+        <div class="sound-stage__art" data-sound-art-wrap>
+          <div class="sound-disc" data-sound-disc aria-hidden="true">
+            <div class="sound-disc__plate">
+              <div class="sound-disc__grooves"></div>
+              <div class="sound-disc__label">
+                <img class="sound-stage__img" data-sound-art alt="" hidden>
+                <p class="art-placeholder sound-stage__placeholder" data-sound-art-placeholder hidden></p>
+              </div>
+              <span class="sound-disc__spindle"></span>
             </div>
-            <span class="sound-disc__spindle"></span>
           </div>
         </div>
-      </div>
 
-      <div class="sound-stage__meta">
-        <p class="sound-stage__name" data-sound-name></p>
-        <h2 class="sound-stage__song" data-sound-song></h2>
-        <button type="button" class="sound-lyrics__toggle" data-sound-lyrics-toggle hidden aria-expanded="false">
-          <span data-sound-lyrics-label>Текст песни</span>
-        </button>
-        <p class="sound-stage__empty" data-sound-empty hidden></p>
-      </div>
-
-      <div class="sound-player" data-sound-player hidden>
-        <audio data-sound-audio preload="metadata"></audio>
-
-        <div class="sound-player__row">
-          <button type="button" class="sound-player__play" data-sound-play aria-label="Play">
-            <span data-sound-play-icon aria-hidden="true">▶</span>
+        <div class="sound-stage__meta">
+          <p class="sound-stage__name" data-sound-name></p>
+          <h2 class="sound-stage__song" data-sound-song></h2>
+          <button type="button" class="sound-lyrics__toggle" data-sound-lyrics-toggle hidden aria-expanded="false">
+            <span data-sound-lyrics-label>Текст песни</span>
           </button>
-
-          <div class="sound-player__seek-block">
-            <div
-              class="sound-thread"
-              data-sound-seek
-              role="slider"
-              tabindex="0"
-              aria-label="Seek"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              aria-valuenow="0"
-            >
-              <span class="sound-thread__track" aria-hidden="true"></span>
-              <span class="sound-thread__fill" data-sound-fill aria-hidden="true"></span>
-              <span class="sound-thread__knob" data-sound-knob aria-hidden="true"></span>
-            </div>
-            <div class="sound-player__times">
-              <span data-sound-current>0:00</span>
-              <span data-sound-duration>0:00</span>
-            </div>
-          </div>
-
-          <div class="sound-player__vol">
-            <button type="button" class="sound-player__mute" data-sound-mute aria-label="Mute">
-              <span class="sound-mute-icon" data-sound-mute-icon aria-hidden="true"></span>
-            </button>
-            <input
-              class="sound-player__volume"
-              data-sound-volume
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value="0.85"
-              aria-label="Volume"
-            >
-          </div>
+          <p class="sound-stage__empty" data-sound-empty hidden></p>
         </div>
 
-        <p class="sound-player__status" data-sound-status hidden></p>
-        <ul class="sound-songlist" data-sound-songlist hidden></ul>
-      </div>
+        <div class="sound-player" data-sound-player hidden>
+          <audio data-sound-audio preload="metadata"></audio>
 
-      <div class="sound-lyrics" data-sound-lyrics hidden>
-        <div class="sound-lyrics__body" data-sound-lyrics-body hidden>
-          <pre class="sound-lyrics__text" data-sound-lyrics-text></pre>
+          <div class="sound-player__row">
+            <button type="button" class="sound-player__play" data-sound-play aria-label="Play">
+              <span data-sound-play-icon aria-hidden="true">▶</span>
+            </button>
+
+            <div class="sound-player__seek-block">
+              <div
+                class="sound-thread"
+                data-sound-seek
+                role="slider"
+                tabindex="0"
+                aria-label="Seek"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                <span class="sound-thread__track" aria-hidden="true"></span>
+                <span class="sound-thread__fill" data-sound-fill aria-hidden="true"></span>
+                <span class="sound-thread__knob" data-sound-knob aria-hidden="true"></span>
+              </div>
+              <div class="sound-player__times">
+                <span data-sound-current>0:00</span>
+                <span data-sound-duration>0:00</span>
+              </div>
+            </div>
+
+            <div class="sound-player__vol">
+              <button type="button" class="sound-player__mute" data-sound-mute aria-label="Mute">
+                <span class="sound-mute-icon" data-sound-mute-icon aria-hidden="true"></span>
+              </button>
+              <input
+                class="sound-player__volume"
+                data-sound-volume
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value="0.85"
+                aria-label="Volume"
+              >
+            </div>
+          </div>
+
+          <p class="sound-player__status" data-sound-status hidden></p>
+          <ul class="sound-songlist" data-sound-songlist hidden></ul>
+        </div>
+
+        <div class="sound-lyrics" data-sound-lyrics hidden>
+          <div class="sound-lyrics__body" data-sound-lyrics-body hidden>
+            <pre class="sound-lyrics__text" data-sound-lyrics-text></pre>
+          </div>
         </div>
       </div>
     </section>
-
-    <nav class="sound-cast" data-sound-cast aria-label="Characters"></nav>
   </main>
 
   <script src="../assets/js/homepage-story.js"></script>
   <script src="../assets/js/locale.js"></script>
   <script src="../assets/js/story-meta.js"></script>
-  <script src="../assets/js/sound-catalog.js"></script>
+  <script src="../assets/js/sound-catalog.js?v=sound-tracks3"></script>
   <script src="../assets/js/site-shell.js"></script>
   <script src="../assets/js/i18n.js"></script>
-  <script src="../assets/js/sound-page.js"></script>
+  <script src="../assets/js/sound-page.js?v=sound-spin-pause"></script>
 </body>
 </html>
